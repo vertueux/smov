@@ -1,0 +1,1 @@
+> The official SMOV model has not yet been published, but will be soon. Note that it may not exist, perhaps at least not in the near future.
