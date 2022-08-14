@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="spot_micro">
-  <material name="yellow">
-    <color rgba="0.92 0.83 0.0 1"/>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1"/>
   </material>
   <material name="black">
     <color rgba="0.1 0.1 0.1 1"/>
@@ -62,7 +62,7 @@
         <mesh filename="package://spot_micro/meshes/backpart.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 3.14159" xyz="0.04 0.055 -0.010"/>
-      <material name="yellow"/>
+      <material name="white"/>
     </visual>
     <collision>
       <geometry>
@@ -85,7 +85,7 @@
         <mesh filename="package://spot_micro/meshes/frontpart.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 3.14159" xyz="0.040 0.055 -0.010"/>
-      <material name="yellow"/>
+      <material name="white"/>
     </visual>
     <collision>
       <geometry>
@@ -128,7 +128,7 @@
         <mesh filename="package://spot_micro/meshes/larm_cover.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 -0.139 3.14159" xyz="0.130 -0.040 -0.025"/>
-      <material name="yellow"/>
+      <material name="white"/>
     </visual>
   </link>
   <link name="front_left_leg_link">
@@ -142,7 +142,7 @@
           <box size="0.028 0.036 ${leg_length}"/>
         </geometry>
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
-        <material name="yellow"/>-->
+        <material name="white"/>-->
     </visual>
     <collision>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
@@ -253,7 +253,7 @@
         <mesh filename="package://spot_micro/meshes/rarm_cover.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 -0.139 3.14159" xyz="0.130 0.15 -0.025"/>
-      <material name="yellow"/>
+      <material name="white"/>
     </visual>
   </link>
   <link name="front_right_leg_link">
@@ -267,7 +267,7 @@
           <box size="0.028 0.036 ${leg_length}"/>
         </geometry>
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
-        <material name="yellow"/>-->
+        <material name="white"/>-->
     </visual>
     <collision>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
@@ -378,7 +378,7 @@
         <mesh filename="package://spot_micro/meshes/larm_cover.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 -0.139 3.14159" xyz="0.130 -0.040 -0.025"/>
-      <material name="yellow"/>
+      <material name="white"/>
     </visual>
   </link>
   <link name="rear_left_leg_link">
@@ -392,7 +392,7 @@
           <box size="0.028 0.036 ${leg_length}"/>
         </geometry>
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
-        <material name="yellow"/>-->
+        <material name="white"/>-->
     </visual>
     <collision>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
@@ -503,7 +503,7 @@
         <mesh filename="package://spot_micro/meshes/rarm_cover.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 -0.139 3.14159" xyz="0.130 0.15 -0.025"/>
-      <material name="yellow"/>
+      <material name="white"/>
     </visual>
   </link>
   <link name="rear_right_leg_link">
@@ -517,7 +517,7 @@
           <box size="0.028 0.036 ${leg_length}"/>
         </geometry>
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
-        <material name="yellow"/>-->
+        <material name="white"/>-->
     </visual>
     <collision>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
