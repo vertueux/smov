@@ -114,9 +114,7 @@ git clone --recursive https://github.com/vertueux/smov.git
 ```
 
 # Links and References
-* The Spot Micro AI community is hosted at: https://gitlab.com/custom_robots/spotmicroai
-* [@mike4192](https://github.com/mike4192)'s README.md & Spot Micro for inspiration: https://github.com/mike4192/spotMicro 
-* Spot micro URDF model inspired from Florian Wilk's repository: 
-  * https://gitlab.com/public-open-source/spotmicroai/simulation/-/tree/master/Basic%20simulation%20by%20user%20Florian%20Wilk/urdf
+* Spot micro URDF model inspired from Florian Wilk's repository (used for simulation, for now): 
+  * [Click here](https://gitlab.com/public-open-source/spotmicroai/simulation/-/tree/master/Basic%20simulation%20by%20user%20Florian%20Wilk/urdf)
 * My quadruped kinematics for for kinematics calculation: 
-  * https://github.com/vertueux/quadruped_kinematics
+  * [Click here](https://github.com/vertueux/quadruped_kinematics)
