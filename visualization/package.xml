@@ -4,6 +4,7 @@
   <name>visualization</name>
   <version>0.0.0</version>
   <description>Visualization of the SMOV robot on RViZ.</description>
+  <maintainer email="virtuous.open.source@gmail.com">Virtuous</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
