@@ -13,7 +13,7 @@ SMOV is the robot I was and still working on. It is a quadruped dog robot which 
 # Table of contents
 
 * [Overview](#overview)
-* [Context & Background](#the-story)
+* [Context & Background](#context--background)
 * [Getting Started](#getting-started)
     * [Installing ROS2 Humble](#installing-ros2-humble)
         * [Set locale](#set-locale)
@@ -29,7 +29,7 @@ SMOV is the robot I was and still working on. It is a quadruped dog robot which 
 SMOV is a 4 legged open source robot. It is (theoretically for now) able to move in an environment, moving in the same way as a dog. This project is not yet in a stable and fixed version, and is still under development.
 
 
-# History & Background
+# Context & Background
 My father, for a long time, wanted to create his 4 legged robot, but not having the time to do it, he asked me to do it for him, and taking advantage of it to make the project using the last version of ROS (2). And so, here we are. But I don't intend to stop there.
 
 I started this project at the beginning of the year 2022 in January, and since then I have spent a minimum of time on it. Unfortunately, 2022 is also the year I take my final middle school exam ("Le Brevet", in french), allowing me to go to high school. With these exams, as well as the other sub-projects and learning that I was doing externally, the project has not progressed that much. But I'm now back, in August, after having moved around a lot and having finished the rest (except for [Opticus](https://github.com/vertueux/opticus/)), and ready to make great progress on this project.

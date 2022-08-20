@@ -51,13 +51,13 @@ double get_determinant(const vector<vector<double>> vect) {
 
     double result = 0;
     int sign = 1;
-    for(int i = 0; i < dimension; i++) {
+    for(size_t i = 0; i < dimension; i++) {
 
         //Submatrix
         vector<vector<double>> subVect(dimension - 1, vector<double> (dimension - 1));
-        for(int m = 1; m < dimension; m++) {
+        for(size_t m = 1; m < dimension; m++) {
             int z = 0;
-            for(int n = 0; n < dimension; n++) {
+            for(size_t n = 0; n < dimension; n++) {
                 if(n != i) {
                     subVect[m-1][z] = vect[m][n];
                     z++;
