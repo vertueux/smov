@@ -10,8 +10,6 @@ namespace quadruped {
 
 class QuadrupedKinematics {
  public:
-  QuadrupedKinematics();
-
   vector<vector<vector<vector<double>>>> body_kinematics(double omega, double phi, double psi, double xm, double ym, double zm);
   vector<double> leg_kinematics(vector<double> point);
   vector<double> calculate_leg_points(vector<double> angles);

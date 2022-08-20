@@ -32,15 +32,6 @@ vector<T> operator+(const vector<T> &v1, const vector<T> &v2) {
 
 namespace quadruped {
 
-QuadrupedKinematics::QuadrupedKinematics() {
-  l1 = 50;
-  l2 = 20; 
-  l3 = 120;
-  l4 = 155; 
-  L = 140; 
-  W = 75;
-}
-
 vector<vector<vector<vector<double>>>> QuadrupedKinematics::body_kinematics(double omega, double phi, double psi, double xm, double ym, double zm) {
   vector<vector<double>> rx = {{1, 0, 0, 0}, {0, cos(omega), -sin(omega), 0}, {0, sin(omega), cos(omega), 0}, {0, 0, 0, 1}};
   vector<vector<double>> ry = {{cos(phi), 0, sin(phi), 0}, {0, 1, 0, 0}, {-sin(phi), 0, cos(phi), 0}, {0, 0, 0, 1}};
