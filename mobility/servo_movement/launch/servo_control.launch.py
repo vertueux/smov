@@ -5,7 +5,7 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='servo_movement',
-            executable='servo_executable',
+            executable='servo_movement',
             name="servo_control",
             output='screen',
         )
