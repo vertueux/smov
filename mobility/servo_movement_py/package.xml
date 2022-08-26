@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>servo_movement</name>
+  <name>servo_movement_py</name>
   <version>0.0.0</version>
   <description>Allow control of the 12 SMOV servos.</description>
   <maintainer email="virtuous.open.source@gmail.com">Virtuous</maintainer>
@@ -10,6 +10,9 @@
   <depend>i2cpwm_board_msgs</depend>
 
   <build_depend>rclpy</build_depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
@@ -20,3 +23,4 @@
     <build_type>ament_python</build_type>
   </export>
 </package>
+

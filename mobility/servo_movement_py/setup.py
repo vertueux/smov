@@ -1,8 +1,6 @@
-import os
-from glob import glob
 from setuptools import setup
 
-package_name = 'servo_movement'
+package_name = 'servo_movement_py'
 
 setup(
     name=package_name,
@@ -16,14 +14,14 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Virtuous',
-    maintainer_email='virtuous.open.source@gmail.com',
-    description='Allow control of the 12 SMOV servos.',
-    license='MIT',
+    maintainer='now',
+    maintainer_email='now@todo.todo',
+    description='TODO: Package description',
+    license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'servo_movement = servo_movement.servo_control:main'
+            'servo_movement_py = servo_movement.servo_control:main'
         ],
     },
 )
