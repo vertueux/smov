@@ -1,0 +1,1 @@
+Make sure that when you run the scripts, you are in their dedicated directories, otherwise it will not work.

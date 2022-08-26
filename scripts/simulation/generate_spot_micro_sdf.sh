@@ -1,1 +1,1 @@
-gz sdf -p ../../description/description/urdf/model_spot_micro.urdf > ../../description/description/urdf/model_spot_micro.sdf
+gz sdf -p ../../description/description/urdf/model_spot_micro.urdf > ../../simulation/models/model_spot_micro.sdf
