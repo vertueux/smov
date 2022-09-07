@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="spot_micro">
 
-  <xacro:include filename="materials.xacro"/>
+  <xacro:include filename="materials.urdf.xacro"/>
 
   <!-- Params -->
 
