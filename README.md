@@ -120,5 +120,7 @@ git clone --recursive https://github.com/vertueux/smov.git
   * [Click here](https://github.com/Derek-TH-Wang/quadruped_ctrl/tree/master/urdf/mini_cheetah)
 * Spot URDF model used for simulation: 
   * [Click here](https://github.com/clearpathrobotics/spot_ros/tree/master/spot_description)
+* Pupper URDF model used for simulation: 
+  * [Click here](https://github.com/chandyalex/stanford_pupper_description)
 * My quadruped kinematics for for kinematics calculation: 
   * [Click here](https://github.com/vertueux/quadruped_kinematics)
