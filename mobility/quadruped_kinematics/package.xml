@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>kinematics</name>
+  <name>quadruped_kinematics</name>
   <version>0.0.0</version>
   <description>C++ library for handling operations on the SMOV robot.</description>
   <maintainer email="virtuous.open.source@gmail.com">Virtuous</maintainer>

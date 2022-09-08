@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(kinematics)
+project(quadruped_kinematics)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -23,12 +23,12 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_library(kinematics
+add_library(quadruped_kinematics
   kinematics/quadruped_kinematics.cc 
   kinematics/quadruped_matrix.cc
 )
 
-target_include_directories(kinematics
+target_include_directories(quadruped_kinematics
   PUBLIC
     ${PROJECT_SOURCE_DIR}/include 
 )
