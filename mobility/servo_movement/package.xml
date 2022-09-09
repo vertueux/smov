@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>servo_movement_cc</name>
+  <name>servo_movement</name>
   <version>0.0.0</version>
   <description>Servo control on the SMOV robot.</description>
   <maintainer email="virtuous.open.source@gmail.com">Virtuous</maintainer>
@@ -10,6 +10,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>i2cpwm_board_msgs</depend>
+  <depend>keyboard_listener</depend>
 
   <build_depend>rclcpp</build_depend>
 
