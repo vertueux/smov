@@ -10,7 +10,6 @@ find_package(ament_cmake REQUIRED)
 find_package(i2cpwm_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(keyboard_listener REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -24,21 +23,17 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_executable(servo_executable movement/servo_movement.cc)
+add_executable(executable movement/servo_movement.cc)
 
-ament_target_dependencies(servo_executable 
+ament_target_dependencies(executable 
   rclcpp 
   std_msgs
   i2cpwm_board_msgs
-  keyboard_listener
 )
 
 install(TARGETS
-  servo_executable 
+  executable 
   DESTINATION lib/${PROJECT_NAME}
 )
-
-install(DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME})
 
 ament_package()
