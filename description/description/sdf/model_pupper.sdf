@@ -1,0 +1,816 @@
+<sdf version='1.7'>
+  <model name='pupper'>
+    <link name='base_link'>
+      <inertial>
+        <pose>-0.000119 0.000357 0.066904 0 -0 0</pose>
+        <mass>0.805134</mass>
+        <inertia>
+          <ixx>0.0021894</ixx>
+          <ixy>8.04365e-06</ixy>
+          <ixz>-7.87557e-05</ixz>
+          <iyy>0.00739142</iyy>
+          <iyz>6.00258e-06</iyz>
+          <izz>0.00730145</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__camera_link_collision_1'>
+        <pose>0.098 0 0.082 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://hector_sensors_description/meshes/asus_camera/asus_camera_simple.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__hokuyo_frame_collision_2'>
+        <pose>-0.05 0 0.0885 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.058 0.058 0.087</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='base_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__camera_link_visual_1'>
+        <pose>0.098 0 0.082 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://hector_sensors_description/meshes/asus_camera/asus_camera_simple.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__hokuyo_frame_visual_2'>
+        <pose>-0.05 0 0.1 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://hector_sensors_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lx.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name='camera' type='depth'>
+        <update_rate>20</update_rate>
+        <camera>
+          <horizontal_fov>1.09607</horizontal_fov>
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>
+          </image>
+          <clip>
+            <near>0.5</near>
+            <far>9</far>
+          </clip>
+        </camera>
+        <plugin name='camera_camera_controller' filename='libgazebo_ros_openni_kinect.so'>
+          <imageTopicName>camera/rgb/image_raw</imageTopicName>
+          <cameraInfoTopicName>camera/rgb/camera_info</cameraInfoTopicName>
+          <depthImageTopicName>camera/depth/image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>camera/depth/camera_info</depthImageCameraInfoTopicName>
+          <pointCloudTopicName>camera/depth/points</pointCloudTopicName>
+          <frameName>camera_depth_optical_frame</frameName>
+        </plugin>
+        <pose>0.098 0.049 0.082 0 -0 0</pose>
+      </sensor>
+      <sensor name='hokuyo' type='ray'>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1040</samples>
+              <resolution>1</resolution>
+              <min_angle>2.26893</min_angle>
+              <max_angle>-2.26893</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.2</min>
+            <max>30</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.004</stddev>
+          </noise>
+        </ray>
+        <plugin name='gazebo_ros_hokuyo_controller' filename='libgazebo_ros_laser.so'>
+          <topicName>scan</topicName>
+          <frameName>hokuyo_frame</frameName>
+        </plugin>
+        <pose>-0.05 0 0.1 0 -0 0</pose>
+      </sensor>
+    </link>
+    <joint name='LF_HIP_JOINT' type='revolute'>
+      <pose relative_to='base_link'>0.0705 0.04 0.02425 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>LF_HIP</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='LF_HIP'>
+      <pose relative_to='LF_HIP_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.036729 0.027408 0.001181 0 -0 0</pose>
+        <mass>0.0955148</mass>
+        <inertia>
+          <ixx>8.36684e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>5.28986e-05</iyy>
+          <iyz>0</iyz>
+          <izz>0.000107001</izz>
+        </inertia>
+      </inertial>
+      <visual name='LF_HIP_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/LF_HIP.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='LF_THIGH_JOINT' type='revolute'>
+      <pose relative_to='LF_HIP'>0.02735 0.029523 0.001272 0.11522 0.436332 0.1069</pose>
+      <parent>LF_HIP</parent>
+      <child>LF_THIGH</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='LF_THIGH'>
+      <pose relative_to='LF_THIGH_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.044862 -0.00163 -0.028162 0 -0 0</pose>
+        <mass>0.00699575</mass>
+        <inertia>
+          <ixx>4.01107e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.18784e-05</iyy>
+          <iyz>0</iyz>
+          <izz>8.33371e-06</izz>
+        </inertia>
+      </inertial>
+      <visual name='LF_THIGH_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/LF_THIGH.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='LF_THIGH_FOOT_JOINT' type='revolute'>
+      <pose relative_to='LF_THIGH'>0.022028 0.002333 -0.12152 -7e-06 -0.785403 7e-06</pose>
+      <parent>LF_THIGH</parent>
+      <child>LF_THIGH_FOOT</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='LF_THIGH_FOOT'>
+      <pose relative_to='LF_THIGH_FOOT_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.019805 0.003457 -0.061517 0 -0 0</pose>
+        <mass>0.00494875</mass>
+        <inertia>
+          <ixx>1.17894e-05</ixx>
+          <ixy>-3.45834e-07</ixy>
+          <ixz>-5.45058e-06</ixz>
+          <iyy>1.93406e-05</iyy>
+          <iyz>-6.32176e-07</iyz>
+          <izz>7.69165e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='LF_THIGH_FOOT_fixed_joint_lump__LF_TOE_collision'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+06</kp>
+              <kd>1</kd>
+              <max_vel>0</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='LF_THIGH_FOOT_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/LF_THIGH_FOOT.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='LF_THIGH_FOOT_fixed_joint_lump__LF_TOE_visual_1'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='LH_HIP_JOINT' type='revolute'>
+      <pose relative_to='base_link'>-0.1299 0.04 0.02425 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>LH_HIP</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='LH_HIP'>
+      <pose relative_to='LH_HIP_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.037129 0.027408 0.001181 0 -0 0</pose>
+        <mass>0.0955148</mass>
+        <inertia>
+          <ixx>8.36684e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>5.28986e-05</iyy>
+          <iyz>0</iyz>
+          <izz>0.000107001</izz>
+        </inertia>
+      </inertial>
+      <visual name='LH_HIP_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/LH_HIP.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='LH_THIGH_JOINT' type='revolute'>
+      <pose relative_to='LH_HIP'>0.02775 0.029523 0.001272 0.11522 0.436332 0.1069</pose>
+      <parent>LH_HIP</parent>
+      <child>LH_THIGH</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='LH_THIGH'>
+      <pose relative_to='LH_THIGH_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.044079 -0.001627 -0.02767 0 -0 0</pose>
+        <mass>0.0071653</mass>
+        <inertia>
+          <ixx>4.10828e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.21663e-05</iyy>
+          <iyz>0</iyz>
+          <izz>8.53569e-06</izz>
+        </inertia>
+      </inertial>
+      <visual name='LH_THIGH_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/LH_THIGH.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='LH_THIGH_FOOT_JOINT' type='revolute'>
+      <pose relative_to='LH_THIGH'>0.022028 0.002623 -0.12152 -7e-06 -0.785403 7e-06</pose>
+      <parent>LH_THIGH</parent>
+      <child>LH_THIGH_FOOT</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='LH_THIGH_FOOT'>
+      <pose relative_to='LH_THIGH_FOOT_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.019805 0.003285 -0.061532 0 -0 0</pose>
+        <mass>0.00494875</mass>
+        <inertia>
+          <ixx>1.178e-05</ixx>
+          <ixy>-3.28612e-07</ixy>
+          <ixz>-5.44909e-06</ixz>
+          <iyy>1.93352e-05</iyy>
+          <iyz>-6.00529e-07</iyz>
+          <izz>7.68775e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='LH_THIGH_FOOT_fixed_joint_lump__LH_TOE_collision'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+06</kp>
+              <kd>1</kd>
+              <max_vel>0</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='LH_THIGH_FOOT_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/LH_THIGH_FOOT.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='LH_THIGH_FOOT_fixed_joint_lump__LH_TOE_visual_1'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='RF_HIP_JOINT' type='revolute'>
+      <pose relative_to='base_link'>0.0705 -0.04 0.02425 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>RF_HIP</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='RF_HIP'>
+      <pose relative_to='RF_HIP_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.036729 -0.027408 0.001181 0 -0 0</pose>
+        <mass>0.0955148</mass>
+        <inertia>
+          <ixx>8.36684e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>5.28986e-05</iyy>
+          <iyz>0</iyz>
+          <izz>0.000107001</izz>
+        </inertia>
+      </inertial>
+      <visual name='RF_HIP_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/RF_HIP.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='RF_THIGH_JOINT' type='revolute'>
+      <pose relative_to='RF_HIP'>0.02735 -0.029523 0.001272 -0.11522 0.436332 -0.1069</pose>
+      <parent>RF_HIP</parent>
+      <child>RF_THIGH</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='RF_THIGH'>
+      <pose relative_to='RF_THIGH_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.044078 -0.00076 -0.027707 0 -0 0</pose>
+        <mass>0.00716529</mass>
+        <inertia>
+          <ixx>4.19387e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.2104e-05</iyy>
+          <iyz>0</iyz>
+          <izz>8.68353e-06</izz>
+        </inertia>
+      </inertial>
+      <visual name='RF_THIGH_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/RF_THIGH.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='RF_THIGH_FOOT_JOINT' type='revolute'>
+      <pose relative_to='RF_THIGH'>0.022028 -0.002333 -0.12152 7e-06 -0.785403 -7e-06</pose>
+      <parent>RF_THIGH</parent>
+      <child>RF_THIGH_FOOT</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='RF_THIGH_FOOT'>
+      <pose relative_to='RF_THIGH_FOOT_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.019805 -0.002185 -0.06176 0 -0 0</pose>
+        <mass>0.00494875</mass>
+        <inertia>
+          <ixx>1.16633e-05</ixx>
+          <ixy>2.18572e-07</ixy>
+          <ixz>-5.42625e-06</ixz>
+          <iyy>1.92577e-05</iyy>
+          <iyz>3.97761e-07</iyz>
+          <izz>7.64844e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='RF_THIGH_FOOT_fixed_joint_lump__RF_TOE_collision'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+06</kp>
+              <kd>1</kd>
+              <max_vel>0</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='RF_THIGH_FOOT_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/RF_THIGH_FOOT.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='RF_THIGH_FOOT_fixed_joint_lump__RF_TOE_visual_1'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='RH_HIP_JOINT' type='revolute'>
+      <pose relative_to='base_link'>0.0705 -0.04 0.02425 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>RH_HIP</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='RH_HIP'>
+      <pose relative_to='RH_HIP_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.163419 -0.04261 0.001858 0 -0 0</pose>
+        <mass>0.0955148</mass>
+        <inertia>
+          <ixx>8.36684e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>5.28986e-05</iyy>
+          <iyz>0</iyz>
+          <izz>0.000107001</izz>
+        </inertia>
+      </inertial>
+      <visual name='RH_HIP_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/RH_HIP.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='RH_THIGH_JOINT' type='revolute'>
+      <pose relative_to='RH_HIP'>-0.17265 -0.029523 0.001272 -0.11522 0.436332 -0.1069</pose>
+      <parent>RH_HIP</parent>
+      <child>RH_THIGH</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='RH_THIGH'>
+      <pose relative_to='RH_THIGH_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.044078 0.001627 -0.02767 0 -0 0</pose>
+        <mass>0.00716529</mass>
+        <inertia>
+          <ixx>4.10828e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.21663e-05</iyy>
+          <iyz>0</iyz>
+          <izz>8.53568e-06</izz>
+        </inertia>
+      </inertial>
+      <visual name='RH_THIGH_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/RH_THIGH.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='RH_THIGH_FOOT_JOINT' type='revolute'>
+      <pose relative_to='RH_THIGH'>0.022028 -0.002583 -0.12152 7e-06 -0.785403 -7e-06</pose>
+      <parent>RH_THIGH</parent>
+      <child>RH_THIGH_FOOT</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>500</effort>
+          <velocity>2.5</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='RH_THIGH_FOOT'>
+      <pose relative_to='RH_THIGH_FOOT_JOINT'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.019805 -0.002036 -0.06176 0 -0 0</pose>
+        <mass>0.00494875</mass>
+        <inertia>
+          <ixx>1.16612e-05</ixx>
+          <ixy>2.03669e-07</ixy>
+          <ixz>-5.42625e-06</ixz>
+          <iyy>1.92577e-05</iyy>
+          <iyz>3.70641e-07</iyz>
+          <izz>7.64633e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='RH_THIGH_FOOT_fixed_joint_lump__RH_TOE_collision'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+06</kp>
+              <kd>1</kd>
+              <max_vel>0</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='RH_THIGH_FOOT_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://pupper/meshes/RH_THIGH_FOOT.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='RH_THIGH_FOOT_fixed_joint_lump__RH_TOE_visual_1'>
+        <pose>-0.01 0 -0.116 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.005</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+    <plugin name='gazebo_ros_control' filename='libgazebo_ros_control.so'>
+      <legacyModeNS>1</legacyModeNS>
+    </plugin>
+    <plugin name='imu_controller' filename='libhector_gazebo_ros_imu.so'>
+      <updateRate>50.0</updateRate>
+      <topicName>imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005</rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005</rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+      <bodyName>base_link</bodyName>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 -0 0</rpyOffset>
+    </plugin>
+    <static>0</static>
+    <plugin name='p3d_base_controller' filename='libgazebo_ros_p3d.so'>
+      <alwaysOn>1</alwaysOn>
+      <updateRate>10.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>odom/ground_truth</topicName>
+      <gaussianNoise>0.01</gaussianNoise>
+      <frameName>world</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
+    </plugin>
+  </model>
+</sdf>
