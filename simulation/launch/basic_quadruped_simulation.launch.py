@@ -37,7 +37,7 @@ def generate_launch_description():
         namespace="smov",
         name="smov_rsp",
         output='screen',
-        arguments=[str(pkg_basic_quadruped)])
+        arguments=[str(urdf_file)])
 
     return LaunchDescription([
         DeclareLaunchArgument(

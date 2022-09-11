@@ -37,7 +37,7 @@ def generate_launch_description():
         namespace="smov",
         name="smov_rsp",
         output='screen',
-        arguments=[str(pkg_mini_cheetah)])
+        arguments=[str(urdf_file)])
 
     return LaunchDescription([
         DeclareLaunchArgument(
