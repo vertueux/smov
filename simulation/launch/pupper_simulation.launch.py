@@ -14,8 +14,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
     pkg_simulation = get_package_share_directory('simulation')
-    pkg_spot_micro = get_package_share_directory('spot_micro')
-    urdf_file = Path(pkg_spot_micro) / 'urdf/model.urdf'
+    pkg_pupper = get_package_share_directory('pupper')
+    urdf_file = Path(pkg_pupper) / 'urdf/model.urdf'
 
     # Gazebo launch
     gazebo = IncludeLaunchDescription(
@@ -37,12 +37,12 @@ def generate_launch_description():
         namespace="smov",
         name="smov_rsp",
         output='screen',
-        arguments=[str(pkg_spot_micro)])
+        arguments=[str(pkg_pupper)])
 
     return LaunchDescription([
         DeclareLaunchArgument(
           'world',
-          default_value=[os.path.join(pkg_simulation, 'worlds/default.world'), ''],
+          default_value=[os.path.join(pkg_simulation, 'worlds/default_pupper.world'), ''],
           description='SDF world file'),
         DeclareLaunchArgument('rviz', default_value='false', description='Open RViz.'),
         gazebo,
