@@ -1,0 +1,688 @@
+<sdf version='1.7'>
+  <model name='mini_cheetah'>
+    <link name='body'>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>3.3</mass>
+        <inertia>
+          <ixx>0.011253</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.036203</iyy>
+          <iyz>0</iyz>
+          <izz>0.042673</izz>
+        </inertia>
+      </inertial>
+      <collision name='body_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_body.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='body_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_body.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='torso_to_abduct_fl_j' type='revolute'>
+      <pose relative_to='body'>0.19 0.049 0 0 -0 0</pose>
+      <parent>body</parent>
+      <child>abduct_fl</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='abduct_fl'>
+      <pose relative_to='torso_to_abduct_fl_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.036 0 0 -0 0</pose>
+        <mass>0.54</mass>
+        <inertia>
+          <ixx>0.000381</ixx>
+          <ixy>5.8e-05</ixy>
+          <ixz>4.5e-07</ixz>
+          <iyy>0.00056</iyy>
+          <iyz>9.5e-07</iyz>
+          <izz>0.000444</izz>
+        </inertia>
+      </inertial>
+      <collision name='abduct_fl_collision'>
+        <pose>-0.055 0 0 0 0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='abduct_fl_visual'>
+        <pose>-0.055 0 0 0 0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='abduct_fl_to_thigh_fl_j' type='revolute'>
+      <pose relative_to='abduct_fl'>0 0.062 0 0 -0 0</pose>
+      <parent>abduct_fl</parent>
+      <child>thigh_fl</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='thigh_fl'>
+      <pose relative_to='abduct_fl_to_thigh_fl_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.016 -0.02 0 -0 0</pose>
+        <mass>0.634</mass>
+        <inertia>
+          <ixx>0.001983</ixx>
+          <ixy>0.000245</ixy>
+          <ixz>1.3e-05</ixz>
+          <iyy>0.002103</iyy>
+          <iyz>1.5e-06</iyz>
+          <izz>0.000408</izz>
+        </inertia>
+      </inertial>
+      <collision name='thigh_fl_collision'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='thigh_fl_visual'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='thigh_fl_to_knee_fl_j' type='revolute'>
+      <pose relative_to='thigh_fl'>0 0 -0.209 0 -0 0</pose>
+      <parent>thigh_fl</parent>
+      <child>shank_fl</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='shank_fl'>
+      <pose relative_to='thigh_fl_to_knee_fl_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 -0.188673 0 -0 0</pose>
+        <mass>0.214</mass>
+        <inertia>
+          <ixx>0.000307727</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000310727</iyy>
+          <iyz>0</iyz>
+          <izz>3.1e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='shank_fl_collision'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='shank_fl_fixed_joint_lump__toe_fl_collision_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <visual name='shank_fl_visual'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='shank_fl_fixed_joint_lump__toe_fl_visual_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='torso_to_abduct_fr_j' type='revolute'>
+      <pose relative_to='body'>0.19 -0.049 0 0 -0 0</pose>
+      <parent>body</parent>
+      <child>abduct_fr</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='abduct_fr'>
+      <pose relative_to='torso_to_abduct_fr_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.036 0 0 -0 0</pose>
+        <mass>0.54</mass>
+        <inertia>
+          <ixx>0.000381</ixx>
+          <ixy>5.8e-05</ixy>
+          <ixz>4.5e-07</ixz>
+          <iyy>0.00056</iyy>
+          <iyz>9.5e-07</iyz>
+          <izz>0.000444</izz>
+        </inertia>
+      </inertial>
+      <collision name='abduct_fr_collision'>
+        <pose>-0.055 0 0 3.14159 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='abduct_fr_visual'>
+        <pose>-0.055 0 0 3.14159 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='abduct_fr_to_thigh_fr_j' type='revolute'>
+      <pose relative_to='abduct_fr'>0 -0.062 0 0 -0 0</pose>
+      <parent>abduct_fr</parent>
+      <child>thigh_fr</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='thigh_fr'>
+      <pose relative_to='abduct_fr_to_thigh_fr_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.016 -0.02 0 -0 0</pose>
+        <mass>0.634</mass>
+        <inertia>
+          <ixx>0.001983</ixx>
+          <ixy>0.000245</ixy>
+          <ixz>1.3e-05</ixz>
+          <iyy>0.002103</iyy>
+          <iyz>1.5e-06</iyz>
+          <izz>0.000408</izz>
+        </inertia>
+      </inertial>
+      <collision name='thigh_fr_collision'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='thigh_fr_visual'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='thigh_fr_to_knee_fr_j' type='revolute'>
+      <pose relative_to='thigh_fr'>0 0 -0.209 0 -0 0</pose>
+      <parent>thigh_fr</parent>
+      <child>shank_fr</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='shank_fr'>
+      <pose relative_to='thigh_fr_to_knee_fr_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 -0.188673 0 -0 0</pose>
+        <mass>0.214</mass>
+        <inertia>
+          <ixx>0.000307727</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000310727</iyy>
+          <iyz>0</iyz>
+          <izz>3.1e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='shank_fr_collision'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='shank_fr_fixed_joint_lump__toe_fr_collision_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <visual name='shank_fr_visual'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='shank_fr_fixed_joint_lump__toe_fr_visual_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='torso_to_abduct_hl_j' type='revolute'>
+      <pose relative_to='body'>-0.19 0.049 0 0 -0 0</pose>
+      <parent>body</parent>
+      <child>abduct_hl</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='abduct_hl'>
+      <pose relative_to='torso_to_abduct_hl_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.036 0 0 -0 0</pose>
+        <mass>0.54</mass>
+        <inertia>
+          <ixx>0.000381</ixx>
+          <ixy>5.8e-05</ixy>
+          <ixz>4.5e-07</ixz>
+          <iyy>0.00056</iyy>
+          <iyz>9.5e-07</iyz>
+          <izz>0.000444</izz>
+        </inertia>
+      </inertial>
+      <collision name='abduct_hl_collision'>
+        <pose>0.055 0 0 3.14159 0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='abduct_hl_visual'>
+        <pose>0.055 0 0 3.14159 0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='abduct_hl_to_thigh_hl_j' type='revolute'>
+      <pose relative_to='abduct_hl'>0 0.062 0 0 -0 0</pose>
+      <parent>abduct_hl</parent>
+      <child>thigh_hl</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='thigh_hl'>
+      <pose relative_to='abduct_hl_to_thigh_hl_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.016 -0.02 0 -0 0</pose>
+        <mass>0.634</mass>
+        <inertia>
+          <ixx>0.001983</ixx>
+          <ixy>0.000245</ixy>
+          <ixz>1.3e-05</ixz>
+          <iyy>0.002103</iyy>
+          <iyz>1.5e-06</iyz>
+          <izz>0.000408</izz>
+        </inertia>
+      </inertial>
+      <collision name='thigh_hl_collision'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='thigh_hl_visual'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='thigh_hl_to_knee_hl_j' type='revolute'>
+      <pose relative_to='thigh_hl'>0 0 -0.209 0 -0 0</pose>
+      <parent>thigh_hl</parent>
+      <child>shank_hl</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='shank_hl'>
+      <pose relative_to='thigh_hl_to_knee_hl_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 -0.188673 0 -0 0</pose>
+        <mass>0.214</mass>
+        <inertia>
+          <ixx>0.000307727</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000310727</iyy>
+          <iyz>0</iyz>
+          <izz>3.1e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='shank_hl_collision'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='shank_hl_fixed_joint_lump__toe_hl_collision_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <visual name='shank_hl_visual'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='shank_hl_fixed_joint_lump__toe_hl_visual_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='torso_to_abduct_hr_j' type='revolute'>
+      <pose relative_to='body'>-0.19 -0.049 0 0 -0 0</pose>
+      <parent>body</parent>
+      <child>abduct_hr</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='abduct_hr'>
+      <pose relative_to='torso_to_abduct_hr_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.036 0 0 -0 0</pose>
+        <mass>0.54</mass>
+        <inertia>
+          <ixx>0.000381</ixx>
+          <ixy>5.8e-05</ixy>
+          <ixz>4.5e-07</ixz>
+          <iyy>0.00056</iyy>
+          <iyz>9.5e-07</iyz>
+          <izz>0.000444</izz>
+        </inertia>
+      </inertial>
+      <collision name='abduct_hr_collision'>
+        <pose>0.055 0 0 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='abduct_hr_visual'>
+        <pose>0.055 0 0 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_abad.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='abduct_hr_to_thigh_hr_j' type='revolute'>
+      <pose relative_to='abduct_hr'>0 -0.062 0 0 -0 0</pose>
+      <parent>abduct_hr</parent>
+      <child>thigh_hr</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='thigh_hr'>
+      <pose relative_to='abduct_hr_to_thigh_hr_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.016 -0.02 0 -0 0</pose>
+        <mass>0.634</mass>
+        <inertia>
+          <ixx>0.001983</ixx>
+          <ixy>0.000245</ixy>
+          <ixz>1.3e-05</ixz>
+          <iyy>0.002103</iyy>
+          <iyz>1.5e-06</iyz>
+          <izz>0.000408</izz>
+        </inertia>
+      </inertial>
+      <collision name='thigh_hr_collision'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='thigh_hr_visual'>
+        <pose>0 0 0 0 -1.5708 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_upper_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='thigh_hr_to_knee_hr_j' type='revolute'>
+      <pose relative_to='thigh_hr'>0 0 -0.209 0 -0 0</pose>
+      <parent>thigh_hr</parent>
+      <child>shank_hr</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='shank_hr'>
+      <pose relative_to='thigh_hr_to_knee_hr_j'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 -0.188673 0 -0 0</pose>
+        <mass>0.214</mass>
+        <inertia>
+          <ixx>0.000307727</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000310727</iyy>
+          <iyz>0</iyz>
+          <izz>3.1e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='shank_hr_collision'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='shank_hr_fixed_joint_lump__toe_hr_collision_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <visual name='shank_hr_visual'>
+        <pose>0 0 0 3.14159 1e-06 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_cheetah/meshes/mini_lower_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='shank_hr_fixed_joint_lump__toe_hr_visual_1'>
+        <pose>0 0 -0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+          </sphere>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
