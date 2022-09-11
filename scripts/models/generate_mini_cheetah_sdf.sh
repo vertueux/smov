@@ -1,0 +1,1 @@
+gz sdf -p ../../description/media/mini_cheetah/urdf/model.urdf > ../../simulation/models/mini_cheetah/model.sdf
