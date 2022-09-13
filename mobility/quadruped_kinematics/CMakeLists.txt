@@ -24,13 +24,21 @@ if(BUILD_TESTING)
 endif()
 
 add_library(quadruped_kinematics
-  kinematics/quadruped_kinematics.cc 
-  kinematics/quadruped_matrix.cc
+  src/quadruped_kinematics.cc 
+  src/quadruped_matrix.cc
 )
 
-target_include_directories(quadruped_kinematics
-  PUBLIC
-    ${PROJECT_SOURCE_DIR}/include 
+include_directories(
+  ./include/
+)
+
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+
+install(TARGETS ${PROJECT_NAME}
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
