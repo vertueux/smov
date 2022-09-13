@@ -16,8 +16,7 @@ Made available under GNU GENERAL PUBLIC LICENSE
 import smbus
 from time import *
 
-
-class I2CDevice:
+class i2c_device:
    def __init__(self, addr, port=1):
       self.addr = addr
       self.bus = smbus.SMBus(port)
@@ -48,6 +47,8 @@ class I2CDevice:
 # Read a block of data
    def read_block_data(self, cmd):
       return self.bus.read_block_data(self.addr, cmd)
+
+
 
 # LCD Address
 ADDRESS = 0x27
@@ -98,10 +99,10 @@ En = 0b00000100 # Enable bit
 Rw = 0b00000010 # Read/Write bit
 Rs = 0b00000001 # Register select bit
 
-class LCD:
+class lcd:
    #initializes objects and lcd
    def __init__(self):
-      self.lcd_device = I2CDevice(ADDRESS)
+      self.lcd_device = i2c_device(ADDRESS)
 
       self.lcd_write(0x03)
       self.lcd_write(0x03)
@@ -113,6 +114,7 @@ class LCD:
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
       sleep(0.2)
+
 
    # clocks EN to latch command
    def lcd_strobe(self, data):
@@ -129,6 +131,13 @@ class LCD:
    def lcd_write(self, cmd, mode=0):
       self.lcd_write_four_bits(mode | (cmd & 0xF0))
       self.lcd_write_four_bits(mode | ((cmd << 4) & 0xF0))
+
+   # write a character to lcd (or character rom) 0x09: backlight | RS=DR<
+   # works!
+   def lcd_write_char(self, charvalue, mode=1):
+      self.lcd_write_four_bits(mode | (charvalue & 0xF0))
+      self.lcd_write_four_bits(mode | ((charvalue << 4) & 0xF0))
+  
 
    # put string function
    def lcd_display_string(self, string, line):
@@ -148,3 +157,34 @@ class LCD:
    def lcd_clear(self):
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_RETURNHOME)
+
+   # define backlight on/off (lcd.backlight(1); off= lcd.backlight(0)
+   def backlight(self, state): # for state, 1 = on, 0 = off
+      if state == 1:
+         self.lcd_device.write_cmd(LCD_BACKLIGHT)
+      elif state == 0:
+         self.lcd_device.write_cmd(LCD_NOBACKLIGHT)
+
+   # add custom characters (0 - 7)
+   def lcd_load_custom_chars(self, fontdata):
+      self.lcd_write(0x40);
+      for char in fontdata:
+         for line in char:
+            self.lcd_write_char(line)         
+         
+   # define precise positioning (addition from the forum)
+   def lcd_display_string_pos(self, string, line, pos):
+    if line == 1:
+      pos_new = pos
+    elif line == 2:
+      pos_new = 0x40 + pos
+    elif line == 3:
+      pos_new = 0x14 + pos
+    elif line == 4:
+      pos_new = 0x54 + pos
+
+    self.lcd_write(0x80 + pos_new)
+
+    for char in string:
+      self.lcd_write(ord(char), Rs)
+
