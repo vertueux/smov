@@ -23,22 +23,28 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_library(quadruped_kinematics
+add_library(quadruped_kinematics 
   src/quadruped_kinematics.cc 
   src/quadruped_matrix.cc
 )
 
-include_directories(
-  ./include/
-)
+include_directories(include)
+
+ament_export_include_directories(include)
+ament_export_libraries(quadruped_kinematics)
 
 install(
   DIRECTORY include/
   DESTINATION include
 )
 
+
 install(TARGETS ${PROJECT_NAME}
   DESTINATION lib/${PROJECT_NAME}
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
 )
 
 ament_package()
