@@ -7,6 +7,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(i2cpwm_board_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -22,5 +25,27 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+add_executable(executable 
+  src/smov_motion_command.cc 
+  src/smov_motion_states.cc
+  include/motion/smov_motion_command.h
+  include/motion/smov_motion_states.h
+  src/smov_motion_main.cc
+)
+
+include_directories(include)
+
+ament_target_dependencies(executable 
+  rclcpp 
+  std_msgs
+  i2cpwm_board_msgs
+)
+
+install(TARGETS
+  executable 
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 
 ament_package()

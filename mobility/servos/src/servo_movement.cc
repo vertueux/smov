@@ -33,8 +33,8 @@ class ServoControl : public rclcpp::Node {
    : Node("servo_control") {
     RCLCPP_INFO(this->get_logger(), message);
 
+    i2cpwm_board_msgs::msg::Servo temp_servo;
     for (int i = 0; i < number_of_servos; i++) {
-      i2cpwm_board_msgs::msg::Servo temp_servo;
 
       temp_servo.servo = i;
       temp_servo.value = 0;
