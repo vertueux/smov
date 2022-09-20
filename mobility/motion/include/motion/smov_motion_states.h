@@ -12,6 +12,8 @@ struct StateSwitch {
 class StateAlgorithms {
  public:
   void walk(i2cpwm_board_msgs::msg::ServoArray servo_array);
+  void idle(i2cpwm_board_msgs::msg::ServoArray servo_array);
+  StateSwitch state;
 };
 
 }

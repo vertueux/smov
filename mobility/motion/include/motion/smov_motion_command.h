@@ -15,11 +15,15 @@ class MotionControl : public rclcpp::Node {
   MotionControl();
 
   void initialize_servos();
-  int number_of_servos = 12;
+  static int smooth_servo_transition(bool up_or_down);
+
+  i2cpwm_board_msgs::msg::ServoArray servo_array;
+  static int number_of_servos;
 
  private:
   rclcpp::Publisher<i2cpwm_board_msgs::msg::ServoArray>::SharedPtr publisher;
-  i2cpwm_board_msgs::msg::ServoArray servo_array;
 };
+
+int MotionControl::number_of_servos = 12;
 
 }

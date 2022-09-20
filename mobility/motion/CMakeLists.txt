@@ -29,9 +29,9 @@ endif()
 add_executable(executable 
   src/smov_motion_command.cc 
   src/smov_motion_states.cc
+  src/smov_motion_main.cc
   include/motion/smov_motion_command.h
   include/motion/smov_motion_states.h
-  src/smov_motion_main.cc
 )
 
 include_directories(include)
