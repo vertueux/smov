@@ -10,29 +10,35 @@ from motion.motion import MotionController
 from abort.abort import AbortController
 from screen.screen import LCDScreenController
 from remote.remote import RemoteControllerController
+from events.event import Events
 
 log = Logger().setup_logger()
+event = Events()
 
 
 def process_abort(communication_queues):
-    abort = AbortController(communication_queues)
-    abort.do_process_events_from_queue()
+    if (event.allow_process_event()):
+        abort = AbortController(communication_queues)
+        abort.do_process_events_from_queue()
 
 
 def process_motion(communication_queues):
-    motion = MotionController(communication_queues)
-    motion.do_process_events_from_queues()
+    if (event.allow_process_event()):
+        motion = MotionController(communication_queues)
+        motion.do_process_events_from_queues()
 
 
 def process_remote_controller(communication_queues):
-    remote = RemoteControllerController(communication_queues)
-    remote.do_process_events_from_queues()
+    if (event.allow_process_event()):
+        remote = RemoteControllerController(communication_queues)
+        remote.do_process_events_from_queues()
 
 
 # Optional
 def process_output_screen(communication_queues):
-    lcd_screen = LCDScreenController(communication_queues)
-    lcd_screen.do_process_events_from_queue()
+    if (event.allow_process_event()):
+        lcd_screen = LCDScreenController(communication_queues)
+        lcd_screen.do_process_events_from_queue()
 
 
 def create_controllers_queues():
@@ -46,11 +52,12 @@ def create_controllers_queues():
 
 
 def close_controllers_queues(communication_queues):
-    log.info('Closing controller queues')
+    if (event.allow_process_event()):
+        log.info('Closing controller queues')
 
-    for queue in communication_queues.items():
-        queue.close()
-        queue.join_thread()
+        for queue in communication_queues.items():
+            queue.close()
+            queue.join_thread()
 
 
 def main():
