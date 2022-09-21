@@ -1,1 +1,0 @@
-This package contains the simulation of the SMOV through the RViZ software. It is used to visualize the SMOV whether in a simulation, or in reality.

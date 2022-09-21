@@ -1,0 +1,16 @@
+[Unit]
+Description=smov
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/smov/run.sh
+WorkingDirectory=/home/pi/smov
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+

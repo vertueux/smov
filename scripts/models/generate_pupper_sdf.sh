@@ -1,1 +1,0 @@
-gz sdf -p ../../description/media/pupper/urdf/model.urdf > ../../simulation/models/pupper/model.sdf
