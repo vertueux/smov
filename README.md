@@ -2,8 +2,8 @@
   <p align="left">
     The SMOV Project
   </p>
-  <p align="left>
-    <a href="https://github.com/vertueux/spot_micro2/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-important"/></a>
+  <p align="left">
+    <a href="https://github.com/vertueux/smov/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-important"/></a>
     <a href="https://github.com/vertueux/"><img src="https://img.shields.io/badge/Contact%20me%20on%20Discord-now%239470-informational"/></a>
   </p>
 </h1>
