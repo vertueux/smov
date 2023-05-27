@@ -4,7 +4,7 @@
   <name>spot</name>
   <version>0.0.0</version>
   <description>Description of the Spot robot.</description>
-  <maintainer email="virtuous.open.source@gmail.com">Virtuous</maintainer>
+  <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
   <license>BSD 3-Clause License</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

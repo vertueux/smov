@@ -17,7 +17,7 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='Virtuous',
-    maintainer_email='virtuous.open.source@gmail.com',
+    maintainer_email='contact.vertueux@gmail.com',
     description='Driver for the LCD I2C monitor.',
     license='MIT',
     tests_require=['pytest'],

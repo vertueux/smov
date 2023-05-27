@@ -4,7 +4,7 @@
   <name>lcd_i2c_monitor</name>
   <version>0.0.0</version>
   <description>Driver for the LCD I2C monitor.</description>
-  <maintainer email="virtuous.open.source@gmail.com">Virtuous</maintainer>
+  <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
   <license>MIT</license>
 
   <test_depend>ament_copyright</test_depend>
