@@ -8,7 +8,7 @@
   </p>
 </h1>
 
-SMOV is the robot I was and still working on. It is a quadruped dog robot which would never have never existed without having see ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). Its main objective is to have similar capabilities to this one, but costing much less and having a source code accessible to all.
+SMOV is the robot I was and still working on. It is a quadruped dog robot which would never have never existed without seeing ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). Its main objective is to have similar capabilities to this one, but costing much less and having a source code accessible to all.
 
 # Table of contents
 
