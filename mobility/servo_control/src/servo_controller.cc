@@ -18,20 +18,20 @@ class ServoController : public rclcpp::Node
     ServoController()
     : Node("servo_controller"), count_(0)
     {
-      publisher_ = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("/servos_proportional", 10);
-      timer_ = this->create_wall_timer(
-      500ms, std::bind(&ServoController::timer_callback, this));
+      RCLCPP_INFO(this->get_logger(), "Yes");
+      publisher_ = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("servos_proportional", 10);
+      timer_ = this->create_wall_timer(500ms, std::bind(&ServoController::timer_callback, this));
     }
 
   private:
     void timer_callback()
     {
+      auto servo1 = i2c_pwm_board_msgs::msg::Servo();
+      servo1.servo = 1;
+      servo1.value = -1.0;
       auto message = i2c_pwm_board_msgs::msg::ServoArray();
-      message.servos[0].servo = 1;
-      message.servos[0].value = 0.4;
-      message.servos[1].servo = 2;
-      message.servos[1].value = 0.4;
-
+      message.servos.push_back(servo1);
+      RCLCPP_INFO(this->get_logger(), "Publishing");
       publisher_->publish(message);
     }
     rclcpp::TimerBase::SharedPtr timer_;
