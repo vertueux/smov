@@ -7,7 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(i2cpwm_board_msgs REQUIRED)
+find_package(i2c_pwm_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
@@ -28,7 +28,7 @@ add_executable(executable src/servo_movement.cc)
 ament_target_dependencies(executable 
   rclcpp 
   std_msgs
-  i2cpwm_board_msgs
+  i2c_pwm_board_msgs
 )
 
 install(TARGETS

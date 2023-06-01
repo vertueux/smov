@@ -4,8 +4,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "i2cpwm_board_msgs/msg/servo_array.hpp"
-#include "i2cpwm_board_msgs/msg/servo.hpp"
+#include "i2c_pwm_board_msgs/msg/servo_array.hpp"
+#include "i2c_pwm_board_msgs/msg/servo.hpp"
 
 #define CENTER 306
 #define MINIMUM 83
@@ -33,7 +33,7 @@ class ServoControl : public rclcpp::Node {
    : Node("servo_control") {
     RCLCPP_INFO(this->get_logger(), message);
 
-    i2cpwm_board_msgs::msg::Servo temp_servo;
+    i2c_pwm_board_msgs::msg::Servo temp_servo;
     for (int i = 0; i < number_of_servos; i++) {
 
       temp_servo.servo = i;
@@ -41,7 +41,7 @@ class ServoControl : public rclcpp::Node {
       servo_array.servos.push_back(temp_servo);
     }
     
-    publisher = this->create_publisher<i2cpwm_board_msgs::msg::ServoArray>("servos_absolute", 1);
+    publisher = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("servos_absolute", 1);
 
     while (rclcpp::ok()) { 
       char terminal_reader = getch();
@@ -117,12 +117,12 @@ class ServoControl : public rclcpp::Node {
   "n: Set a Servo to minimum.\n"
   "c: Set a Servo to center.\n";
 
-  i2cpwm_board_msgs::msg::ServoArray servo_array_absolute;
-  rclcpp::Publisher<i2cpwm_board_msgs::msg::ServoArray>::SharedPtr publisher;
+  i2c_pwm_board_msgs::msg::ServoArray servo_array_absolute;
+  rclcpp::Publisher<i2c_pwm_board_msgs::msg::ServoArray>::SharedPtr publisher;
 
-  static i2cpwm_board_msgs::msg::ServoArray servo_array;
+  static i2c_pwm_board_msgs::msg::ServoArray servo_array;
 };
-i2cpwm_board_msgs::msg::ServoArray ServoControl::servo_array;
+i2c_pwm_board_msgs::msg::ServoArray ServoControl::servo_array;
 
 }
 
