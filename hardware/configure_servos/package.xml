@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>lcd_i2c_monitor</name>
+  <name>configure_servos</name>
   <version>0.0.0</version>
-  <description>Driver for the LCD I2C monitor.</description>
-  <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
+  <description>Package used to configure your servos.</description>
+  <maintainer email="contact.vertueux@gmail.com">now</maintainer>
   <license>GNU GENERAL PUBLIC LICENSE</license>
 
   <test_depend>ament_copyright</test_depend>

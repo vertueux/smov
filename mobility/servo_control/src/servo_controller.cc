@@ -5,8 +5,8 @@
 
 #include "rclcpp/rclcpp.hpp"
 
-#include "i2c_pwm_board_msgs/msg/servo_array.hpp"
-#include "i2c_pwm_board_msgs/msg/servo.hpp"
+#include "front_i2c_pwm_board_msgs/msg/servo_array.hpp"
+#include "front_i2c_pwm_board_msgs/msg/servo.hpp"
 using namespace std::chrono_literals;
 
 /* This example creates a subclass of Node and uses std::bind() to register a
