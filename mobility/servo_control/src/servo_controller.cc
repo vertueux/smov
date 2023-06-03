@@ -164,7 +164,9 @@ class ServoControl : public rclcpp::Node {
 
   static front_i2c_pwm_board_msgs::msg::ServoArray servo_array;
 };
+
 front_i2c_pwm_board_msgs::msg::ServoArray ServoControl::servo_array;
+
 }
 
 int main(int argc, char* argv[]) {
