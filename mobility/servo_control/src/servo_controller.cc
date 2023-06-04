@@ -136,7 +136,7 @@ class ServoControl : public rclcpp::Node {
   }
 
  private:
-  int number_of_servos = 12;
+  int number_of_servos = 16;
   int center = 333;
   int minimum = 83;
   int maximum = 520;

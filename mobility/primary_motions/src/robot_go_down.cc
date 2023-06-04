@@ -1,63 +1,57 @@
+#include <chrono>
 #include <functional>
 #include <memory>
+#include <string>
 
-#include <rclcpp/rclcpp.hpp>
+#include "rclcpp/rclcpp.hpp"
 
 #include "front_i2c_pwm_board_msgs/msg/servo_array.hpp"
 #include "front_i2c_pwm_board_msgs/msg/servo.hpp"
 
+using namespace std::chrono_literals;
+
 namespace smov {
 
-class WakeUp : public rclcpp::Node {
- public:
-  WakeUp() 
-   : Node("smov_wake_up") {
-    configure_servos(servo_array);
-    
-    publisher = this->create_publisher<front_i2c_pwm_board_msgs::msg::ServoArray>("servos_absolute", 1);
-    publisher->publish(servo_array);
+class SMOVGoDown : public rclcpp::Node {
+  public:
+    SMOVGoDown()
+    : Node("smov_go_down"), count(0) {
+      RCLCPP_INFO(this->get_logger(), "the SMOV has awakened!");
+      publisher = this->create_publisher<front_i2c_pwm_board_msgs::msg::ServoArray>("servos_absolute", 10);
+      timer = this->create_wall_timer(500ms, std::bind(&SMOVGoDown::call, this));
+    }
 
-    exit(0);
-  }
-  
-  // Theses commands are specific to the hardware chosen.
-  void configure_servos(front_i2c_pwm_board_msgs::msg::ServoArray array) {
-    // Setting the front left servo.
-    front_i2c_pwm_board_msgs::msg::Servo front_left_servo;
-    front_left_servo.servo = 1;
-    front_left_servo.value = -1;
-    array.servos.push_back(front_left_servo);
+  private:
+    void call() {
+      // Setting up the first servo on port 0.
+      auto first_servo = front_i2c_pwm_board_msgs::msg::Servo();
+      first_servo.servo = 1;
+      first_servo.value = 100;
 
-    // Setting the front right servo.
-    front_i2c_pwm_board_msgs::msg::Servo front_right_servo;
-    front_right_servo.servo = 16;
-    front_right_servo.value = -1;
-    array.servos.push_back(front_right_servo);
+      // Setting up the second servo on port 15.
+      auto second_servo = front_i2c_pwm_board_msgs::msg::Servo();
+      second_servo.servo = 16;
+      second_servo.value = 548;
 
-    // Setting the back left servo.
-    front_i2c_pwm_board_msgs::msg::Servo back_left_servo;
-    back_left_servo.servo = 2;
-    back_left_servo.value = -1;
-    array.servos.push_back(back_left_servo);
+      auto message = front_i2c_pwm_board_msgs::msg::ServoArray();
 
-    // Setting the back right servo.
-    front_i2c_pwm_board_msgs::msg::Servo back_right_servo;
-    back_right_servo.servo = 15;
-    back_right_servo.value = -1;
-    array.servos.push_back(back_right_servo);
-  }
+      // Pushing the servos to the array.
+      message.servos.push_back(first_servo);
+      message.servos.push_back(second_servo);
 
- private:
-  rclcpp::Publisher<front_i2c_pwm_board_msgs::msg::ServoArray>::SharedPtr publisher;
-  static front_i2c_pwm_board_msgs::msg::ServoArray servo_array;
+      publisher->publish(message);
+    }
+
+    rclcpp::TimerBase::SharedPtr timer;
+    rclcpp::Publisher<front_i2c_pwm_board_msgs::msg::ServoArray>::SharedPtr publisher;
+    size_t count;
 };
-
-front_i2c_pwm_board_msgs::msg::ServoArray WakeUp::servo_array;
 
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char * argv[]) {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<smov::WakeUp>());
+  rclcpp::spin(std::make_shared<smov::SMOVGoDown>());
   rclcpp::shutdown();
+  return 0;
 }
