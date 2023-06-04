@@ -35,7 +35,7 @@ class ServoControl : public rclcpp::Node {
     front_i2c_pwm_board_msgs::msg::Servo temp_servo;
 
     // We set all the known servos to their original position.
-    for (int i = 1; i < number_of_servos + 1; i++) {
+    for (int i = 1; i < number_of_servos; i++) {
       temp_servo.servo = i;
       temp_servo.value = 0;
       servo_array.servos.push_back(temp_servo);
@@ -65,7 +65,7 @@ class ServoControl : public rclcpp::Node {
           break;
         case '4':
           RCLCPP_INFO(this->get_logger(), "Manually increasing a servo by 1.");
-          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 12.");
+          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
           servo_array.servos[rep - 1].value += 1;
@@ -73,7 +73,7 @@ class ServoControl : public rclcpp::Node {
           break;
         case '5':
           RCLCPP_INFO(this->get_logger(), "Manually decreasing a servo by 1.");
-          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 12.");
+          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
           servo_array.servos[rep - 1].value -= 1;
@@ -81,7 +81,7 @@ class ServoControl : public rclcpp::Node {
           break;
         case '6':
           RCLCPP_INFO(this->get_logger(), "Manually increasing a servo by 10.");
-          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 12.");
+          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
           servo_array.servos[rep - 1].value += 10;
@@ -89,7 +89,7 @@ class ServoControl : public rclcpp::Node {
           break;
         case '7':
           RCLCPP_INFO(this->get_logger(), "Manually decreasing a servo by 10.");
-          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 12.");
+          RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
           servo_array.servos[rep - 1].value -= 10;
