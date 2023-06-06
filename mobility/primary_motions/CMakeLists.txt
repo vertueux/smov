@@ -13,6 +13,7 @@ find_package(std_msgs REQUIRED)
 
 add_executable(wake_up src/robot_wake_up.cc)
 add_executable(go_sleep src/robot_go_down.cc)
+add_executable(lock_legs src/robot_lock_legs.cc)
 
 ament_target_dependencies(wake_up 
   rclcpp 
@@ -26,9 +27,16 @@ ament_target_dependencies(go_sleep
   front_i2c_pwm_board_msgs
 )
 
+ament_target_dependencies(lock_legs 
+  rclcpp 
+  std_msgs
+  front_i2c_pwm_board_msgs
+)
+
 install(TARGETS
   wake_up 
   go_sleep
+  lock_legs
   DESTINATION lib/${PROJECT_NAME}
 )
 

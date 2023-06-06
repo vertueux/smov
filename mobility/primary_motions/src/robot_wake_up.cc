@@ -16,7 +16,7 @@ class SMOVWakeUp : public rclcpp::Node {
   public:
     SMOVWakeUp()
     : Node("smov_wake_up"), count(0) {
-      RCLCPP_INFO(this->get_logger(), "the SMOV has awakened!");
+      RCLCPP_INFO(this->get_logger(), "The SMOV has awakened!");
       publisher = this->create_publisher<front_i2c_pwm_board_msgs::msg::ServoArray>("servos_absolute", 10);
       timer = this->create_wall_timer(500ms, std::bind(&SMOVWakeUp::call, this));
     }
@@ -24,20 +24,20 @@ class SMOVWakeUp : public rclcpp::Node {
   private:
     void call() {
       // Setting up the first servo on port 0.
-      auto first_servo = front_i2c_pwm_board_msgs::msg::Servo();
-      first_servo.servo = 1;
-      first_servo.value = 420;
+      auto servo_0 = front_i2c_pwm_board_msgs::msg::Servo();
+      servo_0.servo = 1;
+      servo_0.value = 420;
 
       // Setting up the second servo on port 15.
-      auto second_servo = front_i2c_pwm_board_msgs::msg::Servo();
-      second_servo.servo = 16;
-      second_servo.value = 240;
+      auto servo_15 = front_i2c_pwm_board_msgs::msg::Servo();
+      servo_15.servo = 16;
+      servo_15.value = 240;
 
       auto message = front_i2c_pwm_board_msgs::msg::ServoArray();
 
       // Pushing the servos to the array.
-      message.servos.push_back(first_servo);
-      message.servos.push_back(second_servo);
+      message.servos.push_back(servo_0);
+      message.servos.push_back(servo_15);
 
       publisher->publish(message);
     }
