@@ -56,7 +56,7 @@ extern "C" {
 // The class that handles messages between the controller and ROS2.
 class I2CPWMNode : public rclcpp::Node {
 public:
-    explicit I2CPWMNode(const std::string & node_name="i2c_pwm_controller", const std::string & node_namespace="/")
+    explicit I2CPWMNode(const std::string & node_name="front_i2c_pwm_controller", const std::string & node_namespace="/")
       : rclcpp::Node(node_name, node_namespace) {}
 };
 
