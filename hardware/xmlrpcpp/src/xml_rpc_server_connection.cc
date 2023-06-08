@@ -76,7 +76,7 @@ XmlRpcServerConnection::readHeader()
   // Read available data
   bool eof;
   if ( ! XmlRpcSocket::nbRead(this->getfd(), _header, &eof)) {
-    // Its only an error if we already have read some data
+    // It's only an error if we already have read some data
     if (_header.length() > 0)
       XmlRpcUtil::error("XmlRpcServerConnection::readHeader: error while reading header (%s).",XmlRpcSocket::getErrorMsg().c_str());
     return false;
