@@ -4,5 +4,5 @@ sudo raspi-config
 ```
 
 ```
-ros2 run i2c_servos calibration
+ros2 run configure_servos calibration
 ```

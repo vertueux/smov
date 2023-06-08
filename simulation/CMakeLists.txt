@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.8)
-project(simulation)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -25,19 +24,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_executable(control src/spot_micro_sit_control.cc)
-ament_target_dependencies(control rclcpp quadruped_kinematics)
-ament_export_dependencies(quadruped_kinematics)
-
-target_include_directories(control
- PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-
-install(TARGETS
-  control 
-  DESTINATION lib/${PROJECT_NAME}
+install(TARGETS 
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin

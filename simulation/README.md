@@ -1,1 +1,1 @@
-This package contains the simulation of the SMOV through the Gazebo software. It contains (will contain) a world sample with SMOV, which will be controllable through ROS2.
+> This package contains the simulation of the SMOV through the Gazebo software. It contains (will contain) a world sample with SMOV, which will be controllable through ROS2.
