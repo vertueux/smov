@@ -134,7 +134,12 @@ sudo apt install libraspberrypi-bin
 
 If we do not want to change any files we can tell our Raspberry Pi to load the port through a shell script with the following command. This method is easier for optional loads or prototyping. The dtoverlay the command is similar to that of the config.txt file : 
 ```bash
-dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24 
+sudo dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24 
+```
+
+It's also a good idea to add this command to *~/.bashrc* so you don't have to do it again every time you reboot : 
+```bash
+echo "sudo dtoverlay i2c-gpio bus=4 i2c_gpio_sda=23 i2c_gpio_scl=24" >> ~/.bashrc
 ```
 
 * Refer to [this post](https://medium.com/cemac/creating-multiple-i2c-ports-on-a-raspberry-pi-e31ce72a3eb2)
