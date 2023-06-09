@@ -137,4 +137,9 @@ If we do not want to change any files we can tell our Raspberry Pi to load the p
 dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24 
 ```
 
+It's also a good idea to add this command to *~/.bashrc* so you don't have to do it again every time you reboot : 
+```bash
+echo "dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24" >> ~/.bashrc
+```
+
 * Refer to [this post](https://medium.com/cemac/creating-multiple-i2c-ports-on-a-raspberry-pi-e31ce72a3eb2)
