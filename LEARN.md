@@ -142,4 +142,9 @@ It's also a good idea to add this command to *~/.bashrc* so you don't have to do
 echo "sudo dtoverlay i2c-gpio bus=4 i2c_gpio_sda=23 i2c_gpio_scl=24" >> ~/.bashrc
 ```
 
+It's also a good idea to add this command to *~/.bashrc* so you don't have to do it again every time you reboot : 
+```bash
+echo "dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24" >> ~/.bashrc
+```
+
 * Refer to [this post](https://medium.com/cemac/creating-multiple-i2c-ports-on-a-raspberry-pi-e31ce72a3eb2)
