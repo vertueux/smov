@@ -76,3 +76,65 @@ Install all SMOV packages and sub-modules. More instructions will come after the
 ```bash
 git clone --recursive https://github.com/vertueux/smov.git
 ```
+
+## Installing I2C
+I2C is required to control microcontrollers :
+```bash
+sudo apt install -y libi2c-dev i2c-tools
+```
+
+## Configure Ubuntu
+Make sure that both I2C and SPI are enabled by default. Check the file */boot/firmware/syscfg.txt* and see if you have the following lines :
+```txt 
+dtparam=i2c_arm=on
+dtparam=spi=on
+```
+If not, maybe you can append them on */boot/firmware/usercfg.txt* and reboot, and hopefully, that works. If that doesn't work, maybe do `sudo apt update && sudo full-upgrade` -y and see if there are any distro updates needed.
+
+* Refer to [this post](https://askubuntu.com/questions/1273700/enable-spi-and-i2c-on-ubuntu-20-04-raspberry-pi/1273900#1273900).
+
+You can also add the following line to */boot/config.txt* :
+```bash
+dtparam=i2c_arm=on
+```
+As well as this line to */etc/modules* :
+```bash
+i2c-dev
+```
+* Refer to [this post](https://raspberrypi.stackexchange.com/questions/61905/enable-i2c-on-ubuntu-mate-raspberry-pi-3).
+
+--- 
+With `raspi-config`, you can enable i2c by navigating to *Interface Options->Advanced->I2C* and then enable it.
+
+## Testing I2C
+Now when you log in you can type the following command to see all the connected devices
+```bash 
+sudo i2cdetect -y 1 # Or 0, depends on the device you use.
+```
+## Configuring the Second I2C Port
+We first have to edit */boot/config.txt* : 
+```bash
+sudo nano /boot/config.txt
+```
+If we scroll to the bottom we may find the remnants of the precious peripheral (if it was added here previously) :
+```bash
+dtoverlay=i2c-rtc,pcf8523,wakeup-source #RTC
+```
+
+We now need to add an additional device under a new bus — e.g. bus 2. We do this by adding an additional line with the following content :
+```bash
+dtoverlay=i2c-gpio,bus=2,i2c_gpio_sda=23,i2c_gpio_scl=24
+```
+
+## Manual configuration 
+When using a Raspberry Pi, you must first have dtoverlay installed for the manual configuration. Install it by copying this command : 
+```bash
+sudo apt install libraspberrypi-bin
+```
+
+If we do not want to change any files we can tell our Raspberry Pi to load the port through a shell script with the following command. This method is easier for optional loads or prototyping. The dtoverlay the command is similar to that of the config.txt file : 
+```bash
+dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24 
+```
+
+* Refer to [this post](https://medium.com/cemac/creating-multiple-i2c-ports-on-a-raspberry-pi-e31ce72a3eb2)

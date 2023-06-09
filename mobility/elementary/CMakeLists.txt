@@ -8,6 +8,7 @@ endif()
 # Find dependencies.
 find_package(ament_cmake REQUIRED)
 find_package(front_board_msgs REQUIRED)
+find_package(back_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
@@ -19,18 +20,21 @@ ament_target_dependencies(wake_up
   rclcpp 
   std_msgs
   front_board_msgs
+  back_board_msgs
 )
 
 ament_target_dependencies(go_sleep 
   rclcpp 
   std_msgs
   front_board_msgs
+  back_board_msgs
 )
 
 ament_target_dependencies(lock_legs 
   rclcpp 
   std_msgs
   front_board_msgs
+  back_board_msgs
 )
 
 install(TARGETS

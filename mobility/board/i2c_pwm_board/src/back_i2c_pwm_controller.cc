@@ -1,4 +1,4 @@
-#define _BASE_ADDR   0x41
+#define _BASE_ADDR   0x40
 #ifndef _PI
 #define _PI 3.14159265358979323846
 #endif
@@ -988,7 +988,7 @@ int main (int argc, char **argv) {
 	auto node = std::make_shared<I2CPWMNode>("i2c_pwm_controller2");
 
 	// globals
-	_controller_io_device = 1;	// default I2C device on RPi2 and RPi3 = "/dev/i2c-1" Orange Pi Lite = "/dev/i2c-0"
+	_controller_io_device = 4;	// Configured the second board to "/dev/i2c-4". Take a look at LEARN.md for more information.
 	_controller_io_handle = 0;
 	_pwm_frequency = 50;		// set the initial pulse frequency to 50 Hz which is standard for RC servos
 
