@@ -10,6 +10,9 @@
 #include "front_board_msgs/msg/servo_array.hpp"
 #include "front_board_msgs/msg/servo.hpp"
 
+#include "back_board_msgs/msg/servo_array.hpp"
+#include "back_board_msgs/msg/servo.hpp"
+
 namespace smov {
 
 int getch()
@@ -32,34 +35,55 @@ class ServoControl : public rclcpp::Node {
    : Node("servo_control") {
     RCLCPP_INFO(this->get_logger(), message);
 
-    front_board_msgs::msg::Servo temp_servo;
+    front_board_msgs::msg::Servo front_temp_servo;
+    back_board_msgs::msg::Servo back_temp_servo;
 
     // We set all the known servos to their original position.
     for (int i = 1; i < number_of_servos; i++) {
-      temp_servo.servo = i;
-      temp_servo.value = 0;
-      servo_array.servos.push_back(temp_servo);
+      // Front board.
+      front_temp_servo.servo = i;
+      front_temp_servo.value = 0;
+
+      // Back board.
+      back_temp_servo.servo = i;
+      back_temp_servo.value = 0;
+
+      front_servo_array.servos.push_back(front_temp_servo);
+      back_servo_array.servos.push_back(back_temp_servo);
+
     }
     
-    publisher = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
+    front_publisher = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
+    back_publisher = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+
     while (rclcpp::ok()) { 
       char terminal_reader = getch();
+
+      // For now, the program hasn't been optimized yet. We still use the front servo array size for both.
       switch(terminal_reader) {
-        case '1':
+        case '0':
           RCLCPP_INFO(this->get_logger(), "Ending program.");
           exit(0);
           break;
+        case '1':
+          RCLCPP_INFO(this->get_logger(), "Choose between the two boards (1: Front board, 2: Back board).");
+          std::cin >> rep;
+          active_board = rep;
+          RCLCPP_INFO(this->get_logger(), message);
+          break;
         case '2':
           RCLCPP_INFO(this->get_logger(), "Reset all servos to center value.");
-          for (size_t i = 0; i < servo_array.servos.size(); i++) {
-            servo_array.servos[i].value = center;
+          for (size_t i = 0; i < front_servo_array.servos.size(); i++) {
+            front_servo_array.servos[i].value = center;
+            back_servo_array.servos[i].value = center;
           }
           RCLCPP_INFO(this->get_logger(), message);
           break;
         case '3':
           RCLCPP_INFO(this->get_logger(), "Reset all servos to 0.");
-          for (size_t i = 0; i < servo_array.servos.size(); i++) {
-            servo_array.servos[i].value = 0;
+          for (size_t i = 0; i < front_servo_array.servos.size(); i++) {
+            front_servo_array.servos[i].value = 0;
+            back_servo_array.servos[i].value = 0;
           }
           RCLCPP_INFO(this->get_logger(), message);
           break;
@@ -68,7 +92,8 @@ class ServoControl : public rclcpp::Node {
           RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
-          servo_array.servos[rep - 1].value += 1;
+          front_servo_array.servos[rep - 1].value += 1;
+          back_servo_array.servos[rep - 1].value += 1;
           RCLCPP_INFO(this->get_logger(), message);
           break;
         case '5':
@@ -76,7 +101,8 @@ class ServoControl : public rclcpp::Node {
           RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
-          servo_array.servos[rep - 1].value -= 1;
+          front_servo_array.servos[rep - 1].value -= 1;
+          back_servo_array.servos[rep - 1].value -= 1;
           RCLCPP_INFO(this->get_logger(), message);
           break;
         case '6':
@@ -84,7 +110,8 @@ class ServoControl : public rclcpp::Node {
           RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
-          servo_array.servos[rep - 1].value += 10;
+          front_servo_array.servos[rep - 1].value += 10;
+          back_servo_array.servos[rep - 1].value += 10;
           RCLCPP_INFO(this->get_logger(), message);
           break;
         case '7':
@@ -92,20 +119,23 @@ class ServoControl : public rclcpp::Node {
           RCLCPP_INFO(this->get_logger(), "You choose servo number between 1 to 16.");
 
           std::cin >> rep;
-          servo_array.servos[rep - 1].value -= 10;
+          front_servo_array.servos[rep - 1].value -= 10;
+          back_servo_array.servos[rep - 1].value -= 10;
           RCLCPP_INFO(this->get_logger(), message);
           break;
         case '8':
           RCLCPP_INFO(this->get_logger(), "Reset all servos to maximum value.");
-          for (size_t i = 0; i < servo_array.servos.size(); i++) {
-            servo_array.servos[i].value = maximum;
+          for (size_t i = 0; i < front_servo_array.servos.size(); i++) {
+            front_servo_array.servos[i].value = maximum;
+            back_servo_array.servos[i].value = maximum;
           }
           RCLCPP_INFO(this->get_logger(), message);
           break;
         case '9':
           RCLCPP_INFO(this->get_logger(), "Reset all servos to minimum value.");
-          for (size_t i = 0; i < servo_array.servos.size(); i++) {
-            servo_array.servos[i].value = minimum;
+          for (size_t i = 0; i < front_servo_array.servos.size(); i++) {
+            front_servo_array.servos[i].value = minimum;
+            back_servo_array.servos[i].value = minimum;
           }
           RCLCPP_INFO(this->get_logger(), message);
           break;
@@ -114,24 +144,27 @@ class ServoControl : public rclcpp::Node {
           RCLCPP_INFO(this->get_logger(), "Choose a new value : ");
 
           std::cin >> rep;
-          center = rep;
+          center = (int)rep;
           RCLCPP_INFO(this->get_logger(), message);
         case 'B':
           RCLCPP_INFO(this->get_logger(), "Setting new center value.");
           RCLCPP_INFO(this->get_logger(), "Choose a new value : ");
 
           std::cin >> rep;
-          minimum = rep;
+          minimum = (int)rep;
           RCLCPP_INFO(this->get_logger(), message);
         case 'C':
           RCLCPP_INFO(this->get_logger(), "Setting new center value.");
           RCLCPP_INFO(this->get_logger(), "Choose a new value : ");
 
           std::cin >> rep;
-          maximum = rep;
+          maximum = (int)rep;
           RCLCPP_INFO(this->get_logger(), message);
     }
-    publisher->publish(servo_array);
+    if (active_board == 1)
+      front_publisher->publish(front_servo_array);
+    else if (active_board == 2) 
+      back_publisher->publish(back_servo_array);
    }
   }
 
@@ -141,13 +174,17 @@ class ServoControl : public rclcpp::Node {
   int minimum = 83;
   int maximum = 520;
 
+  // 1: Front board, 2: Back board.
+  int active_board = 1;
+
   // Used for answers.
   int rep = 0;
 
   const char* message = "\n"
   "\nEnter one of the following options:\n"
   "-----------------------------------\n\n"
-  "1: Quit.\n"
+  "0: Quit.\n"
+  "1: Switch board (1 or 2).\n"
   "2: Reset all servos to center.\n"
   "3: Reset all servos to 0.\n"
   "4: Increase a servo by 1.\n"
@@ -160,12 +197,15 @@ class ServoControl : public rclcpp::Node {
   "B: Set new minimum value.\n"
   "C: Set new maximum value.\n";
 
-  rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr publisher;
+  rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_publisher;
+  rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_publisher;
 
-  static front_board_msgs::msg::ServoArray servo_array;
+  static front_board_msgs::msg::ServoArray front_servo_array;
+  static back_board_msgs::msg::ServoArray back_servo_array;
 };
 
-front_board_msgs::msg::ServoArray ServoControl::servo_array;
+front_board_msgs::msg::ServoArray ServoControl::front_servo_array;
+back_board_msgs::msg::ServoArray ServoControl::back_servo_array;
 
 }
 
