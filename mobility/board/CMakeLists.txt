@@ -5,7 +5,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# Find dependencies.
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -21,23 +20,8 @@ target_link_libraries(front i2c)
 add_executable(back src/back_board_controller.cc)
 target_link_libraries(back i2c)
 
-ament_target_dependencies(front 
-  rclcpp 
-  std_msgs 
-  std_srvs
-  front_board_msgs
-  xmlrpcpp 
-  geometry_msgs
-)
-
-ament_target_dependencies(back 
-  rclcpp 
-  std_msgs 
-  std_srvs
-  back_board_msgs
-  xmlrpcpp 
-  geometry_msgs
-)
+ament_target_dependencies(front rclcpp std_msgs std_srvs front_board_msgs xmlrpcpp geometry_msgs)
+ament_target_dependencies(back rclcpp std_msgs std_srvs back_board_msgs xmlrpcpp geometry_msgs)
 
 install(TARGETS
   front 

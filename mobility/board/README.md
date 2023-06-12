@@ -1,6 +1,6 @@
 > Click [here](https://github.com/vertueux/i2c_pwm_board) to view the original project (with more information about the installation).
 
-**ROS2** node for controlling PWM boards based on the PCA9685 chip with an I2C interface. Primary use is for controlling RC Servos and DC motors via PWM. This is based on [ros-i2cpwmboard](https://gitlab.com/bradanlane/ros-i2c_pwmboard) *(OUTDATED)* with updates to make it work on ROS2.
+**ROS2** node for controlling two PWM boards based on the PCA9685 chip with an I2C interface. Primary use is for controlling RC Servos and DC motors via PWM. This is based on [ros-i2cpwmboard](https://gitlab.com/bradanlane/ros-i2c_pwmboard) *(OUTDATED)* with updates to make it work on ROS2.
 
 # Examples
 Theses are two examples on how to publish messages through the command line on both boards.

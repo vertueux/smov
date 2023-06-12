@@ -1,30 +1,28 @@
+#include <rclcpp/rclcpp.hpp>
+
 #include <functional>
 #include <memory>
 #include <termios.h>
 #include <unistd.h>
-
 #include <iostream>
-
-#include <rclcpp/rclcpp.hpp>
 
 #include "front_board_msgs/msg/servo_array.hpp"
 #include "front_board_msgs/msg/servo.hpp"
-
 #include "back_board_msgs/msg/servo_array.hpp"
 #include "back_board_msgs/msg/servo.hpp"
 
 namespace smov {
 
-int getch()
-{
+// Used for reading characters without blocking the terminal.
+// Later in the program, you'll see the use of std::cin, 
+// which is used to separate input systems. 
+int getch() {
   static struct termios oldt, newt;
   tcgetattr( STDIN_FILENO, &oldt);           
   newt = oldt; 
   newt.c_cc[VMIN] = 0; newt.c_cc[VTIME] = 0;
   tcsetattr( STDIN_FILENO, TCSANOW, &newt);  
-
-  int c = getchar();  // Read character (non-blocking).
-
+  int c = getchar();  
   tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  
   return c;
 }
@@ -200,14 +198,11 @@ class ServoControl : public rclcpp::Node {
   rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_publisher;
   rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_publisher;
 
-  static front_board_msgs::msg::ServoArray front_servo_array;
-  static back_board_msgs::msg::ServoArray back_servo_array;
+  front_board_msgs::msg::ServoArray front_servo_array;
+  back_board_msgs::msg::ServoArray back_servo_array;
 };
 
-front_board_msgs::msg::ServoArray ServoControl::front_servo_array;
-back_board_msgs::msg::ServoArray ServoControl::back_servo_array;
-
-}
+} // namespace smov
 
 int main(int argc, char* argv[]) {
   rclcpp::init(argc, argv);
