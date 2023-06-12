@@ -15,10 +15,10 @@ find_package(back_board_msgs REQUIRED)
 find_package(xmlrpcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-add_executable(front src/front_i2c_pwm_controller.cc)
+add_executable(front src/front_board_controller.cc)
 target_link_libraries(front i2c)
 
-add_executable(back src/back_i2c_pwm_controller.cc)
+add_executable(back src/back_board_controller.cc)
 target_link_libraries(back i2c)
 
 ament_target_dependencies(front 
