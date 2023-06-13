@@ -3,12 +3,25 @@
 #include <functional>
 #include <memory>
 #include <unistd.h>
+#include <termios.h>
 #include <iostream>
 
 #include "front_board_msgs/msg/servo_array.hpp"
 #include "front_board_msgs/msg/servo.hpp"
 #include "back_board_msgs/msg/servo_array.hpp"
 #include "back_board_msgs/msg/servo.hpp"
+
+// Later on we use std::cin, as it is not problematic to block the loop.
+int getch() {
+  static struct termios oldt, newt;
+  tcgetattr( STDIN_FILENO, &oldt);           
+  newt = oldt; 
+  newt.c_cc[VMIN] = 0; newt.c_cc[VTIME] = 0;
+  tcsetattr( STDIN_FILENO, TCSANOW, &newt);  
+  int c = getchar();  // Read character (non-blocking).
+  tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  
+  return c;
+}
 
 namespace smov {
 class ServoControl : public rclcpp::Node {
@@ -39,10 +52,10 @@ class ServoControl : public rclcpp::Node {
     back_publisher = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
 
     while (rclcpp::ok()) { 
-      std::cin >> rep;
+      char terminal_reader = getch();
 
       // For now, the program hasn't been optimized yet. We still use the front servo array size for both.
-      switch(rep) {
+      switch(terminal_reader) {
         case '0':
           RCLCPP_INFO(this->get_logger(), "Ending program.");
           exit(0);
