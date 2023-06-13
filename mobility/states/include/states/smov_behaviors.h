@@ -6,8 +6,8 @@ namespace smov {
   
 class Behaviors {
  public:
-  void lock_all_front_servos(FrontServos f_servos);
-  void lock_all_back_servos(BackServos b_servos);
+  static FrontServos lock_all_front_servos();
+  static BackServos lock_all_back_servos();
 };
 
 } // namespace smov

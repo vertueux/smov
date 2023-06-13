@@ -14,7 +14,9 @@ States *States::Instance() {
   return instance;
 }
 
-void States::configure_front_servos(FrontServos f_servos) {
+FrontServos States::configure_front_servos() {
+  FrontServos f_servos;
+
   // Front left configuration.
   f_servos.front_servo0.servo = 1;
   f_servos.front_servo0.value = 0;
@@ -34,9 +36,13 @@ void States::configure_front_servos(FrontServos f_servos) {
 
   f_servos.front_servo15.servo = 16;
   f_servos.front_servo15.value = 0;
+
+  return f_servos;
 }
 
-void States::configure_back_servos(BackServos b_servos) {
+BackServos States::configure_back_servos() {
+  BackServos b_servos;
+
   // Back left configuration.
   b_servos.back_servo0.servo = 1;
   b_servos.back_servo0.value = 0;
@@ -56,6 +62,8 @@ void States::configure_back_servos(BackServos b_servos) {
 
   b_servos.back_servo15.servo = 16;
   b_servos.back_servo15.value = 0;
+  
+  return b_servos;
 }
 
 

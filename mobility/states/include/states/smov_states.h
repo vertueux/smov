@@ -62,8 +62,8 @@ class States {
   front_board_msgs::msg::ServoArray front_array;
   back_board_msgs::msg::ServoArray back_array;
 
-  void configure_front_servos(FrontServos f_servos);
-  void configure_back_servos(BackServos b_servos);
+  static FrontServos configure_front_servos();
+  static BackServos configure_back_servos();
 
   // We push all the front servos into the array to be published.
   void push_all_front_servos_in_array(FrontServos f_servos);

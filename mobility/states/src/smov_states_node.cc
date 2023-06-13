@@ -1,5 +1,5 @@
 #include <states/smov_states.h>
-#include "smov_behaviors.h"
+#include <states/smov_behaviors.h>
 
 using namespace std::chrono_literals;
 
@@ -9,24 +9,22 @@ class StatesNode : public rclcpp::Node {
   public:
     StatesNode()
     : Node("smov_states") {   
-      // Creating the behaviors manager.
-      Behaviors behaviors;
-
       // Back & front servos.
       FrontServos front_servos;
       BackServos back_servos;
       
-      // Setting up the servos.
-      node->configure_front_servos(front_servos);
-      node->configure_back_servos(back_servos);
+      // By default, setting up the servos.
+      front_servos = States::configure_front_servos();
+      back_servos = States::configure_back_servos();
+
+      // Basic configuration on start.
+      front_servos = Behaviors::lock_all_front_servos();
+      back_servos = Behaviors::lock_all_back_servos();
 
       // Pushing the servos to the array;
       node->push_all_front_servos_in_array(front_servos);
       node->push_all_back_servos_in_array(back_servos);
 
-      // Basic configuration on start.
-      behaviors.lock_all_front_servos(front_servos);
-      behaviors.lock_all_back_servos(back_servos);
 
       RCLCPP_INFO(this->get_logger(), "Locked the servos on port 1,2,13,14 on both boards.");
 

@@ -11,19 +11,34 @@ find_package(back_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(basic include/states/smov_states.h src/smov_states.cc src/smov_states_node.cc src/smov_behaviors.h src/smov_behaviors.cc)
+include_directories(include)
 
-ament_target_dependencies(basic rclcpp std_msgs front_board_msgs back_board_msgs)
-
-target_include_directories(basic
- PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
+set (dependencies 
+  rclcpp 
+  std_msgs 
+  front_board_msgs 
+  back_board_msgs
 )
 
-install(TARGETS
-  basic
-  DESTINATION lib/${PROJECT_NAME}
+add_library(states_lib SHARED src/smov_states.cc src/smov_behaviors.cc)
+ament_target_dependencies(states_lib ${dependencies})
+
+add_executable(basic src/smov_states_node.cc)
+target_link_libraries(basic states_lib)
+ament_target_dependencies(basic ${dependencies})
+
+install(TARGETS basic states_lib
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
+
+install(DIRECTORY include/
+  DESTINATION include/
+)
+
+ament_export_include_directories(include)
+ament_export_libraries(states_lib)
+ament_export_dependencies(${dependencies})
 
 ament_package()
