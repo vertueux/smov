@@ -19,10 +19,10 @@ ros2 topic pub -1 /servos_proportional front_board_msgs/msg/ServoArray "{servos:
 ## On the back board
 ```bash
 # Configuring right servos on the back board.
-ros2 service call /config_servos back_board_msgs/srv/ServosConfig "servos: [{servo: 16, center: 333, range: 100, direction: 1},{servo: 15, center: 333, range: 100, direction: 1},{servo: 14, center: 333, range: 100, direction: 1}]"
+ros2 service call /config_servos back_board_msgs/srv/ServosConfig "servos: [{servo: 16, center: 333, range: 100, direction: -1},{servo: 15, center: 333, range: 100, direction: -1},{servo: 14, center: 333, range: 100, direction: -1}]"
 
 # Configuring left servos on the back board.
-ros2 service call /config_servos back_board_msgs/srv/ServosConfig "servos: [{servo: 1, center: 333, range: 100, direction: -1},{servo: 2, center: 333, range: 100, direction: -1},{servo: 3, center: 333, range: 100, direction: -1}]"
+ros2 service call /config_servos back_board_msgs/srv/ServosConfig "servos: [{servo: 1, center: 333, range: 100, direction: 1},{servo: 2, center: 333, range: 100, direction: 1},{servo: 3, center: 333, range: 100, direction: 1}]"
 
 # Drive two servos forward at 40% of maximum speed on the back board.
 ros2 topic pub -1 /servos_proportional back_board_msgs/msg/ServoArray "{servos:[{servo: 1, value: 0.40}, {servo: 2, value: 0.40}]}"
