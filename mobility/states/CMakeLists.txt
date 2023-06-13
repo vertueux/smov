@@ -11,11 +11,15 @@ find_package(back_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(wake_up src/smov_wake_up.cc)
-add_executable(go_sleep src/smov_go_down.cc)
-add_executable(lock src/smov_lock.cc)
+add_executable(basic include/states/smov_states.h src/smov_states.cc src/smov_states_node.cc src/smov_behaviors.h src/smov_behaviors.cc)
 
 ament_target_dependencies(basic rclcpp std_msgs front_board_msgs back_board_msgs)
+
+target_include_directories(basic
+ PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 install(TARGETS
   basic

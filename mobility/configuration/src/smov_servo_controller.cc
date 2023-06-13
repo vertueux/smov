@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <memory>
-#include <termios.h>
 #include <unistd.h>
 #include <iostream>
 
@@ -12,21 +11,6 @@
 #include "back_board_msgs/msg/servo.hpp"
 
 namespace smov {
-
-// Used for reading characters without blocking the terminal.
-// Later in the program, you'll see the use of std::cin, 
-// which is used to separate input systems. 
-int getch() {
-  static struct termios oldt, newt;
-  tcgetattr( STDIN_FILENO, &oldt);           
-  newt = oldt; 
-  newt.c_cc[VMIN] = 0; newt.c_cc[VTIME] = 0;
-  tcsetattr( STDIN_FILENO, TCSANOW, &newt);  
-  int c = getchar();  
-  tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  
-  return c;
-}
-
 class ServoControl : public rclcpp::Node {
  public:
   ServoControl() 
@@ -55,10 +39,10 @@ class ServoControl : public rclcpp::Node {
     back_publisher = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
 
     while (rclcpp::ok()) { 
-      char terminal_reader = getch();
+      std::cin >> rep;
 
       // For now, the program hasn't been optimized yet. We still use the front servo array size for both.
-      switch(terminal_reader) {
+      switch(rep) {
         case '0':
           RCLCPP_INFO(this->get_logger(), "Ending program.");
           exit(0);
