@@ -19,17 +19,17 @@ namespace smov {
 struct {
   // Values for the front board.
   int front_absolute_servo0_value  = 100;
-  int front_absolute_servo15_value = 548;
-  int front_absolute_servo1_value  = 270;
-  int front_absolute_servo14_value = 320;
+  int front_absolute_servo15_value = 540;
+  int front_absolute_servo1_value  = 420;
+  int front_absolute_servo14_value = 200;
   int front_absolute_servo2_value  = 287;
   int front_absolute_servo13_value = 355;
 
   // Values for the back board.
-  int back_absolute_servo0_value  = 548;
+  int back_absolute_servo0_value  = 520;
   int back_absolute_servo15_value = 100;
-  int back_absolute_servo1_value  = 320;
-  int back_absolute_servo14_value = 270;
+  int back_absolute_servo1_value  = 75;
+  int back_absolute_servo14_value = 420;
   int back_absolute_servo2_value  = 210;
   int back_absolute_servo13_value = 355;
 } lockAbsoluteConfiguration;
