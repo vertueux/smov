@@ -22,7 +22,7 @@ class ServoControl : public rclcpp::Node {
         case '8': Configuration::reset_to_maximum_value(); break;
         case '9': Configuration::reset_to_minimum_value(); break;
         case 'A': Configuration::set_new_center_value();   break;
-        case 'B': Configuration::set_new_minimum_value();      break;
+        case 'B': Configuration::set_new_minimum_value();  break;
         case 'C': Configuration::set_new_maximum_value();  break;
 
         default: RCLCPP_ERROR(this->get_logger(), "Please choose a valid character."); break;
