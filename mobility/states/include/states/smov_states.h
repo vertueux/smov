@@ -16,20 +16,25 @@ namespace smov {
 
 // [front,back]_absolute_servo[PORT]_value. 
 // Servo number = [PORT] + 1.
+
+// IMPORTANT NOTE: The values will differ for each servo. For me personally, 
+// when I looked up the values, these were the most suitable, HOWEVER, THIS 
+// WILL DEFINITELY NOT BE THE CASE FOR YOU. It's important to find new initial 
+// absolute values, so that you can build on them as you move forward.
 struct {
   // Values for the front board.
   int front_absolute_servo0_value  = 100;
   int front_absolute_servo15_value = 540;
-  int front_absolute_servo1_value  = 420;
-  int front_absolute_servo14_value = 200;
+  int front_absolute_servo1_value  = 0; // Relative.
+  int front_absolute_servo14_value = 0; // Relative.
   int front_absolute_servo2_value  = 287;
   int front_absolute_servo13_value = 355;
 
   // Values for the back board.
-  int back_absolute_servo0_value  = 520;
+  int back_absolute_servo0_value  = 530;
   int back_absolute_servo15_value = 100;
-  int back_absolute_servo1_value  = 75;
-  int back_absolute_servo14_value = 420;
+  int back_absolute_servo1_value  = 0; // Relative.
+  int back_absolute_servo14_value = 0; // Relative.
   int back_absolute_servo2_value  = 210;
   int back_absolute_servo13_value = 355;
 } lockAbsoluteConfiguration;
@@ -70,6 +75,9 @@ class States {
 
   // We push all the back servos into the array to be published.
   void push_all_back_servos_in_array(BackServos b_servos);
+
+  // In case of any problem.
+  void call_for_help();
  private:
   States& operator= (const States&) = delete;
   States (const States&) = delete;

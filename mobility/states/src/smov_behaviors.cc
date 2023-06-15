@@ -26,4 +26,9 @@ BackServos Behaviors::lock_all_back_servos() {
   return b_servos;
 }
 
+void Behaviors::wake_up() {
+  // Wake up.
+  return;
+}
+
 }

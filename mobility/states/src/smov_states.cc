@@ -1,6 +1,8 @@
 #include <rclcpp/rclcpp.hpp>
 #include <states/smov_states.h>
+#include <states/smov_behaviors.h>
  
+#include <iostream>
 namespace smov {
 
 States *States::instance = nullptr;
@@ -85,6 +87,25 @@ void States::push_all_back_servos_in_array(BackServos b_servos) {
   node->back_array.servos.push_back(b_servos.back_servo13);
   node->back_array.servos.push_back(b_servos.back_servo14);
   node->back_array.servos.push_back(b_servos.back_servo15);
+}
+
+void States::call_for_help() {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Is the configuration correct? [yes/no]");
+  std::string rep;
+  std::cin >> rep;
+
+  // Not using rep == "no" to prevent the program from being blocked.
+  if (rep == "yes") {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Great. Would you like to start the wake-up process? [yes/no]");
+    std::cin >> rep;
+    if (rep == "yes") 
+      Behaviors::wake_up();
+    else
+      rclcpp::shutdown();
+  } else {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Okay, shutting down the program. You can change the values in the C++ program -> smov_states.h.");
+    rclcpp::shutdown();
+  } 
 }
 
 } // namespace smov

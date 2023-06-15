@@ -24,8 +24,6 @@ class ServoControl : public rclcpp::Node {
         case 'A': Configuration::set_new_center_value();   break;
         case 'B': Configuration::set_new_minimum_value();  break;
         case 'C': Configuration::set_new_maximum_value();  break;
-
-        default: RCLCPP_ERROR(this->get_logger(), "Please choose a valid character."); break;
       }
 
       if (Configuration::active_board == 1)

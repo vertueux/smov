@@ -1,13 +1,15 @@
 #include <states/smov_states.h>
 #include <states/smov_behaviors.h>
 
+#include <ctime>
+
 using namespace std::chrono_literals;
 
 namespace smov {
 
 class StatesNode : public rclcpp::Node {
-  public:
-    StatesNode()
+ public:
+  StatesNode()
     : Node("smov_states") {   
       // Back & front servos.
       FrontServos front_servos;
@@ -29,20 +31,31 @@ class StatesNode : public rclcpp::Node {
       RCLCPP_INFO(this->get_logger(), "Locked the servos on port 1,2,13,14 on both boards.");
 
       // Setting up the publishers.
-      node->front_publisher = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 10);
-      node->back_publisher = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 10);
+      node->front_publisher = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
+      node->back_publisher = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+
       node->timer = this->create_wall_timer(500ms, std::bind(&StatesNode::call, this));
     }
 
-  private:
-    void call() {
-      // Publishing all necessary data to servos.
-      node->front_publisher->publish(node->front_array);
-      node->back_publisher->publish(node->back_array);
-    }
+ private:
+  void call() {
+    // Publishing all necessary data to servos.
+    node->front_publisher->publish(node->front_array);
+    node->back_publisher->publish(node->back_array);
 
-    // Creating the base node with all the necessary data & publishers.
-    States* node = States::Instance();
+    // We wait for 5 seconds then we ask the user if everything is okay.
+    if (time(0) - counter > timeout && !asked) {
+      node->call_for_help();
+      asked = true;
+    }
+  }
+
+  // Creating the base node with all the necessary data & publishers.
+  States* node = States::Instance();
+
+  time_t counter = time(0);
+  time_t timeout = 5;
+  bool asked = false;
 };      
 
 } // namespace smov

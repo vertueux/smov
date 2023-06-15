@@ -27,7 +27,7 @@ int Configuration::get_char() {
 
 void Configuration::exit_program() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Ending program.");
-  exit(0);
+  rclcpp::shutdown();
 }
 
 void Configuration::switch_board() {
