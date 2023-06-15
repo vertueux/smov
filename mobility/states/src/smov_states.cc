@@ -94,16 +94,10 @@ void States::call_for_help() {
   std::string rep;
   std::cin >> rep;
 
-  // Not using rep == "no" to prevent the program from being blocked.
-  if (rep == "yes") {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Great. Would you like to start the wake-up process? [yes/no]");
-    std::cin >> rep;
-    if (rep == "yes") 
-      Behaviors::wake_up();
-    else
-      rclcpp::shutdown();
-  } else {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Okay, shutting down the program. You can change the values in the C++ program -> smov_states.h.");
+  if (rep == "yes") 
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Alright, time for the next phase...");
+  else { // Not using rep == "no" to prevent the program from being blocked.
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Okay, shutting down the program.");
     rclcpp::shutdown();
   } 
 }
