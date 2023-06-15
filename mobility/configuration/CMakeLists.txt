@@ -11,13 +11,19 @@ find_package(back_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(servos src/smov_servo_controller.cc)
+include_directories(include)
+
+add_executable(servos src/smov_configuration_node.cc src/smov_configuration.cc)
 
 ament_target_dependencies(servos rclcpp std_msgs front_board_msgs back_board_msgs)
 
 install(TARGETS
   servos 
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
+  DESTINATION include/
 )
 
 ament_package()
