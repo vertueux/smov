@@ -39,7 +39,7 @@ void Configuration::switch_board() {
 
 void Configuration::reset_servos_to_center() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to center value.");
-  for (size_t i = 0; i < front_servo_array.servos.size() + 1; i++) {
+  for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servo_array.servos[i].value = Configuration::center;
     back_servo_array.servos[i].value = Configuration::center;
   }
@@ -48,7 +48,7 @@ void Configuration::reset_servos_to_center() {
 
 void Configuration::reset_servos_to_zero() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to 0.");
-  for (size_t i = 0; i < front_servo_array.servos.size() + 1; i++) {
+  for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servo_array.servos[i].value = 0;
     back_servo_array.servos[i].value = 0;
   }
@@ -97,7 +97,7 @@ void Configuration::decrease_servo_by_ten() {
 
 void Configuration::reset_to_maximum_value() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to maximum value.");
-  for (size_t i = 0; i < front_servo_array.servos.size() + 1; i++) {
+  for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servo_array.servos[i].value = Configuration::maximum;
     back_servo_array.servos[i].value = Configuration::maximum;
   }
@@ -106,7 +106,7 @@ void Configuration::reset_to_maximum_value() {
 
 void Configuration::reset_to_minimum_value() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to minimum value.");
-  for (size_t i = 0; i < front_servo_array.servos.size() + 1; i++) {
+  for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servo_array.servos[i].value = Configuration::minimum;
     back_servo_array.servos[i].value = Configuration::minimum;
   }

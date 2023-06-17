@@ -1,5 +1,7 @@
 #pragma once
 
+#define SERVO_MAX_SIZE 6
+
 #include <rclcpp/rclcpp.hpp>
 
 #include <chrono>
@@ -14,48 +16,11 @@
 
 namespace smov {
 
-// [front,back]_absolute_servo[PORT]_value. 
-// Servo number = [PORT] + 1.
+template <typename T>
+struct ServoArray : std::array<T, SERVO_MAX_SIZE> {};
 
-// IMPORTANT NOTE: The values will differ for each servo. For me personally, 
-// when I looked up the values, these were the most suitable, HOWEVER, THIS 
-// WILL DEFINITELY NOT BE THE CASE FOR YOU. It's important to find new initial 
-// absolute values, so that you can build on them as you move forward.
-struct {
-  // Values for the front board.
-  int front_absolute_servo0_value  = 100;
-  int front_absolute_servo15_value = 540;
-  int front_absolute_servo1_value  = 0; // Relative.
-  int front_absolute_servo14_value = 0; // Relative.
-  int front_absolute_servo2_value  = 287;
-  int front_absolute_servo13_value = 355;
-
-  // Values for the back board.
-  int back_absolute_servo0_value  = 530;
-  int back_absolute_servo15_value = 100;
-  int back_absolute_servo1_value  = 0; // Relative.
-  int back_absolute_servo14_value = 0; // Relative.
-  int back_absolute_servo2_value  = 210;
-  int back_absolute_servo13_value = 355;
-} lockAbsoluteConfiguration;
-
-struct FrontServos {
-  front_board_msgs::msg::Servo front_servo0;
-  front_board_msgs::msg::Servo front_servo1;
-  front_board_msgs::msg::Servo front_servo2;
-  front_board_msgs::msg::Servo front_servo13;
-  front_board_msgs::msg::Servo front_servo14;
-  front_board_msgs::msg::Servo front_servo15;
-};
-
-struct BackServos {
-  back_board_msgs::msg::Servo back_servo0;
-  back_board_msgs::msg::Servo back_servo1;
-  back_board_msgs::msg::Servo back_servo2;
-  back_board_msgs::msg::Servo back_servo13;
-  back_board_msgs::msg::Servo back_servo14;
-  back_board_msgs::msg::Servo back_servo15;
-};
+struct FrontServoArray : std::array<front_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
+struct BackServoArray : std::array<back_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 
 class States {
  public: 
@@ -67,17 +32,16 @@ class States {
   front_board_msgs::msg::ServoArray front_array;
   back_board_msgs::msg::ServoArray back_array;
 
-  static FrontServos configure_front_servos();
-  static BackServos configure_back_servos();
+  // Setting up the servos to their corresponding port.
+  void set_up_servos(FrontServoArray f_servos, BackServoArray b_servos);
 
   // We push all the front servos into the array to be published.
-  void push_all_front_servos_in_array(FrontServos f_servos);
+  void push_all_servos_in_array(FrontServoArray f_servos, BackServoArray b_servos);
 
-  // We push all the back servos into the array to be published.
-  void push_all_back_servos_in_array(BackServos b_servos);
+  static FrontServoArray front_servos;
+  static BackServoArray back_servos;
+  ServoArray<int> servo_numbers{{1, 2, 3, 14, 15, 16}};
 
-  // In case of any problem.
-  void call_for_help();
  private:
   States& operator= (const States&) = delete;
   States (const States&) = delete;

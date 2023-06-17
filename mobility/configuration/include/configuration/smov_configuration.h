@@ -1,5 +1,7 @@
 #pragma once
 
+#define SERVO_MAX_SIZE 16
+
 #include <rclcpp/rclcpp.hpp>
 
 #include <functional>
