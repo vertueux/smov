@@ -11,7 +11,6 @@ int Configuration::center = 333;
 int Configuration::minimum = 83; 
 int Configuration::maximum = 520;
 
-
 // Later on we use std::cin, as it is not problematic to block the loop.
 int Configuration::get_char() {
   static struct termios oldt, newt;
@@ -33,111 +32,42 @@ void Configuration::exit_program() {
 void Configuration::switch_board() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose between the two boards (1: Front board, 2: Back board).");
   std::cin >> Configuration::rep;
-  active_board = Configuration::rep;
+  active_board = (int)Configuration::rep;
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-void Configuration::reset_servos_to_center() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to center value.");
+void Configuration::reset_servos_to(int value, const char* message) {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
   for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_servo_array.servos[i].value = Configuration::center;
-    back_servo_array.servos[i].value = Configuration::center;
+    front_servo_array.servos[i].value = value;
+    back_servo_array.servos[i].value = value;
   }
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-void Configuration::reset_servos_to_zero() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to 0.");
-  for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_servo_array.servos[i].value = 0;
-    back_servo_array.servos[i].value = 0;
+// Increasing: increase_or_decrease = true.
+// Decreasing: increase_or_decrease = false.
+void Configuration::increase_or_decrease_by(int value, bool increase_or_decrease, const char* message) {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message); 
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
+
+  std::cin >> Configuration::rep;
+  if (increase_or_decrease) {
+    front_servo_array.servos[Configuration::rep - 1].value += value;
+    back_servo_array.servos[Configuration::rep - 1].value += value;
+  } else {
+    front_servo_array.servos[Configuration::rep - 1].value -= value;
+    back_servo_array.servos[Configuration::rep - 1].value -= value;
   }
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-void Configuration::increase_servo_by_one() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Manually increasing a servo by 1.");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
-
-  std::cin >> Configuration::rep;
-  front_servo_array.servos[Configuration::rep - 1].value += 1;
-  back_servo_array.servos[Configuration::rep - 1].value += 1;
+int Configuration::set_new_value(const char* message) {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::decrease_servo_by_one() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Manually decreasing a servo by 1.");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
-
-  std::cin >> Configuration::rep;
-  front_servo_array.servos[Configuration::rep - 1].value -= 1;
-  back_servo_array.servos[Configuration::rep - 1].value -= 1;
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::increase_servo_by_ten() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Manually increasing a servo by 10.");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
-
-  std::cin >> Configuration::rep;
-  front_servo_array.servos[Configuration::rep - 1].value += 10;
-  back_servo_array.servos[Configuration::rep - 1].value += 10;
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::decrease_servo_by_ten() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Manually decreasing a servo by 10.");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
-
-  std::cin >> Configuration::rep;
-  front_servo_array.servos[Configuration::rep - 1].value -= 10;
-  back_servo_array.servos[Configuration::rep - 1].value -= 10;
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::reset_to_maximum_value() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to maximum value.");
-  for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_servo_array.servos[i].value = Configuration::maximum;
-    back_servo_array.servos[i].value = Configuration::maximum;
-  }
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::reset_to_minimum_value() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Reset all servos to minimum value.");
-  for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_servo_array.servos[i].value = Configuration::minimum;
-    back_servo_array.servos[i].value = Configuration::minimum;
-  }
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::set_new_center_value() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Setting new center value.");
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose a new value : ");
 
   std::cin >> Configuration::rep;
-  center = (int)Configuration::rep;
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::set_new_minimum_value() { 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Setting new minimum value.");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose a new value : ");
-
-  std::cin >> Configuration::rep;
-  minimum = (int)Configuration::rep;
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-}
-
-void Configuration::set_new_maximum_value() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Setting new maximum value.");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose a new value : ");
-  
-  std::cin >> Configuration::rep;
-  maximum = (int)Configuration::rep;
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
+  return (int)Configuration::rep;
 }
 
 } // namespace smov

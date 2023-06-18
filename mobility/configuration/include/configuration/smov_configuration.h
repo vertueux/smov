@@ -23,17 +23,9 @@ class Configuration {
   static int get_char();
   static void exit_program();
   static void switch_board();
-  static void reset_servos_to_center();
-  static void reset_servos_to_zero();
-  static void increase_servo_by_one();
-  static void decrease_servo_by_one();
-  static void increase_servo_by_ten();
-  static void decrease_servo_by_ten();
-  static void reset_to_maximum_value();
-  static void reset_to_minimum_value();
-  static void set_new_center_value();
-  static void set_new_minimum_value();
-  static void set_new_maximum_value();
+  static void increase_or_decrease_by(int value, bool increase_or_decrease, const char* message);
+  static void reset_servos_to(int value, const char* message);
+  static int set_new_value(const char* message);
 
   static constexpr const char* message = "\n"
   "\nEnter one of the following options:\n"
@@ -41,13 +33,13 @@ class Configuration {
   "0: Quit.\n"
   "1: Switch board (1 or 2).\n"
   "2: Reset all servos to center.\n"
-  "3: Reset all servos to 0.\n"
-  "4: Increase a servo by 1.\n"
-  "5: Decrease a servo by 1.\n"
-  "6: Increase a servo by 10.\n"
-  "7: Decrease a servo by 10.\n"
-  "8: Set all servos to maximum value.\n"
-  "9: Set all servos to minimum value.\n"
+  "3: Set all servos to maximum value.\n"
+  "4: Set all servos to minimum value.\n"
+  "5: Reset all servos to 0.\n"
+  "6: Increase a servo by 2.\n"
+  "7: Decrease a servo by 2.\n"
+  "8: Increase a servo by 10.\n"
+  "9: Decrease a servo by 10.\n"
   "A: Set new center value.\n"
   "B: Set new minimum value.\n"
   "C: Set new maximum value.\n";
