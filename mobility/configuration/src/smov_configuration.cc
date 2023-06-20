@@ -36,8 +36,8 @@ void Configuration::switch_board() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-void Configuration::reset_servos_to(int value, const char* message) {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
+void Configuration::reset_servos_to(int value, const char* msg) {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg);
   for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servo_array.servos[i].value = value;
     back_servo_array.servos[i].value = value;
@@ -47,8 +47,8 @@ void Configuration::reset_servos_to(int value, const char* message) {
 
 // Increasing: increase_or_decrease = true.
 // Decreasing: increase_or_decrease = false.
-void Configuration::increase_or_decrease_by(int value, bool increase_or_decrease, const char* message) {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message); 
+void Configuration::increase_or_decrease_by(int value, bool increase_or_decrease, const char* msg) {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg); 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
 
   std::cin >> Configuration::rep;
@@ -59,10 +59,11 @@ void Configuration::increase_or_decrease_by(int value, bool increase_or_decrease
     front_servo_array.servos[Configuration::rep - 1].value -= value;
     back_servo_array.servos[Configuration::rep - 1].value -= value;
   }
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-int Configuration::set_new_value(const char* message) {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
+int Configuration::set_new_value(const char* msg) {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg);
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose a new value : ");
 
   std::cin >> Configuration::rep;

@@ -1,6 +1,6 @@
 # The (Dual) Board package
-> Click [here](https://github.com/vertueux/i2c_pwm_board) to view the original project (with more information about the installation).
 
+> Click [here](https://github.com/vertueux/i2c_pwm_board) to view the original project (with more information about the installation).
 
 This is a **ROS2** node for controlling two PWM boards based on the PCA9685 chip with an I2C interface. Primary use is for controlling RC Servos and DC motors via PWM. This is based on [ros-i2cpwmboard](https://gitlab.com/bradanlane/ros-i2c_pwmboard) *(OUTDATED)* with updates to make it work on ROS2.
 
@@ -18,11 +18,12 @@ Once you've found the address, you can navigate to one of the two C++ files for 
 
 You need to have ROS2 installed and theses packages provided by the default desktop installation below : 
 
-* **rclcpp, std_msgs, std_srvs, geometry_msgs**
-* **rosidl_default_generators, rosidl_default_runtime**
-* Have ```python3-colcon-common-extensions``` installed
-* Have ```libi2c-dev``` and ```i2c-tools``` installed
-* Have the [xmlrpcpp](https://github.com/bpwilcox/xmlrpcpp) package
+* **rclcpp, std_msgs, std_srvs, geometry_msgs**.
+* **rosidl_default_generators, rosidl_default_runtime**.
+* Have `python3-colcon-common-extensions` installed.
+* Have `libi2c-dev` and `i2c-tools` installed.
+* Have the `front_board_msgs` as well as the `back_board_msgs` package (in the `communications/` directory).
+* Have the [xmlrpcpp](https://github.com/bpwilcox/xmlrpcpp) package (in the `hardware/` directory).
 
 ## To run it
 To launch the project and the executables after compilation, you'll need to enter the two commands on two separate terminals (for the moment, there's no `.launch` file). 

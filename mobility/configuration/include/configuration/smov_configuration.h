@@ -23,9 +23,9 @@ class Configuration {
   static int get_char();
   static void exit_program();
   static void switch_board();
-  static void increase_or_decrease_by(int value, bool increase_or_decrease, const char* message);
-  static void reset_servos_to(int value, const char* message);
-  static int set_new_value(const char* message);
+  static void increase_or_decrease_by(int value, bool increase_or_decrease, const char* msg);
+  static void reset_servos_to(int value, const char* msg);
+  static int set_new_value(const char* msg);
 
   static constexpr const char* message = "\n"
   "\nEnter one of the following options:\n"
