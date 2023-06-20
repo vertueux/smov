@@ -9,6 +9,8 @@ namespace smov {
 States *States::instance = nullptr;
 FrontServoArray States::front_servos;
 BackServoArray States::back_servos;
+std::vector<std::vector<double>> States::front_servos_data;
+std::vector<std::vector<double>> States::back_servos_data;
 
 States::States() {}
 States::~States() {}
@@ -21,8 +23,8 @@ States *States::Instance() {
 
 void States::set_up_servos(FrontServoArray f_servos, BackServoArray b_servos) {
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    f_servos[i].servo = servo_numbers[i];
-    b_servos[i].servo = servo_numbers[i];
+    f_servos[i].servo = front_servos_data[i][0]; // Port is at position 0.
+    b_servos[i].servo = back_servos_data[i][0];
   }
 }
 
