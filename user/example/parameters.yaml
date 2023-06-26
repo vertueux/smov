@@ -1,15 +1,15 @@
 smov_states: 
   # AVCG: Avant Corps Gauche (french).
   # Port, Center, Range, Direction, Minimum absolute value, Max absolute value.
-  AVCG: [2, 333,,,,]
-  AVCD: [13, 333,,,,]
+  AVCG: [0, 333,,,,]
+  AVCD: [15, 333,,,,]
   AVMG: [1, 333,,,,]
   AVMD: [14, 333,,,,]
-  AVJG: [0, 333,,,,]
-  AVJD: [15, 333,,,,]
+  AVJG: [2, 333,,,,]
+  AVJD: [13, 333,,,,]
   ARMG: [14, 333,,,,]
   ARMD: [1, 333,,,,]
-  ARCG: [13, 333,,,,]
-  ARCD: [2, 333,,,,] 
-  ARJG: [15, 333,,,,]
-  ARJD: [0, 333,,,,]
+  ARCG: [15, 333,,,,]
+  ARCD: [0, 333,,,,] 
+  ARJG: [13, 333,,,,]
+  ARJD: [2, 333,,,,]

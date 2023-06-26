@@ -23,8 +23,8 @@ States *States::Instance() {
 
 void States::set_up_servos(FrontServoArray f_servos, BackServoArray b_servos) {
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    f_servos[i].servo = front_servos_data[i][0]; // Port is at position 0.
-    b_servos[i].servo = back_servos_data[i][0];
+    f_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
+    b_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
   }
 }
 
