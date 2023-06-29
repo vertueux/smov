@@ -16,9 +16,6 @@
 
 namespace smov {
 
-template <typename T>
-struct ServoArray : std::vector<T> {};
-
 struct FrontServoArray : std::array<front_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 struct BackServoArray : std::array<back_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 
@@ -40,8 +37,8 @@ class States {
 
   static FrontServoArray front_servos;
   static BackServoArray back_servos;
-  static std::vector<std::vector<double>> front_servos_data;
-  static std::vector<std::vector<double>> back_servos_data;
+  static std::vector<std::vector<long int>> front_servos_data;
+  static std::vector<std::vector<long int>> back_servos_data;
 
  private:
   States& operator= (const States&) = delete;

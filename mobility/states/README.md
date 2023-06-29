@@ -13,9 +13,9 @@ First of all, the program will set all servos to their center value. If all serv
 ## To run it 
 In order to run the package with your parameters in your `user/YOUR_NAME` directory, you just need to type : 
 ```bash
-ros2 run states basic --ros-args --params-file ~/user/YOUR_NAME/parameters.yaml
+ros2 run states basic --ros-args --params-file /user/YOUR_NAME/parameters.yaml
 ```
 In example, me with my configurations I'll have to type : 
 ```bash
-ros2 run states basic --ros-args --params-file ~/user/example/parameters.yaml
+ros2 run states basic --ros-args --params-file /user/example/parameters.yaml
 ```

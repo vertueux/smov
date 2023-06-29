@@ -9,8 +9,8 @@ namespace smov {
 States *States::instance = nullptr;
 FrontServoArray States::front_servos;
 BackServoArray States::back_servos;
-std::vector<std::vector<double>> States::front_servos_data;
-std::vector<std::vector<double>> States::back_servos_data;
+std::vector<std::vector<long int>> States::front_servos_data;
+std::vector<std::vector<long int>> States::back_servos_data;
 
 States::States() {}
 States::~States() {}

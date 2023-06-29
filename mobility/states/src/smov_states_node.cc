@@ -11,19 +11,23 @@ class StatesNode : public rclcpp::Node {
  public:
   StatesNode()
     : Node("smov_states") {   
-      std::vector<double> default_value;
+      std::vector<long int> default_value(7, 0);
       // Declaring all default parameters first.
       for (size_t j = 0; j < servo_name.size(); j++) 
         this->declare_parameter(servo_name[j], default_value);
 
-      for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
-        States::front_servos_data[i] = this->get_parameter(servo_name[i]).as_double_array();
-        States::back_servos_data[i] = this->get_parameter(servo_name[i + SERVO_MAX_SIZE]).as_double_array();
+      // We initialize the arrays with their default values.
+      for (int i = 0; i < SERVO_MAX_SIZE; i++) { // 7 is the number of data in a single array (in ~/parameters.yaml).
+        States::front_servos_data.push_back(this->get_parameter(servo_name[i]).as_integer_array());
+        States::back_servos_data.push_back(this->get_parameter(servo_name[i + SERVO_MAX_SIZE]).as_integer_array());
       }
 
       // Locking the servos on start.
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Attempt to lock the servos at their initial value.");
-      Behaviors::lock_servos(node->front_servos, node->back_servos);
+
+      // Default configuration.
+      node->set_up_servos(node->front_servos, node->back_servos);
+      Behaviors::set_servos_to_center(node->front_servos, node->back_servos);
 
       // Pushing the initial servos to the array;
       node->push_all_servos_in_array(node->front_servos, node->back_servos);
@@ -40,6 +44,12 @@ class StatesNode : public rclcpp::Node {
     // Publishing all necessary data to servos.
     node->front_publisher->publish(node->front_array);
     node->back_publisher->publish(node->back_array);
+
+    // For now, we are basically nesting loops, cool right...
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) { 
+      States::front_servos_data[i] = this->get_parameter(servo_name[i]).as_integer_array();
+      States::back_servos_data[i] = this->get_parameter(servo_name[i + SERVO_MAX_SIZE]).as_integer_array();
+    }
   }
 
   // Creating the base node with all the necessary data & publishers.
