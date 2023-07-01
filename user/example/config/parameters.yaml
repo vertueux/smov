@@ -1,0 +1,16 @@
+smov_states:  
+  ros__parameters:
+    #     Port, Center, Range,   Direction, Center angle, Minimum absolute value (Optional), Max absolute value (Optional)
+    AVCG: [0,   315,    300,     1,         90,           1,                                 1]
+    AVCD: [15,  315,    300,     1,         90,           1,                                 1]
+    AVMG: [1,   315,    300,     1,         1,            1,                                 1]
+    AVMD: [14,  315,    300,     1,         1,            1,                                 1]
+    AVJG: [2,   315,    300,     1,         1,            1,                                 1]
+    AVJD: [13,  315,    300,     1,         1,            1,                                 1]
+    ARMG: [14,  315,    300,     1,         1,            1,                                 1]
+    ARMD: [1,   330,    300,     1,         1,            1,                                 1]
+    ARCG: [15,  315,    300,     1,         90,           1,                                 1]
+    ARCD: [0,   315,    300,     1,         90,           1,                                 1] 
+    ARJG: [13,  315,    300,     1,         1,            1,                                 1]
+    ARJD: [2,   315 ,   300,     1,         1,            1,                                 1]
+     

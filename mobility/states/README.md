@@ -17,5 +17,5 @@ ros2 run states basic --ros-args --params-file /user/YOUR_NAME/parameters.yaml
 ```
 In example, me with my configurations I'll have to type : 
 ```bash
-ros2 run states basic --ros-args --params-file /user/example/parameters.yaml
+ros2 run states basic --ros-args --params-file /user/example/config/parameters.yaml
 ```
