@@ -12,4 +12,4 @@ Test Plan: **Add your test plan here**
 ### Required before submitting a Pull Request:
 - [ ] I reviewed [CONTRIBUTING.md](https://github.com/vertueux/smov/blob/master/CONTRIBUTING.md)
 - [ ] I tested my changes with a device
-- [ ] I am using Windows
+- [ ] I am using Ubuntu (without Docker)

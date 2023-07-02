@@ -27,9 +27,9 @@ class ServoControl : public rclcpp::Node {
       }
 
       if (Configuration::active_board == 1)
-        front_publisher->publish(Configuration::front_servo_array);
+        front_abs_pub->publish(Configuration::front_servo_array);
       else  
-        back_publisher->publish(Configuration::back_servo_array);
+        back_abs_pub->publish(Configuration::back_servo_array);
     }
   }
 
@@ -51,15 +51,15 @@ class ServoControl : public rclcpp::Node {
       Configuration::back_servo_array.servos.push_back(back_temp_servo);
     }
 
-    front_publisher = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
-    back_publisher = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+    front_abs_pub = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
+    back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
   }
 
  private:
   int number_of_servos = 16;
 
-  rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_publisher;
-  rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_publisher;
+  rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
+  rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
 };
 
 } // namespace smov
