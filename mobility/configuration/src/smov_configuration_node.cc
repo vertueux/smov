@@ -6,7 +6,7 @@ class ServoControl : public rclcpp::Node {
   ServoControl() 
    : Node("servo_control") {
     RCLCPP_INFO(this->get_logger(), Configuration::message);
-    set_up_servos();
+    set_up_abs_servos();
 
     while (rclcpp::ok()) { 
       char terminal_reader = Configuration::get_char();
@@ -33,7 +33,7 @@ class ServoControl : public rclcpp::Node {
     }
   }
 
-  void set_up_servos() {
+  void set_up_abs_servos() {
     front_board_msgs::msg::Servo front_temp_servo;
     back_board_msgs::msg::Servo back_temp_servo;
 
