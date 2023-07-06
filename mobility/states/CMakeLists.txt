@@ -20,10 +20,10 @@ set (dependencies
   back_board_msgs
 )
 
-add_library(states_lib SHARED src/smov_states.cc src/smov_behaviors.cc)
+add_library(states_lib SHARED src/smov_states.cc src/smov_behaviors.cc src/smov_node_handler.cc)
 ament_target_dependencies(states_lib ${dependencies})
 
-add_executable(basic src/smov_states_node.cc)
+add_executable(basic src/smov_main.cc)
 target_link_libraries(basic states_lib)
 ament_target_dependencies(basic ${dependencies})
 

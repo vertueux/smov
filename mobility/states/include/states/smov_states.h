@@ -19,9 +19,11 @@ namespace smov {
 struct FrontServoArray : std::array<front_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 struct BackServoArray : std::array<back_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 
-class States {
+class RobotStates {
  public: 
-  static States *Instance();
+  static RobotStates *Instance();
+
+  void on_start();
 
   // Arrays to publish in the proportional publisher.
   front_board_msgs::msg::ServoArray front_prop_array;
@@ -32,13 +34,13 @@ class States {
   back_board_msgs::msg::ServoArray back_abs_array;
 
   // Setting up the servos to their corresponding port.
-  void set_up_servos(FrontServoArray f_servos, BackServoArray b_servos);
+  void set_up_abs_servos();
 
   // We push all the front servos into the absolute arrays to be published.
-  void push_in_abs_array(FrontServoArray f_servos, BackServoArray b_servos);
+  void update_abs_array();
 
   // We push all the front servos into the proportional arrays to be published.
-  void push_in_prop_array(FrontServoArray f_servos, BackServoArray b_servos);
+  void update_prop_array();
 
   // Proportional servos.
   static FrontServoArray front_prop_servos;
@@ -47,17 +49,23 @@ class States {
   // Absolute servos.
   static FrontServoArray front_abs_servos;
   static BackServoArray back_abs_servos;
+
   static std::vector<std::vector<long int>> front_servos_data;
   static std::vector<std::vector<long int>> back_servos_data;
 
   static double pulse_for_angle;
 
+  std::array<std::string, 12> servo_name = {"AVCG", "AVCD", "AVBG", 
+                                            "AVBD", "AVJG", "AVJD",
+                                            "ARBG", "ARBD", "ARCG",
+                                            "ARCD", "ARJG", "ARJD"};
+
  private:
-  States& operator= (const States&) = delete;
-  States (const States&) = delete;
-  static States *instance;
-  States();
-  ~States();
+  RobotStates& operator= (const RobotStates&) = delete;
+  RobotStates (const RobotStates&) = delete;
+  static RobotStates *instance;
+  RobotStates();
+  ~RobotStates();
 };
 
 } // namespace smov

@@ -1,63 +1,59 @@
+#include <iostream>
+
 #include <rclcpp/rclcpp.hpp>
+
 #include <states/smov_states.h>
 #include <states/smov_behaviors.h>
- 
-#include <iostream>
+
 namespace smov {
 
 // Initializing default static values.
-States *States::instance = nullptr;
-FrontServoArray States::front_prop_servos;
-BackServoArray States::back_prop_servos;
-FrontServoArray States::front_abs_servos;
-BackServoArray States::back_abs_servos;
-std::vector<std::vector<long int>> States::front_servos_data;
-std::vector<std::vector<long int>> States::back_servos_data;
-double States::pulse_for_angle = 0.0;
+RobotStates *RobotStates::instance = nullptr;
+FrontServoArray RobotStates::front_prop_servos;
+BackServoArray RobotStates::back_prop_servos;
+FrontServoArray RobotStates::front_abs_servos;
+BackServoArray RobotStates::back_abs_servos;
+std::vector<std::vector<long int>> RobotStates::front_servos_data;
+std::vector<std::vector<long int>> RobotStates::back_servos_data;
+double RobotStates::pulse_for_angle = 0.0;
 
-States::States() {}
-States::~States() {}
+RobotStates::RobotStates() {}
+RobotStates::~RobotStates() {}
 
-States *States::Instance() {
+RobotStates *RobotStates::Instance() {
   if (!instance) 
-    instance = new States;
+    instance = new RobotStates;
   return instance;
 }
 
-void States::set_up_servos(FrontServoArray f_servos, BackServoArray b_servos) {
+void RobotStates::on_start() {
+  ServoGroupValues val = {0.0, 0.55, 0.85};
+  // Default things to test when running the package.
+  RobotBehaviors::synch_group_servo_to(val, front_prop_servos, back_prop_servos, BODY_BICEPS_LEGS, 2);
+}
+
+void RobotStates::set_up_abs_servos() {
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    f_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
-    b_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
+    front_prop_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
+    back_prop_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
   }
 }
 
-void States::push_in_abs_array(FrontServoArray f_servos, BackServoArray b_servos) {
-  States* node = States::Instance();
-
-  // Clearing the vectors first.
-  if (node->front_abs_array.servos.size() > 0) 
-    node->front_abs_array.servos.clear();
-  if (node->back_abs_array.servos.size() > 0) 
-    node->back_abs_array.servos.clear();
+void RobotStates::update_abs_array() {
+  RobotStates* node = RobotStates::Instance();
 
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    node->front_abs_array.servos.push_back(f_servos[i]);
-    node->back_abs_array.servos.push_back(b_servos[i]);
+    node->front_abs_array.servos[i] = front_abs_servos[i];
+    node->back_abs_array.servos[i] = back_abs_servos[i];
   }
 }
 
-void States::push_in_prop_array(FrontServoArray f_servos, BackServoArray b_servos) {
-  States* node = States::Instance();
-
-  // Clearing the vectors first.
-  if (node->front_prop_array.servos.size() > 0) 
-    node->front_prop_array.servos.clear();
-  if (node->back_prop_array.servos.size() > 0) 
-    node->back_prop_array.servos.clear();
+void RobotStates::update_prop_array() {
+  RobotStates* node = RobotStates::Instance();
 
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    node->front_prop_array.servos.push_back(f_servos[i]);
-    node->back_prop_array.servos.push_back(b_servos[i]);
+    node->front_prop_array.servos[i] = front_prop_servos[i];
+    node->back_prop_array.servos[i] = back_prop_servos[i];
   }
 }
 
