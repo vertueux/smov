@@ -3,7 +3,7 @@
     The SMOV Project
   </p>
   <p align="left">
-    <a href="https://github.com/vertueux/smov/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/License-EUPL_1.2-blue"/></a>
+    <a href="https://github.com/vertueux/smov/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-EUPL_1.2-blue"/></a>
     <a href="https://discord.com/"><img src="https://img.shields.io/badge/Join%20the%20Discord%20server%20-Click%20here-informational"/></a>
   </p>
 </h1>
