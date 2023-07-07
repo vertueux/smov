@@ -37,7 +37,7 @@ class RobotStates {
   void set_up_servos();
 
   // We push all the servos into the arrays to be published.
-  void update_servos_array();
+  void update_servos_arrays();
 
   // Proportional servos.
   static FrontServoArray front_prop_servos;
