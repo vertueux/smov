@@ -34,13 +34,10 @@ class RobotStates {
   back_board_msgs::msg::ServoArray back_abs_array;
 
   // Setting up the servos to their corresponding port.
-  void set_up_abs_servos();
+  void set_up_servos();
 
-  // We push all the front servos into the absolute arrays to be published.
-  void update_abs_array();
-
-  // We push all the front servos into the proportional arrays to be published.
-  void update_prop_array();
+  // We push all the servos into the arrays to be published.
+  void update_servos_array();
 
   // Proportional servos.
   static FrontServoArray front_prop_servos;

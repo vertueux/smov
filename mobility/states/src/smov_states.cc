@@ -32,29 +32,23 @@ void RobotStates::on_start() {
   RobotBehaviors::synch_group_servo_to(val, front_prop_servos, back_prop_servos, BODY_BICEPS_LEGS, 2);
 }
 
-void RobotStates::set_up_abs_servos() {
+void RobotStates::set_up_servos() {
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
     front_prop_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
     back_prop_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
+    front_abs_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
+    back_abs_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
   }
 }
 
-void RobotStates::update_abs_array() {
-  RobotStates* node = RobotStates::Instance();
-
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    node->front_abs_array.servos[i] = front_abs_servos[i];
-    node->back_abs_array.servos[i] = back_abs_servos[i];
-  }
-}
-
-void RobotStates::update_prop_array() {
+void RobotStates::update_servos_arrays() {
   RobotStates* node = RobotStates::Instance();
 
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
     node->front_prop_array.servos[i] = front_prop_servos[i];
     node->back_prop_array.servos[i] = back_prop_servos[i];
+    node->front_abs_array.servos[i] = front_abs_servos[i];
+    node->back_abs_array.servos[i] = back_abs_servos[i];
   }
 }
-
 } // namespace smov

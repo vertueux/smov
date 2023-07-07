@@ -16,7 +16,7 @@ RobotNodeHandle::RobotNodeHandle()
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Attempt to lock the servos at their initial value.");
 
   // Default configuration.
-  node->set_up_abs_servos();
+  node->set_up_servos();
 
   // Configuration on start.
   node->on_start();
@@ -116,8 +116,7 @@ void RobotNodeHandle::config_servos() {
 
 void RobotNodeHandle::call() {
   // Constantly updating the values.
-  node->update_prop_array();
-  node->update_abs_array();
+  node->update_servos_arrays();
 
   // Publishing the proportional values.
   front_prop_pub->publish(node->front_prop_array);

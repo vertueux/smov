@@ -4,7 +4,7 @@
   <name>spot_micro</name>
   <version>0.0.0</version>
   <description>Description of the Spot Micro.</description>
-  <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
+  <maintainer email="original@maintainer.com">Virtuous</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
