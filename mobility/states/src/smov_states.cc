@@ -29,14 +29,14 @@ RobotStates *RobotStates::Instance() {
 ServoGroupValues val;
 
 void RobotStates::on_start() {
-  val[0] = 0.0;
+  val[0] = -0.1;
   val[1] = 0.55;
   val[2] = 0.85;
 }
 
 void RobotStates::on_loop() {
-  // The procedural needs to be on the loop at the moment.
-  RobotBehaviors::procedural_group_servo_to(val, front_prop_servos, back_prop_servos, BODY_BICEPS_LEGS, 2);
+  // This function needs to be called on a loop at the moment.
+  RobotBehaviors::procedural_group_servo_to(val, BODY_BICEPS_LEGS, 2);
 }
 
 void RobotStates::set_up_servos() {

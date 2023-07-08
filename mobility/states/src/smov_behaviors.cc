@@ -8,7 +8,8 @@ bool p1 = false;
 bool p2 = false;
 bool p3 = false;
 
-void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, FrontServoArray group, ServoOrder sequence, time_t timeout) {
+void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, ServoOrder sequence, time_t timeout) {
+  RobotStates* node = RobotStates::Instance();
   for (size_t i = 0; i < values.size();i++) {
     if (values[i] < -1.0 || values[i] > 1.0) {
       RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), 
@@ -25,20 +26,20 @@ void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, Fr
   switch (sequence) {
     case BODY_BICEPS_LEGS: 
       for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
-        group[i].value = values.at(0);
+        node->front_prop_servos[i].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -46,20 +47,20 @@ void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, Fr
       break;
     case BODY_LEGS_BICEPS:
       for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
-        group[i].value = values.at(0);
+        node->front_prop_servos[i].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -67,20 +68,20 @@ void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, Fr
       break;
     case BICEPS_LEGS_BODY:
       for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
-        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(2);
+          node->front_prop_servos[i].value = values.at(2);
         }
         p3 = true;
         
@@ -88,20 +89,20 @@ void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, Fr
       break;
     case BICEPS_BODY_LEGS: 
       for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
-        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(1);
+          node->front_prop_servos[i].value = values.at(1);
           
         }
         p2 = true;
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -109,20 +110,20 @@ void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, Fr
       break;
     case LEGS_BODY_BICEPS:
       for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
-        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(1);
+          node->front_prop_servos[i].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -130,20 +131,20 @@ void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, Fr
       break;
     case LEGS_BICEPS_BODY: 
       for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
-        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(2);
+          node->front_prop_servos[i].value = values.at(2);
         }
         p3 = true;
         
@@ -152,7 +153,8 @@ void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, Fr
   }
 }
 
-void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, BackServoArray group, ServoOrder sequence, time_t timeout) {
+void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, ServoOrder sequence, time_t timeout) {
+  RobotStates* node = RobotStates::Instance();
   for (size_t i = 0; i < values.size();i++) {
     if (values[i] < -1.0 || values[i] > 1.0) {
       RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), 
@@ -161,25 +163,25 @@ void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, Bac
     }
   }
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing back sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
+  if (!p1) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing back sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
 
   switch (sequence) {
     case BODY_BICEPS_LEGS: 
       for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
-        group[i].value = values.at(0);
+        node->back_prop_servos[i].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -187,20 +189,20 @@ void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, Bac
       break;
     case BODY_LEGS_BICEPS:
       for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
-        group[i].value = values.at(0);
+        node->back_prop_servos[i].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -208,20 +210,20 @@ void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, Bac
       break;
     case BICEPS_LEGS_BODY:
       for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
-        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(2);
+          node->back_prop_servos[i].value = values.at(2);
         }
         p3 = true;
         
@@ -229,20 +231,20 @@ void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, Bac
       break;
     case BICEPS_BODY_LEGS: 
       for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
-        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(1);
+          node->back_prop_servos[i].value = values.at(1);
           
         }
         p2 = true;
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -250,20 +252,20 @@ void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, Bac
       break;
     case LEGS_BODY_BICEPS:
       for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
-        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(1);
+          node->back_prop_servos[i].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -271,20 +273,20 @@ void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, Bac
       break;
     case LEGS_BICEPS_BODY: 
       for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
-        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          group[i].value = values.at(2);
+          node->back_prop_servos[i].value = values.at(2);
         }
         p3 = true;
         
@@ -293,7 +295,8 @@ void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, Bac
   }
 }
 
-void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontServoArray front_group, BackServoArray back_group, ServoOrder sequence, time_t timeout) {
+void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, ServoOrder sequence, time_t timeout) {
+  RobotStates* node = RobotStates::Instance();
   for (size_t i = 0; i < values.size();i++) {
     if (values[i] < -1.0 || values[i] > 1.0) {
       RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), 
@@ -302,21 +305,21 @@ void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontSer
     }
   }
 
-  //RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing dual sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
+  if (!p1) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing dual sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
 
   switch (sequence) {
     case BODY_BICEPS_LEGS: 
       for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
-        front_group[i].value = values.at(0);
-        back_group[i].value = values.at(0);
+        node->front_prop_servos[i].value = values.at(0);
+        node->back_prop_servos[i].value = values.at(0);
       }
       if (p1 == false) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "1");
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
-          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         if (!p2) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "2");
         p2 = true;
@@ -324,8 +327,8 @@ void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontSer
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
-          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         if (!p3) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "3");
         p3 = true;
@@ -334,23 +337,23 @@ void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontSer
       break;
     case BODY_LEGS_BICEPS:
       for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
-        front_group[i].value = values.at(0);
-        back_group[i].value = values.at(0);
+        node->front_prop_servos[i].value = values.at(0);
+        node->back_prop_servos[i].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
-          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
-          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -358,23 +361,23 @@ void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontSer
       break;
     case BICEPS_LEGS_BODY:
       for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
-        front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
-        back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
-          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(2);
-          back_group[i].value = values.at(2);
+          node->front_prop_servos[i].value = values.at(2);
+          node->back_prop_servos[i].value = values.at(2);
         }
         p3 = true;
         
@@ -382,23 +385,23 @@ void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontSer
       break;
     case BICEPS_BODY_LEGS: 
       for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
-        front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
-        back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(1);
-          back_group[i].value = values.at(1);
+          node->front_prop_servos[i].value = values.at(1);
+          node->back_prop_servos[i].value = values.at(1);
           
         }
         p2 = true;
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
-          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -406,23 +409,23 @@ void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontSer
       break;
     case LEGS_BODY_BICEPS:
       for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
-        front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
-        back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(1);
-          back_group[i].value = values.at(1);
+          node->front_prop_servos[i].value = values.at(1);
+          node->back_prop_servos[i].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
-          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
         p3 = true;
         
@@ -430,23 +433,23 @@ void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontSer
       break;
     case LEGS_BICEPS_BODY: 
       for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
-        front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
-        back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->front_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        node->back_prop_servos[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
       p1 = true;
       
       if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
-          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->front_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          node->back_prop_servos[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
         p2 = true;
         
       }
       if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(2);
-          back_group[i].value = values.at(2);
+          node->front_prop_servos[i].value = values.at(2);
+          node->back_prop_servos[i].value = values.at(2);
         }
         p3 = true;
         

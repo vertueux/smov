@@ -1,4 +1,5 @@
 #include <ctime>
+#include <iostream>
 
 #include <states/smov_node_handler.h>
 
@@ -117,7 +118,7 @@ void RobotNodeHandle::config_servos() {
     RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
   } 
   auto f_result = front_servo_config_pub->async_send_request(front_request);
-  //auto b_result = back_servo_config_pub->async_send_request(back_request);
+  auto b_result = back_servo_config_pub->async_send_request(back_request);
 
   RCLCPP_INFO(this->get_logger(), "Servos have been configured.");
 }
@@ -125,6 +126,10 @@ void RobotNodeHandle::config_servos() {
 void RobotNodeHandle::call() {
   // Configuration on the loop.
   node->on_loop();
+
+  for (int b = 0; b < SERVO_MAX_SIZE; b++) {
+    std::cout << node->front_prop_array.servos[b].value << std::endl;
+  }
 
   // Constantly updating the values.
   node->update_servos_arrays();

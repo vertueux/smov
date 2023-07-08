@@ -20,9 +20,9 @@ struct ServoGroupValues : std::array<double, 3> {};
 class RobotBehaviors {
  public:
 
-  static void procedural_front_group_servo_to(ServoGroupValues values, FrontServoArray group, ServoOrder sequence, time_t timeout);
-  static void procedural_back_group_servo_to(ServoGroupValues values, BackServoArray group, ServoOrder sequence, time_t timeout);
-  static void procedural_group_servo_to(ServoGroupValues values, FrontServoArray front_group, BackServoArray back_group, 
+  static void procedural_front_group_servo_to(ServoGroupValues values, ServoOrder sequence, time_t timeout);
+  static void procedural_back_group_servo_to(ServoGroupValues values, ServoOrder sequence, time_t timeout);
+  static void procedural_group_servo_to(ServoGroupValues values, 
     ServoOrder sequence, time_t timeout);
 
   // Used for proportional servos.
