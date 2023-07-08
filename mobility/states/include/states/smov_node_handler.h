@@ -22,6 +22,8 @@ class RobotNodeHandle : public rclcpp::Node {
   void config_servos();
   void call();
 
+  rclcpp::TimerBase::SharedPtr timer;
+
   // Creating the base node with all the necessary data & publishers.
   RobotStates* node = RobotStates::Instance();
   

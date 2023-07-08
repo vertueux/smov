@@ -39,7 +39,7 @@ RobotNodeHandle::RobotNodeHandle()
   config_servos();
 
   // Calling the basic loop with a timeout of 500ms.
-  rclcpp::TimerBase::SharedPtr timer = this->create_wall_timer(500ms, std::bind(&RobotNodeHandle::call, this));
+  timer = this->create_wall_timer(500ms, std::bind(&RobotNodeHandle::call, this));
 }
 
 void RobotNodeHandle::declare_parameters() {
@@ -64,12 +64,18 @@ void RobotNodeHandle::set_up_publishers() {
   front_servo_config_pub = this->create_client<front_board_msgs::srv::ServosConfig>("config_servos");
   back_servo_config_pub = this->create_client<back_board_msgs::srv::ServosConfig>("config_servos");
 
+  RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
+
   front_prop_pub  = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_proportional", 1);
   back_prop_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_proportional", 1);
+
+  RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional publisher.");
 
   // Setting up the absolute publishers.
   front_abs_pub = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
   back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+
+  RCLCPP_INFO(this->get_logger(), "Set up /servos_absolute publisher.");
 }
 
 void RobotNodeHandle::config_servos() {
@@ -111,10 +117,15 @@ void RobotNodeHandle::config_servos() {
     RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
   } 
   auto f_result = front_servo_config_pub->async_send_request(front_request);
-  auto b_result = back_servo_config_pub->async_send_request(back_request);
+  //auto b_result = back_servo_config_pub->async_send_request(back_request);
+
+  RCLCPP_INFO(this->get_logger(), "Servos have been configured.");
 }
 
 void RobotNodeHandle::call() {
+  // Configuration on the loop.
+  node->on_loop();
+
   // Constantly updating the values.
   node->update_servos_arrays();
 
@@ -123,8 +134,9 @@ void RobotNodeHandle::call() {
   back_prop_pub->publish(node->back_prop_array);
 
   // Publishing the absolute values.
-  front_abs_pub->publish(node->front_abs_array);
-  back_abs_pub->publish(node->back_abs_array);
+  // FOR NOW WE DON'T PUBLISH ANYTHING AS THIS CAUSE ISSUES.
+  // front_abs_pub->publish(node->front_abs_array);
+  // back_abs_pub->publish(node->back_abs_array);
 
   // For now, we are basically nesting loops, cool right...
   for (int i = 0; i < SERVO_MAX_SIZE; i++) { 

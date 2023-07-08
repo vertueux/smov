@@ -23,7 +23,11 @@ class RobotStates {
  public: 
   static RobotStates *Instance();
 
+  // Called when the node has been created.
   void on_start();
+
+  // Called every 500ms.
+  void on_loop();
 
   // Arrays to publish in the proportional publisher.
   front_board_msgs::msg::ServoArray front_prop_array;
@@ -54,8 +58,8 @@ class RobotStates {
 
   std::array<std::string, 12> servo_name = {"AVCG", "AVCD", "AVBG", 
                                             "AVBD", "AVJG", "AVJD",
-                                            "ARBG", "ARBD", "ARCG",
-                                            "ARCD", "ARJG", "ARJD"};
+                                            "ARCG", "ARCD", "ARBG",
+                                            "ARBD", "ARJG", "ARJD"};
 
  private:
   RobotStates& operator= (const RobotStates&) = delete;

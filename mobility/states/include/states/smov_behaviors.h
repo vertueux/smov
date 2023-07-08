@@ -20,9 +20,9 @@ struct ServoGroupValues : std::array<double, 3> {};
 class RobotBehaviors {
  public:
 
-  static void synch_front_group_servo_to(ServoGroupValues values, FrontServoArray group, ServoOrder sequence, time_t timeout);
-  static void synch_back_group_servo_to(ServoGroupValues values, BackServoArray group, ServoOrder sequence, time_t timeout);
-  static void synch_group_servo_to(ServoGroupValues values, FrontServoArray front_group, BackServoArray back_group, 
+  static void procedural_front_group_servo_to(ServoGroupValues values, FrontServoArray group, ServoOrder sequence, time_t timeout);
+  static void procedural_back_group_servo_to(ServoGroupValues values, BackServoArray group, ServoOrder sequence, time_t timeout);
+  static void procedural_group_servo_to(ServoGroupValues values, FrontServoArray front_group, BackServoArray back_group, 
     ServoOrder sequence, time_t timeout);
 
   // Used for proportional servos.
@@ -31,9 +31,6 @@ class RobotBehaviors {
   // Both are used for absolute servos.
   static void set_servos_to_min(FrontServoArray f_servos, BackServoArray b_servos); 
   static void set_servos_to_max(FrontServoArray f_servos, BackServoArray b_servos); 
-
-  // Mainly used for basic cinematics when calling servo groups.
-  static time_t counter;
 };
 
 } // namespace smov

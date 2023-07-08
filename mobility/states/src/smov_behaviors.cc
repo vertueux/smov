@@ -1,9 +1,14 @@
 #include <states/smov_behaviors.h>
 namespace smov {
 
-time_t RobotBehaviors::counter = time(0);
+// Mainly used for basic cinematics when calling servo groups.
+time_t counter = time(0);
 
-void RobotBehaviors::synch_front_group_servo_to(ServoGroupValues values, FrontServoArray group, ServoOrder sequence, time_t timeout) {
+bool p1 = false;
+bool p2 = false;
+bool p3 = false;
+
+void RobotBehaviors::procedural_front_group_servo_to(ServoGroupValues values, FrontServoArray group, ServoOrder sequence, time_t timeout) {
   for (size_t i = 0; i < values.size();i++) {
     if (values[i] < -1.0 || values[i] > 1.0) {
       RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), 
@@ -12,87 +17,142 @@ void RobotBehaviors::synch_front_group_servo_to(ServoGroupValues values, FrontSe
     }
   }
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing front sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
+  if (!p1) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing front sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
 
   // The order remains the same. On the group, body servos are on [0;1], 
   // biceps are on [2;3] and legs are on [4;5]. 
+  
   switch (sequence) {
     case BODY_BICEPS_LEGS: 
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
+      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
         group[i].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
           group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case BODY_LEGS_BICEPS:
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
+      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
         group[i].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
+          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case BICEPS_LEGS_BODY:
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j  + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
+        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
+          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case BICEPS_BODY_LEGS: 
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j].value = values.at(1);
+      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
+        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(1);
+          
+        }
+        p2 = true;
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
           group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case LEGS_BODY_BICEPS:
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j].value = values.at(1);
+      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
+        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case LEGS_BICEPS_BODY: 
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
+        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
   }
 }
 
-void RobotBehaviors::synch_back_group_servo_to(ServoGroupValues values, BackServoArray group, ServoOrder sequence, time_t timeout) {
+void RobotBehaviors::procedural_back_group_servo_to(ServoGroupValues values, BackServoArray group, ServoOrder sequence, time_t timeout) {
   for (size_t i = 0; i < values.size();i++) {
     if (values[i] < -1.0 || values[i] > 1.0) {
       RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), 
@@ -105,81 +165,135 @@ void RobotBehaviors::synch_back_group_servo_to(ServoGroupValues values, BackServ
 
   switch (sequence) {
     case BODY_BICEPS_LEGS: 
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
+      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
         group[i].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
           group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case BODY_LEGS_BICEPS:
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
+      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
         group[i].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
+          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case BICEPS_LEGS_BODY:
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j  + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
+        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
+          group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case BICEPS_BODY_LEGS: 
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j].value = values.at(1);
+      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
+        group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(1);
+          
+        }
+        p2 = true;
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
           group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case LEGS_BODY_BICEPS:
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j].value = values.at(1);
+      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
+        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
     case LEGS_BICEPS_BODY: 
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
-        group[i + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
-      if (time(0) - RobotBehaviors::counter > timeout) {
-        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) 
-          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
+        group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
-        for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) 
-          group[h].value = values.at(2);
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+        }
+        p2 = true;
+        
+      }
+      if (time(0) - counter > timeout * 2 && !p3) {
+        for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+          group[i].value = values.at(2);
+        }
+        p3 = true;
+        
       }
       break;
   }
 }
 
-void RobotBehaviors::synch_group_servo_to(ServoGroupValues values, FrontServoArray front_group, BackServoArray back_group, ServoOrder sequence, time_t timeout) {
+void RobotBehaviors::procedural_group_servo_to(ServoGroupValues values, FrontServoArray front_group, BackServoArray back_group, ServoOrder sequence, time_t timeout) {
   for (size_t i = 0; i < values.size();i++) {
     if (values[i] < -1.0 || values[i] > 1.0) {
       RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), 
@@ -188,115 +302,154 @@ void RobotBehaviors::synch_group_servo_to(ServoGroupValues values, FrontServoArr
     }
   }
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing dual sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
+  //RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executing dual sequence with values: [%f, %f, %f]", values[0], values[1], values[2]);
 
   switch (sequence) {
     case BODY_BICEPS_LEGS: 
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
         front_group[i].value = values.at(0);
         back_group[i].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout) {
+      if (p1 == false) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "1");
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
           front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
           back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
+        if (!p2) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "2");
+        p2 = true;
+        
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
+      if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
           front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
           back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
+        if (!p3) RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "3");
+        p3 = true;
+        
       }
       break;
     case BODY_LEGS_BICEPS:
-      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
+      for (int i = 0; i < SERVO_MAX_SIZE / 3; i++ && !p1) {
         front_group[i].value = values.at(0);
         back_group[i].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout) {
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
-          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
+        p2 = true;
+        
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
+      if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
-          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
+        p3 = true;
+        
       }
       break;
     case BICEPS_LEGS_BODY:
-      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-        front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
-        back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
+        front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout) {
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
-          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
+        p2 = true;
+        
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
+      if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(0);
-          back_group[i].value = values.at(0);
+          front_group[i].value = values.at(2);
+          back_group[i].value = values.at(2);
         }
+        p3 = true;
+        
       }
       break;
     case BICEPS_BODY_LEGS: 
-      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-        front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
-        back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+      for (int j = 0; j < SERVO_MAX_SIZE / 3; j++ && !p1) {
+        front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout) {
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(0);
-          back_group[i].value = values.at(0);
+          front_group[i].value = values.at(1);
+          back_group[i].value = values.at(1);
+          
         }
+        p2 = true;
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
+      if (time(0) - counter > timeout * 2 && !p3) {
         for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
           front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
           back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
+        p3 = true;
+        
       }
       break;
     case LEGS_BODY_BICEPS:
-      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-          front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
-          back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
+        front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout) {
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(0);
-          back_group[i].value = values.at(0);
+          front_group[i].value = values.at(1);
+          back_group[i].value = values.at(1);
         }
+        p2 = true;
+        
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
+      if (time(0) - counter > timeout * 2 && !p3) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
-          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
-          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
+          front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
+          back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(2);
         }
+        p3 = true;
+        
       }
       break;
     case LEGS_BICEPS_BODY: 
-      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++) {
-        front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
-        back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(2);
+      for (int h = 0; h < SERVO_MAX_SIZE / 3; h++ && !p1) {
+        front_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
+        back_group[h + 2 * (SERVO_MAX_SIZE / 3)].value = values.at(0);
       }
-      if (time(0) - RobotBehaviors::counter > timeout) {
+      p1 = true;
+      
+      if (time(0) - counter > timeout && !p2) {
         for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
           front_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
           back_group[j + (SERVO_MAX_SIZE / 3)].value = values.at(1);
         }
+        p2 = true;
+        
       }
-      if (time(0) - RobotBehaviors::counter > timeout * 2) {
+      if (time(0) - counter > timeout * 2 && !p3) {
         for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-          front_group[i].value = values.at(0);
-          back_group[i].value = values.at(0);
+          front_group[i].value = values.at(2);
+          back_group[i].value = values.at(2);
         }
+        p3 = true;
+        
       }
       break;
   }
