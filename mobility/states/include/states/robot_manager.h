@@ -2,12 +2,12 @@
 
 #define SERVO_MAX_SIZE 6
 
-#include <rclcpp/rclcpp.hpp>
-
 #include <chrono>
 #include <functional>
 #include <memory>
 #include <string>
+
+#include <rclcpp/rclcpp.hpp>
 
 #include "front_board_msgs/msg/servo_array.hpp"
 #include "front_board_msgs/msg/servo.hpp"
@@ -19,9 +19,9 @@ namespace smov {
 struct FrontServoArray : std::array<front_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 struct BackServoArray : std::array<back_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 
-class RobotStates {
+class RobotManager {
  public: 
-  static RobotStates *Instance();
+  static RobotManager *Instance();
 
   // Called when the node has been created.
   void on_start();
@@ -44,17 +44,17 @@ class RobotStates {
   void update_servos_arrays();
 
   // Proportional servos.
-  static FrontServoArray front_prop_servos;
-  static BackServoArray back_prop_servos;
+  FrontServoArray front_prop_servos;
+  BackServoArray back_prop_servos;
 
   // Absolute servos.
-  static FrontServoArray front_abs_servos;
-  static BackServoArray back_abs_servos;
+  FrontServoArray front_abs_servos;
+  BackServoArray back_abs_servos;
 
-  static std::vector<std::vector<long int>> front_servos_data;
-  static std::vector<std::vector<long int>> back_servos_data;
+  std::vector<std::vector<long int>> front_servos_data;
+  std::vector<std::vector<long int>> back_servos_data;
 
-  static double pulse_for_angle;
+  double pulse_for_angle = 0;
 
   std::array<std::string, 12> servo_name = {"AVCG", "AVCD", "AVBG", 
                                             "AVBD", "AVJG", "AVJD",
@@ -62,11 +62,11 @@ class RobotStates {
                                             "ARBD", "ARJG", "ARJD"};
 
  private:
-  RobotStates& operator= (const RobotStates&) = delete;
-  RobotStates (const RobotStates&) = delete;
-  static RobotStates *instance;
-  RobotStates();
-  ~RobotStates();
+  RobotManager& operator= (const RobotManager&) = delete;
+  RobotManager (const RobotManager&) = delete;
+  static RobotManager *instance;
+  RobotManager();
+  ~RobotManager();
 };
 
 } // namespace smov

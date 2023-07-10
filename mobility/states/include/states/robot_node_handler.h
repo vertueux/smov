@@ -1,7 +1,7 @@
 #pragma once
 
-#include <states/smov_states.h>
-#include <states/smov_behaviors.h>
+#include <states/robot_manager.h>
+#include <states/robot_basic_state.h>
 
 #include "front_board_msgs/srv/servos_config.hpp"
 #include "front_board_msgs/msg/servo_config.hpp"
@@ -25,7 +25,7 @@ class RobotNodeHandle : public rclcpp::Node {
   rclcpp::TimerBase::SharedPtr timer;
 
   // Creating the base node with all the necessary data & publishers.
-  RobotStates* node = RobotStates::Instance();
+  RobotManager* node = RobotManager::Instance();
   
   rclcpp::Client<front_board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
   rclcpp::Client<back_board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;
