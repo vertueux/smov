@@ -1,7 +1,7 @@
 #include <chrono>
 #include <thread>
 
-#include <states/robot_basic_state.h>
+#include <states/robot_basic.h>
 
 namespace smov {
 

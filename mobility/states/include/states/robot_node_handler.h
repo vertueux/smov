@@ -1,7 +1,7 @@
 #pragma once
 
 #include <states/robot_manager.h>
-#include <states/robot_basic_state.h>
+#include <states/robot_basic.h>
 
 #include "front_board_msgs/srv/servos_config.hpp"
 #include "front_board_msgs/msg/servo_config.hpp"

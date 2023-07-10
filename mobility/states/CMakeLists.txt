@@ -20,7 +20,7 @@ set (dependencies
   back_board_msgs
 )
 
-add_library(states_lib SHARED src/robot_manager.cc src/robot_basic_state.cc src/robot_node_handler.cc)
+add_library(states_lib SHARED src/robot_manager.cc src/robot_basic.cc src/robot_node_handler.cc)
 ament_target_dependencies(states_lib ${dependencies})
 
 add_executable(basic src/robot_main.cc)
