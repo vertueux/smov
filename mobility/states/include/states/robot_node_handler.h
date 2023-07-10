@@ -24,8 +24,8 @@ class RobotNodeHandle : public rclcpp::Node {
 
   rclcpp::TimerBase::SharedPtr timer;
 
-  // Creating the base node with all the necessary data & publishers.
-  RobotManager* node = RobotManager::Instance();
+  // Creating the base robot with all the necessary data & publishers.
+  RobotManager* robot = RobotManager::Instance();
   
   rclcpp::Client<front_board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
   rclcpp::Client<back_board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;

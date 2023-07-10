@@ -16,7 +16,7 @@ enum ServoOrder {
 
 class BasicState : public State {
  public:
-  //RobotManager* node = RobotManager::Instance();
+  //RobotManager* robot = RobotManager::Instance();
 
   // Used for proportional servos.
   void set_servos_to(double value); 

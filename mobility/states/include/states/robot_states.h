@@ -8,10 +8,10 @@ namespace smov {
 
 class State {
  public:
-  virtual RobotManager **get_robot() {return &node;};
+  virtual RobotManager **get_robot() {return &robot;};
 
  private:
-  RobotManager* node = RobotManager::Instance();
+  RobotManager* robot = RobotManager::Instance();
 };
 
 } // namespace smov

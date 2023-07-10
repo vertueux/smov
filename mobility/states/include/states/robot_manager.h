@@ -2,10 +2,16 @@
 
 #define SERVO_MAX_SIZE 6
 
+#define KEY_UP 65
+#define KEY_DOWN 66
+#define KEY_RIGHT 67
+#define KEY_LEFT 68
+
 #include <chrono>
 #include <functional>
-#include <memory>
 #include <string>
+#include <fcntl.h>
+#include <termios.h>
 
 #include <rclcpp/rclcpp.hpp>
 
@@ -16,6 +22,15 @@
 
 namespace smov {
 
+enum RobotParts {
+  LEFT_BODY = 0,
+  RIGHT_BODY = 1,
+  LEFT_BICEPS = 2,
+  RIGHT_BICEPS = 3,
+  LEFT_LEG = 4,
+  RIGHT_LEG = 5,
+};
+
 struct FrontServoArray : std::array<front_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 struct BackServoArray : std::array<back_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 
@@ -23,11 +38,17 @@ class RobotManager {
  public: 
   static RobotManager *Instance();
 
-  // Called when the node has been created.
+  // Useful to read characters without blocking the program.
+  void init_reader(int echo);
+
+  // Called when the robot has been created.
   void on_start();
 
   // Called every 500ms.
   void on_loop();
+
+  // Called at the end.
+  void on_quit();
 
   // Arrays to publish in the proportional publisher.
   front_board_msgs::msg::ServoArray front_prop_array;
@@ -67,6 +88,8 @@ class RobotManager {
   static RobotManager *instance;
   RobotManager();
   ~RobotManager();
+
+  struct termios old_chars, new_chars;
 };
 
 } // namespace smov

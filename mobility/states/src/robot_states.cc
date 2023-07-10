@@ -3,8 +3,8 @@
 namespace smov {
 
 RobotManager **States::get_robot() {
-  RobotManager* node = RobotManager::Instance();
-  return &node;
+  RobotManager* robot = RobotManager::Instance();
+  return &robot;
 }
 
 }
