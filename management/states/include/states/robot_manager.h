@@ -22,9 +22,6 @@
 
 namespace smov {
 
-struct FrontServoArray : std::array<front_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
-struct BackServoArray : std::array<back_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
-
 class RobotManager {
  public: 
   static RobotManager *Instance();
@@ -55,16 +52,10 @@ class RobotManager {
   // We push all the servos into the arrays to be published.
   void update_servos_arrays();
 
-  // Proportional servos.
-  FrontServoArray front_prop_servos;
-  BackServoArray back_prop_servos;
-
-  // Absolute servos.
-  FrontServoArray front_abs_servos;
-  BackServoArray back_abs_servos;
-
   std::vector<std::vector<long int>> front_servos_data;
   std::vector<std::vector<long int>> back_servos_data;
+
+  std::string state = "None";
 
   double pulse_for_angle = 0;
 

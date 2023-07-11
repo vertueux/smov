@@ -64,18 +64,18 @@ void RobotManager::on_loop() {
       break;
   }
   for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-    front_prop_servos[i + (SERVO_MAX_SIZE / 3)].value = biceps_value;
-    back_prop_servos[i + (SERVO_MAX_SIZE / 3)].value = biceps_value;
+    empty_front_servos[i + (SERVO_MAX_SIZE / 3)].value = biceps_value;
+    empty_back_servos[i + (SERVO_MAX_SIZE / 3)].value = biceps_value;
   }
 
-  front_prop_servos[RIGHT_BODY].value = body_value;
-  back_prop_servos[RIGHT_BODY].value = body_value;
-  front_prop_servos[LEFT_BODY].value = -body_value;
-  back_prop_servos[LEFT_BODY].value = -body_value;
+  empty_front_servos[RIGHT_BODY].value = body_value;
+  empty_back_servos[RIGHT_BODY].value = body_value;
+  empty_front_servos[LEFT_BODY].value = -body_value;
+  empty_back_servos[LEFT_BODY].value = -body_value;
 
   for (int k = 0; k < SERVO_MAX_SIZE / 3; k++) {
-    front_prop_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
-    back_prop_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
+    empty_front_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
+    empty_back_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
   }*/
 }
 
@@ -85,24 +85,14 @@ void RobotManager::on_quit() {
 
 void RobotManager::set_up_servos() {
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_prop_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
-    back_prop_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
-    front_abs_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
-    back_abs_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
+    front_prop_array.servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
+    back_prop_array.servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
+    front_abs_array.servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
+    back_abs_array.servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
 
-    front_prop_servos[i].value = front_servos_data[i][4]; // Port is at position 0.
-    back_prop_servos[i].value = back_servos_data[i][4];  // Servo number = Port + 1.
-    front_abs_servos[i].value = front_servos_data[i][4]; // Port is at position 0.
-    back_abs_servos[i].value = back_servos_data[i][4];  // Servo number = Port + 1.
+    front_prop_array.servos[i].value = front_servos_data[i][4]; // Port is at position 0.
+    back_prop_array.servos[i].value = back_servos_data[i][4];  // Servo number = Port + 1.
   }
 }
 
-void RobotManager::update_servos_arrays() {
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_prop_array.servos[i] = front_prop_servos[i];
-    back_prop_array.servos[i] = back_prop_servos[i];
-    front_abs_array.servos[i] = front_abs_servos[i];
-    back_abs_array.servos[i] = back_abs_servos[i];
-  }
-}
 } // namespace smov

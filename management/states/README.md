@@ -10,7 +10,7 @@ As you can see, for example, my personal configurations have been noted in the `
 
 First of all, the program will set all servos to their center value. If all servos have been properly centered, they should have a position similar or exactly the same to the image below: 
 
-## To run it 
+## Run it 
 In order to run the package with your parameters, you just need to type : 
 ```bash
-ros2 run states basic --ros-args --params-file data/servos_parameters.yaml
+ros2 run states manager --ros-args --params-file data/servos_parameters.yaml
