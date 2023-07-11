@@ -1,4 +1,4 @@
-> The Runtime sub-directory
+> The Launch sub-directory
 
 ## Overview
 
