@@ -1,8 +1,8 @@
-> The Mobility sub-directory
+> The Management sub-directory
 
 ## Overview
 
-The mobility sub-directory contains all packages and source code related to control of the SMOV robot in real time, with physical interactions.
+The management sub-directory contains all packages and source code related to the base control of the SMOV robot.
 
 This is achieved through two packages: 
 * `The Board package` : Provides access to the control of both microcontrollers, and therefore directly to the servos.

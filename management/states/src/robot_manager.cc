@@ -90,10 +90,10 @@ void RobotManager::set_up_servos() {
     front_abs_servos[i].servo = front_servos_data[i][0] + 1; // Port is at position 0.
     back_abs_servos[i].servo = back_servos_data[i][0] + 1;  // Servo number = Port + 1.
 
-    front_prop_servos[i].value = front_servos_data[i][5]; // Port is at position 0.
-    back_prop_servos[i].value = back_servos_data[i][5];  // Servo number = Port + 1.
-    front_abs_servos[i].value = front_servos_data[i][5]; // Port is at position 0.
-    back_abs_servos[i].value = back_servos_data[i][5];  // Servo number = Port + 1.
+    front_prop_servos[i].value = front_servos_data[i][4]; // Port is at position 0.
+    back_prop_servos[i].value = back_servos_data[i][4];  // Servo number = Port + 1.
+    front_abs_servos[i].value = front_servos_data[i][4]; // Port is at position 0.
+    back_abs_servos[i].value = back_servos_data[i][4];  // Servo number = Port + 1.
   }
 }
 

@@ -1,1 +1,1 @@
-float32[6] data
+float32[6] value

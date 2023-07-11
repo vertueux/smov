@@ -35,14 +35,7 @@ RobotNodeHandle::RobotNodeHandle()
   }
 
   // Setting up the publishers.
-  set_up_publishers();
-
-  front_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
-  "front_proportional_servos", 10, std::bind(&RobotNodeHandle::front_topic_callback, this, std::placeholders::_1));
-
-  back_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
-  "back_proportional_servos", 10, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
-
+  set_up_topics();
 
   // Configuring the proportional servos with their defined values.
   config_servos();
@@ -53,32 +46,37 @@ RobotNodeHandle::RobotNodeHandle()
 
 void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
   for (int i = 0; i < SERVO_MAX_SIZE; i++) 
-    robot->front_prop_servos[i].value = msg->data[i];
+    robot->front_prop_servos[i].value = msg->value[i];
 }
 
 void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
   for (int i = 0; i < SERVO_MAX_SIZE; i++) 
-    robot->back_prop_servos[i].value = msg->data[i];
+    robot->back_prop_servos[i].value = msg->value[i];
 }
 
 void RobotNodeHandle::declare_parameters() {
-  std::vector<long int> default_value(7, 0);
+  std::vector<long int> default_value(5, 0);
 
   // Declaring all default parameters first.
   for (size_t j = 0; j < robot->servo_name.size(); j++) 
     this->declare_parameter(robot->servo_name[j], default_value);
 
-  // Declaring the angle value for a 100 a.v pulse.
-  this->declare_parameter("pulse_for_angle", 0.0);
-
   // We initialize the arrays with their default values.
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) { // 7 is the number of data in a single array (in ~/parameters.yaml).
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) { // 5 is the number of data in a single array (in ~/parameters.yaml).
     robot->front_servos_data.push_back(this->get_parameter(robot->servo_name[i]).as_integer_array());
     robot->back_servos_data.push_back(this->get_parameter(robot->servo_name[i + SERVO_MAX_SIZE]).as_integer_array());
   }
 }
 
-void RobotNodeHandle::set_up_publishers() {
+void RobotNodeHandle::set_up_topics() {
+  front_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
+  "front_proportional_servos", 10, std::bind(&RobotNodeHandle::front_topic_callback, this, std::placeholders::_1));
+
+  back_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
+  "back_proportional_servos", 10, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
+
+  RCLCPP_INFO(this->get_logger(), "Set up states subscribers.");
+
   // Setting up the servo config client.
   front_servo_config_pub = this->create_client<front_board_msgs::srv::ServosConfig>("config_servos");
   back_servo_config_pub = this->create_client<back_board_msgs::srv::ServosConfig>("config_servos");
@@ -166,9 +164,6 @@ void RobotNodeHandle::call() {
     robot->front_servos_data[i] = this->get_parameter(robot->servo_name[i]).as_integer_array();
     robot->back_servos_data[i] = this->get_parameter(robot->servo_name[i + SERVO_MAX_SIZE]).as_integer_array();
   }
-
-  // Updating the pulse for angle.
-  robot->pulse_for_angle = this->get_parameter("pulse_for_angle").as_double();
 }
 
 } // namespace smov

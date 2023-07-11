@@ -13,10 +13,10 @@ class ServoControl : public rclcpp::Node {
       switch(terminal_reader) {
         case '0': Configuration::exit_program();                                                                break;
         case '1': Configuration::switch_board();                                                                break;
-        case '2': Configuration::reset_servos_to(Configuration::center, "Reset all servos to center value.");   break;
-        case '3': Configuration::reset_servos_to(Configuration::maximum, "Reset all servos to maximum value."); break;
-        case '4': Configuration::reset_servos_to(Configuration::minimum, "Reset all servos to minimum value."); break;
-        case '5': Configuration::reset_servos_to(0, "Reset all servos to 0.");                                  break;
+        case '2': Configuration::reset_all_servos_to(Configuration::center, "Reset all servos to center value.");   break;
+        case '3': Configuration::reset_all_servos_to(Configuration::maximum, "Reset all servos to maximum value."); break;
+        case '4': Configuration::reset_all_servos_to(Configuration::minimum, "Reset all servos to minimum value."); break;
+        case '5': Configuration::reset_all_servos_to(0, "Reset all servos to 0.");                                  break;
         case '6': Configuration::increase_or_decrease_by(2, true, "Manually increasing a servo by 2.");         break;
         case '7': Configuration::increase_or_decrease_by(2, false, "Manually decreasing a servo by 2.");        break;
         case '8': Configuration::increase_or_decrease_by(10, true, "Manually increasing a servo by 10.");       break;

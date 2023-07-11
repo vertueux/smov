@@ -7,6 +7,7 @@
 #include "back_board_msgs/srv/servos_config.hpp"
 #include "back_board_msgs/msg/servo_config.hpp"
 #include "states_msgs/msg/states_servos.hpp"
+#include "states_msgs/msg/states_data.hpp"
 
 using namespace std::chrono_literals;
 
@@ -18,7 +19,7 @@ class RobotNodeHandle : public rclcpp::Node {
 
  private:
   void declare_parameters();
-  void set_up_publishers();
+  void set_up_topics();
   void config_servos();
   void call();
   void front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg);

@@ -36,7 +36,7 @@ void Configuration::switch_board() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-void Configuration::reset_servos_to(int value, const char* msg) {
+void Configuration::reset_all_servos_to(int value, const char* msg) {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg);
   for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servo_array.servos[i].value = value;

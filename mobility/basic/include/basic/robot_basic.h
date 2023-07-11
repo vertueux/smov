@@ -12,12 +12,14 @@ class BasicState {
   STATE_CLASS("Basic")
   
   // Used for proportional servos.
-  void set_servos_to(float value); 
-  void set_servos_to_center(); 
+  void set_front_servo_to(RobotParts part, float value);
+  void set_back_servo_to(RobotParts part, float value);
+  void set_all_servos_to(float value); 
+  void set_all_servos_to_center(); 
 
   // Both are used for absolute servos.
-  void set_servos_to_min(); 
-  void set_servos_to_max(); 
+  void set_all_servos_to_min(); 
+  void set_all_servos_to_max(); 
 };
 
 } // namespace smov
