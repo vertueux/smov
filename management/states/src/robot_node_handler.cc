@@ -1,5 +1,6 @@
 #include <ctime>
 #include <iostream>
+#include <memory>
 
 #include <states/robot_node_handler.h>
 
@@ -36,11 +37,28 @@ RobotNodeHandle::RobotNodeHandle()
   // Setting up the publishers.
   set_up_publishers();
 
+  front_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
+  "front_proportional_servos", 10, std::bind(&RobotNodeHandle::front_topic_callback, this, std::placeholders::_1));
+
+  back_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
+  "back_proportional_servos", 10, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
+
+
   // Configuring the proportional servos with their defined values.
   config_servos();
 
   // Calling the basic loop with a timeout of 10ms.
   timer = this->create_wall_timer(10ms, std::bind(&RobotNodeHandle::call, this));
+}
+
+void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+    robot->front_prop_servos[i].value = msg->data[i];
+}
+
+void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+    robot->back_prop_servos[i].value = msg->data[i];
 }
 
 void RobotNodeHandle::declare_parameters() {

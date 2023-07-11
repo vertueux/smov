@@ -10,6 +10,7 @@ find_package(front_board_msgs REQUIRED)
 find_package(back_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(states_msgs REQUIRED)
 
 include_directories(include)
 
@@ -18,16 +19,17 @@ set (dependencies
   std_msgs 
   front_board_msgs 
   back_board_msgs
+  states_msgs
 )
 
-add_library(states_lib SHARED src/robot_manager.cc src/robot_basic.cc src/robot_node_handler.cc)
+add_library(states_lib SHARED src/robot_manager.cc src/robot_node_handler.cc src/robot_states.cc)
 ament_target_dependencies(states_lib ${dependencies})
 
-add_executable(basic src/robot_main.cc)
-target_link_libraries(basic states_lib)
-ament_target_dependencies(basic ${dependencies})
+add_executable(manager src/robot_main.cc)
+target_link_libraries(manager states_lib)
+ament_target_dependencies(manager ${dependencies})
 
-install(TARGETS basic states_lib
+install(TARGETS manager states_lib
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

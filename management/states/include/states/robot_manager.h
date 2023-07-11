@@ -22,15 +22,6 @@
 
 namespace smov {
 
-enum RobotParts {
-  LEFT_BODY = 0,
-  RIGHT_BODY = 1,
-  LEFT_BICEPS = 2,
-  RIGHT_BICEPS = 3,
-  LEFT_LEG = 4,
-  RIGHT_LEG = 5,
-};
-
 struct FrontServoArray : std::array<front_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 struct BackServoArray : std::array<back_board_msgs::msg::Servo, SERVO_MAX_SIZE> {};
 

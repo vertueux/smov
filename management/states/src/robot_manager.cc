@@ -5,7 +5,6 @@
 
 #include <states/robot_states.h>
 #include <states/robot_manager.h>
-#include <states/robot_basic.h>
 
 namespace smov {
 
@@ -33,11 +32,11 @@ void RobotManager::on_start() {
   init_reader(0);
 }
 
-double biceps_value = 0.0;
+/*double biceps_value = 0.0;
 double body_value = 0.0;
-double leg_value = 1.0;
+double leg_value = 1.0;*/
 void RobotManager::on_loop() {
-  int c = getchar();
+  /*int c = getchar();
   switch (c) {
     case KEY_UP:
       if (biceps_value <= 0.98)  
@@ -77,7 +76,7 @@ void RobotManager::on_loop() {
   for (int k = 0; k < SERVO_MAX_SIZE / 3; k++) {
     front_prop_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
     back_prop_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
-  }
+  }*/
 }
 
 void RobotManager::on_quit() {
