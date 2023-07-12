@@ -1,1 +1,0 @@
-gz sdf -p ../../description/media/spot/urdf/model.urdf > ../../description/description/sdf/model_spot.sdf

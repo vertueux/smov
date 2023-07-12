@@ -33,7 +33,7 @@ RobotNodeHandle::RobotNodeHandle()
   robot->set_up_servos();
 
   // Configuration on start.
-  robot->on_start();
+  robot->init_reader(0);
 
   // Setting up the publishers.
   set_up_topics();
@@ -78,14 +78,14 @@ void RobotNodeHandle::set_up_topics() {
   front_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
   "front_proportional_servos", 1, std::bind(&RobotNodeHandle::front_topic_callback, this, std::placeholders::_1));
 
-  //back_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
-  //"back_proportional_servos", 1, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
+  back_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
+  "back_proportional_servos", 1, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
 
   RCLCPP_INFO(this->get_logger(), "Set up states subscribers.");
 
   // Setting up the servo config client.
   front_servo_config_pub = this->create_client<front_board_msgs::srv::ServosConfig>("config_servos");
-  //back_servo_config_pub = this->create_client<back_board_msgs::srv::ServosConfig>("config_servos");
+  back_servo_config_pub = this->create_client<back_board_msgs::srv::ServosConfig>("config_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 
@@ -95,13 +95,13 @@ void RobotNodeHandle::set_up_topics() {
   RCLCPP_INFO(this->get_logger(), "Set up /current_state publisher.");
 
   front_prop_pub  = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_proportional", 1);
-  //back_prop_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_proportional", 1);
+  back_prop_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_proportional", 1);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional publisher.");
 
   // Setting up the absolute publishers.
   front_abs_pub = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
-  //back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+  back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_absolute publisher.");
 }
@@ -127,7 +127,7 @@ void RobotNodeHandle::config_servos() {
     back_config[h].direction = int(robot->back_servos_data[h][3]);
 
     front_request->servos.push_back(front_config[h]); 
-    //back_request->servos.push_back(back_config[h]); 
+    back_request->servos.push_back(back_config[h]); 
   }
 
   while (!front_servo_config_pub->wait_for_service(1s)) {
@@ -137,26 +137,23 @@ void RobotNodeHandle::config_servos() {
     }
     RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
   } 
-  /*while (!back_servo_config_pub->wait_for_service(1s)) {
+  while (!back_servo_config_pub->wait_for_service(1s)) {
     if (!rclcpp::ok()) {
       RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
       return;
     }
     RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
-  }*/
+  }
   auto f_result = front_servo_config_pub->async_send_request(front_request);
-  //auto b_result = back_servo_config_pub->async_send_request(back_request);
+  auto b_result = back_servo_config_pub->async_send_request(back_request);
 
   RCLCPP_INFO(this->get_logger(), "Servos have been configured.");
 }
 
 void RobotNodeHandle::callback() {
-  // Configuration on the loop.
-  robot->on_loop();
-
   // Publishing the proportional values.
   front_prop_pub->publish(robot->front_prop_array);
-  //back_prop_pub->publish(robot->back_prop_array);
+  back_prop_pub->publish(robot->back_prop_array);
 
   // Publishing the absolute values.
   // FOR NOW WE DON'T PUBLISH ANYTHING AS THIS CAUSE ISSUES.

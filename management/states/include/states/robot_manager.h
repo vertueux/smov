@@ -29,12 +29,6 @@ class RobotManager {
   // Useful to read characters without blocking the program.
   void init_reader(int echo);
 
-  // Called when the robot has been created.
-  void on_start();
-
-  // Called every 500ms.
-  void on_loop();
-
   // Called at the end.
   void on_quit();
 

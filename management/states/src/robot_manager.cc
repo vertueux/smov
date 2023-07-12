@@ -28,57 +28,6 @@ void RobotManager::init_reader(int echo) {
   tcsetattr(0, TCSANOW, &new_chars); /* use these new terminal i/o settings now */
 }
 
-void RobotManager::on_start() {
-  init_reader(0);
-}
-
-/*double biceps_value = 0.0;
-double body_value = 0.0;
-double leg_value = 1.0;*/
-void RobotManager::on_loop() {
-  /*int c = getchar();
-  switch (c) {
-    case KEY_UP:
-      if (biceps_value <= 0.98)  
-        biceps_value += (1.0/50.0);
-      break;
-    case KEY_DOWN:
-      if (biceps_value >= -0.98)  
-        biceps_value -= (1.0/50.0);
-      break;
-    case KEY_RIGHT:
-      if (body_value <= 0.98)  
-        body_value += (1.0/50.0);
-      break;
-    case KEY_LEFT:
-      if (body_value >= -0.98)  
-        body_value -= (1.0/50.0);
-      break;
-    case '8':
-      if (leg_value <= 0.98)  
-        leg_value += (1.0/50.0);
-      break;
-    case '2':
-      if (leg_value >= -0.98)  
-        leg_value -= (1.0/50.0);
-      break;
-  }
-  for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-    empty_front_servos[i + (SERVO_MAX_SIZE / 3)].value = biceps_value;
-    empty_back_servos[i + (SERVO_MAX_SIZE / 3)].value = biceps_value;
-  }
-
-  empty_front_servos[RIGHT_BODY].value = body_value;
-  empty_back_servos[RIGHT_BODY].value = body_value;
-  empty_front_servos[LEFT_BODY].value = -body_value;
-  empty_back_servos[LEFT_BODY].value = -body_value;
-
-  for (int k = 0; k < SERVO_MAX_SIZE / 3; k++) {
-    empty_front_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
-    empty_back_servos[k + 2 * (SERVO_MAX_SIZE / 3)].value = leg_value;
-  }*/
-}
-
 void RobotManager::on_quit() {
   tcsetattr(STDIN_FILENO, TCSANOW, &old_chars);
 }
