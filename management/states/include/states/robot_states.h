@@ -26,7 +26,6 @@ namespace smov {
     StateNode()\
     : Node(node_name), count(0) {\
       state.set_name();\
-      state.on_start();\
       state.front_state_publisher =\
         this->create_publisher<states_msgs::msg::StatesServos>("front_proportional_servos", 1);\
       state.back_state_publisher =\
@@ -34,6 +33,7 @@ namespace smov {
       state.state_publisher =\
         this->create_publisher<std_msgs::msg::String>("last_current_state", 1);\
       state.timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
+      state.on_start();\
     }\
    private:\
     void timer_callback() {\
@@ -79,7 +79,6 @@ namespace smov {
     StateNode()\
     : Node(node_name), count(0) {\
       state.set_name();\
-      state.on_start();\
       for (size_t j = 0; j < state.servo_name.size(); j++)\
         this->declare_parameter(state.servo_name[j], 0);\
       for (int i = 0; i < SERVO_MAX_SIZE; i++) {\
@@ -93,6 +92,7 @@ namespace smov {
       state.state_publisher =\
         this->create_publisher<std_msgs::msg::String>("last_current_state", 1);\
       state.timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
+      state.on_start();\
     }\
    private:\
     void timer_callback() {\
