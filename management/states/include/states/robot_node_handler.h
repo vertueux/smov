@@ -38,7 +38,7 @@ class RobotNodeHandle : public rclcpp::Node {
   
   rclcpp::Subscription<states_msgs::msg::StatesServos>::SharedPtr front_states_sub;
   rclcpp::Subscription<states_msgs::msg::StatesServos>::SharedPtr back_states_sub;
-  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr current_state_pub;
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr last_current_state_pub;
 
   rclcpp::Client<front_board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
   rclcpp::Client<back_board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;

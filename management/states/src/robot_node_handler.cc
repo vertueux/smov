@@ -32,18 +32,15 @@ RobotNodeHandle::RobotNodeHandle()
   // Default configuration.
   robot->set_up_servos();
 
-  // Configuration on start.
-  robot->init_reader(0);
-
   // Setting up the publishers.
   set_up_topics();
 
   // Configuring the proportional servos with their defined values.
   config_servos();
 
-  // Calling the basic loop with a timeout of 10ms.
+  // Calling the loops with some timeouts.
   timer = this->create_wall_timer(10ms, std::bind(&RobotNodeHandle::callback, this));
-  late_timer = this->create_wall_timer(5s, std::bind(&RobotNodeHandle::late_callback, this));
+  late_timer = this->create_wall_timer(4s, std::bind(&RobotNodeHandle::late_callback, this));
 }
 
 void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
@@ -89,10 +86,10 @@ void RobotNodeHandle::set_up_topics() {
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 
-  current_state_pub  = this->create_subscription<std_msgs::msg::String>(
-  "current_state", 1, std::bind(&RobotNodeHandle::state_topic_callback, this, std::placeholders::_1));
+  last_current_state_pub  = this->create_subscription<std_msgs::msg::String>(
+  "last_current_state", 1, std::bind(&RobotNodeHandle::state_topic_callback, this, std::placeholders::_1));
 
-  RCLCPP_INFO(this->get_logger(), "Set up /current_state publisher.");
+  RCLCPP_INFO(this->get_logger(), "Set up /last_current_state publisher.");
 
   front_prop_pub  = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_proportional", 1);
   back_prop_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_proportional", 1);

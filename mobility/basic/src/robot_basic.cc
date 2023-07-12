@@ -6,10 +6,16 @@
 namespace smov {
 
 void BasicState::on_start() {
-  set_front_servo_to(LEFT_BODY, 0.5f);
+  set_all_servos_to(1.0f);
+  set_front_servo_to(LEFT_BICEPS, 0.0f);
+  set_back_servo_to(LEFT_BICEPS, 0.0f);
+  set_front_servo_to(RIGHT_BICEPS, 0.0f);
+  set_back_servo_to(RIGHT_BICEPS, 0.0f);
 }
 
 void BasicState::on_loop() {}
+
+void BasicState::on_quit() {}
 
 void BasicState::set_back_servo_to(RobotParts part, float value) {
   if (value > 1.0f || value < -1.0f) {

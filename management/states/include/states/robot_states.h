@@ -8,6 +8,7 @@ namespace smov {
 
 #define STATE_CLASS(name) void on_start();\
                           void on_loop();\
+                          void on_quit();\
                           void set_name() {state_name.data = name;}\
                           enum RobotParts {LEFT_BODY, RIGHT_BODY, LEFT_BICEPS, RIGHT_BICEPS, LEFT_LEG, RIGHT_LEG};\
                           states_msgs::msg::StatesServos front_values;states_msgs::msg::StatesServos back_values;\
@@ -19,6 +20,7 @@ namespace smov {
 
 #define STATE_NODE_CLASS(node_name,state_class,timeout)\
   using namespace std::chrono_literals;\
+  state_class state;\
   class StateNode : public rclcpp::Node{\
    public:\
     StateNode()\
@@ -30,7 +32,7 @@ namespace smov {
       state.back_state_publisher =\
         this->create_publisher<states_msgs::msg::StatesServos>("back_proportional_servos", 1);\
       state.state_publisher =\
-        this->create_publisher<std_msgs::msg::String>("current_state", 1);\
+        this->create_publisher<std_msgs::msg::String>("last_current_state", 1);\
       state.timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
     }\
    private:\
@@ -40,19 +42,20 @@ namespace smov {
       state.back_state_publisher->publish(state.back_values);\
       state.state_publisher->publish(state.state_name);\
   }\
-  state_class state;\
   size_t count;\
   };\
   int main(int argc, char **argv)\
   {\
     rclcpp::init(argc, argv);\
     rclcpp::spin(std::make_shared<StateNode>());\
+    state.on_quit();\
     rclcpp::shutdown();\
     return 0;\
   }\
 
 #define STATE_CLASS_INCLUDE_PARAMS(name) void on_start();\
                           void on_loop();\
+                          void on_quit();\
                           void set_name() {state_name.data = name;}\
                           enum RobotParts {LEFT_BODY, RIGHT_BODY, LEFT_BICEPS, RIGHT_BICEPS, LEFT_LEG, RIGHT_LEG};\
                           states_msgs::msg::StatesServos front_values;states_msgs::msg::StatesServos back_values;\
@@ -70,6 +73,7 @@ namespace smov {
 
 #define STATE_NODE_CLASS_INCLUDE_PARAMS(node_name,state_class,timeout)\
   using namespace std::chrono_literals;\
+  state_class state;\
   class StateNode : public rclcpp::Node{\
    public:\
     StateNode()\
@@ -87,7 +91,7 @@ namespace smov {
       state.back_state_publisher =\
         this->create_publisher<states_msgs::msg::StatesServos>("back_proportional_servos", 1);\
       state.state_publisher =\
-        this->create_publisher<std_msgs::msg::String>("current_state", 1);\
+        this->create_publisher<std_msgs::msg::String>("last_current_state", 1);\
       state.timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
     }\
    private:\
@@ -101,13 +105,13 @@ namespace smov {
         state.back_servos_data[i] = this->get_parameter(state.servo_name[i + SERVO_MAX_SIZE]).as_int();\
       }\
   }\
-  state_class state;\
   size_t count;\
   };\
   int main(int argc, char **argv)\
   {\
     rclcpp::init(argc, argv);\
     rclcpp::spin(std::make_shared<StateNode>());\
+    state.on_quit();\
     rclcpp::shutdown();\
     return 0;\
   }\
