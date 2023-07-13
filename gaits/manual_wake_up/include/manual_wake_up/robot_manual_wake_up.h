@@ -11,7 +11,7 @@ class ManualWakeUpState {
  public:
   STATE_CLASS("Manual Wake Up")
 
-  int cooldown = 2;
+  int cooldown = 1;
 };
 
 } // namespace smov

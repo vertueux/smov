@@ -1,8 +1,8 @@
-<h1 align="left">
-  <p align="left">
+<h1 align="center">
+  <p align="center">
     The SMOV Project
   </p>
-  <p align="left">
+  <p align="center">
     <a href="https://github.com/vertueux/smov/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-EUPL_1.2-blue"/></a>
     <a href="https://discord.com/"><img src="https://img.shields.io/badge/Join%20the%20Discord%20server%20-Click%20here-informational"/></a>
   </p>
@@ -32,13 +32,9 @@ This package is designed and tested to be compatible with ROS2 Humble and ROS2 F
 
 | Platform | Hardware                                                                                                                                                                                                | Software                                                       | Notes                                                                                                                                                                                                                                                                                                                                                       |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Raspberry Pi   | Pi 3 Model B+<br/> Pi 3 Model A+<br/> Pi 4 Model A<br/> Pi 4 Model B<br/> | [Ubuntu 22.04 LTS](https://ubuntu.com/download/raspberry-pi)<br/> [Ubuntu 20.04 LTS](https://ubuntu.com/download/raspberry-pi) | For now, the project is currently being only tested on the Raspberry Pi 3 Model B+, but should possibly (and surely) be available on other Raspberry Pi.  |
+| Raspberry Pi   | Pi 3 Model B+<br/> Pi 4 Model B<br/> | [Ubuntu 22.04 LTS](https://ubuntu.com/download/raspberry-pi)<br/> [Ubuntu 20.04 LTS](https://ubuntu.com/download/raspberry-pi) | For now, the project is currently being only tested on the Raspberry Pi 3 Model B+, but should possibly (and surely) be available on other Raspberry Pi.  |
 
 ## Links and References
-* Spot micro URDF model inspired from Florian Wilk's repository (used as a base for simulation) : 
-  * [Click here](https://gitlab.com/public-open-source/spotmicroai/simulation/-/tree/master/Basic%20simulation%20by%20user%20Florian%20Wilk/urdf)
-* Spot URDF model used for simulation : 
-  * [Click here](https://github.com/clearpathrobotics/spot_ros/tree/master/spot_description)
 * The I2C PWM Board repository : 
   * [Click here](https://github.com/vertueux/i2c_pwm_board)
 * My quadruped kinematics repository : 
