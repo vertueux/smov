@@ -3,9 +3,9 @@
 <package format="3">
   <name>manual_wake_up</name>
   <version>0.0.0</version>
-  <description>Add a brief description of your state package.</description>
+  <description>Should allow the robot to wake up.</description>
   <maintainer email="you@todo.todo">You</maintainer>
-  <license>TODO: License declaration</license>
+  <license>EUPL-1.2</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
