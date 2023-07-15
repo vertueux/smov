@@ -16,17 +16,23 @@
 
 namespace smov {
 
-class KeyboardAxesState {
+class ManualWalk {
  public:
-  STATE_CLASS("Keyboard Axes")
+  STATE_CLASS("Manual Walk")
 
-  // Useful to read characters without blocking the program.
   void init_reader(int echo);
 
-  float biceps_value = 0.0;
-  float body_value = 0.0;
-  float leg_value = 1.0;
+  void execute_forward_sequence();
+  void execute_backward_sequence();
+  void execute_right_sequence();
+  void execute_left_sequence();
 
+  bool request_front_walk = false;
+  bool request_back_walk  = false;
+  bool request_right_walk = false;
+  bool request_left_walk  = false;
+
+  int cooldown = 1;
   struct termios old_chars, new_chars;
 };
 

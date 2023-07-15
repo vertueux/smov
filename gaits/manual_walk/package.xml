@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>keyboard_axes</name>
+  <name>manual_walk</name>
   <version>0.0.0</version>
-  <description>Add some control over the servos at the same time.</description>
+  <description>This package should allow the robot to walk.</description>
   <maintainer email="you@todo.todo">You</maintainer>
   <license>EUPL-1.2</license>
 

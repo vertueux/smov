@@ -1,14 +1,10 @@
-# The Template State package
+# The Manual Wake Up State package
 
-> **Note** : A quick note on a important thing to know.
+> **Note** : This doesn't rely on inverse kinematics.
 
-This is a quick description on what is supposed to do.
-
-## How it works
-
-This is a complete description on what the package is supposed to do and how it works.
+This package should allow the robot to wake up.
 
 ## Run it
-This is where you are supposed to show the required commands in order to launch the node : 
+To run the project, you need to copy & paste this commands :  
 ```bash
-ros2 run template state 
+ros2 run manual_wake_up state 
