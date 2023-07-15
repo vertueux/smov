@@ -12,20 +12,25 @@ void ManualWalk::init_reader(int echo) {
 }
 
 void ManualWalk::execute_forward_sequence() {
-  front_values.value[LEFT_LEG] = 0.5f;
-  front_state_publisher->publish(front_values);
-  sleep(cooldown);
 
+  front_values.value[RIGHT_BICEPS] =  -0.066f;
+  back_values.value[LEFT_BICEPS] =  -0.066f;
   front_values.value[LEFT_BICEPS] = -0.5f;
+  back_values.value[RIGHT_BICEPS] = -0.5f;
   front_state_publisher->publish(front_values);
-  sleep(cooldown * 3);
-
-  back_values.value[RIGHT_LEG] = 0.5f;
   back_state_publisher->publish(back_values);
   sleep(cooldown);
-  
-  back_values.value[RIGHT_BICEPS] = -0.5f;
+
+  front_values.value[LEFT_BICEPS] =  -0.066f;
+  back_values.value[RIGHT_BICEPS] =  -0.066f;
+  front_values.value[RIGHT_BICEPS] =  -0.5f;
+  back_values.value[LEFT_BICEPS] =  -0.5f;
+  front_state_publisher->publish(front_values);
   back_state_publisher->publish(back_values);
+  sleep(cooldown);
+
+  // Re-executing the same sequence over and over.
+  execute_forward_sequence();
 }
 
 void ManualWalk::execute_backward_sequence() {
