@@ -22,6 +22,8 @@ class ManualWalk {
 
   void init_reader(int echo);
 
+  void smooth_transition(float &receiver, float value);
+
   void execute_forward_sequence();
   void execute_backward_sequence();
   void execute_right_sequence();

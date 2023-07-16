@@ -1,4 +1,5 @@
 #include <manual_walk/robot_manual_walk.h>
+#include <iostream>
 
 namespace smov {
 
@@ -11,26 +12,78 @@ void ManualWalk::init_reader(int echo) {
   tcsetattr(0, TCSANOW, &new_chars); /* use these new terminal i/o settings now */
 }
 
+void ManualWalk::smooth_transition(float &receiver, float value) {
+  // Lmao buddy thought we could divide by 0 haha lol ez xd.
+  if (receiver == value) {
+    std::cout << "Same values, not executing command lmao xd lol ez." << std::endl;
+    return;
+  }
+
+  if (value > receiver) {
+    double delta = value - receiver; // Différence entre les valeurs de receiver et value
+
+    // Initialiser le temps
+    int T = 2; // Temps en secondes
+    int N = 100; // Nombre d'itérations
+    int dt = T / N; // Intervalle de temps entre chaque itération
+
+    // Boucle pour augmenter progressivement receiver à value
+    for (int i = 0; i < N; i++) {
+      // Calculer la nouvelle valeur de receiver
+      receiver = receiver + delta / N;
+
+      front_state_publisher->publish(front_values);
+      back_state_publisher->publish(back_values);
+
+
+      // Afficher la valeur de receiver
+      std::cout << "receiver: " << receiver << std::endl;
+
+      // Attendre dt secondes
+      std::this_thread::sleep_for(std::chrono::seconds(dt));
+    }
+  } else {
+    double delta = receiver - value; // Différence entre les valeurs de receiver et value
+
+    // Initialiser le temps
+    int T = 2; // Temps en secondes
+    int N = 100; // Nombre d'itérations
+    int dt = T / N; // Intervalle de temps entre chaque itération
+
+    // Boucle pour augmenter progressivement receiver à value
+    for (int i = 0; i < N; i++) {
+      // Calculer la nouvelle valeur de receiver
+      receiver = receiver - delta / N;
+
+      front_state_publisher->publish(front_values);
+      back_state_publisher->publish(back_values);
+
+      // Afficher la valeur de receiver
+      std::cout << "receiver: " << receiver << std::endl;
+
+      // Attendre dt secondes
+      std::this_thread::sleep_for(std::chrono::seconds(dt));
+    }
+  }
+
+  std::cout << "---------------" << std::endl;
+}
+
 void ManualWalk::execute_forward_sequence() {
 
-  front_values.value[RIGHT_BICEPS] =  -0.066f;
-  back_values.value[LEFT_BICEPS] =  -0.066f;
-  front_values.value[LEFT_BICEPS] = -0.5f;
-  back_values.value[RIGHT_BICEPS] = -0.5f;
-  front_state_publisher->publish(front_values);
-  back_state_publisher->publish(back_values);
+  /*smooth_transition(front_values.value[RIGHT_BICEPS], -0.066f);
+  smooth_transition(back_values.value[LEFT_BICEPS], -0.066f);*/
+  smooth_transition(front_values.value[LEFT_BICEPS], -0.2f);
+  smooth_transition(back_values.value[RIGHT_BICEPS], -0.2f);
+
+  std::cout << "========Cooldown=========" << "F Val:" << front_values.value[LEFT_BICEPS] << std::endl;
   sleep(cooldown);
 
-  front_values.value[LEFT_BICEPS] =  -0.066f;
-  back_values.value[RIGHT_BICEPS] =  -0.066f;
-  front_values.value[RIGHT_BICEPS] =  -0.5f;
-  back_values.value[LEFT_BICEPS] =  -0.5f;
-  front_state_publisher->publish(front_values);
-  back_state_publisher->publish(back_values);
+  smooth_transition(front_values.value[LEFT_BICEPS], -0.066f);
+  smooth_transition(back_values.value[RIGHT_BICEPS], -0.066f);
+  smooth_transition(front_values.value[RIGHT_BICEPS], -0.2f);
+  smooth_transition(back_values.value[LEFT_BICEPS], -0.2f);
   sleep(cooldown);
-
-  // Re-executing the same sequence over and over.
-  execute_forward_sequence();
 }
 
 void ManualWalk::execute_backward_sequence() {
@@ -46,7 +99,7 @@ void ManualWalk::execute_left_sequence() {
 }
 
 void ManualWalk::on_start() {
-  init_reader(0);
+  //init_reader(0);
 
   // Default value when awakened.
   for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
@@ -58,10 +111,12 @@ void ManualWalk::on_start() {
     back_values.value[i + SERVO_MAX_SIZE / 3] = -0.066f;
     back_values.value[i + 2 * SERVO_MAX_SIZE / 3] = 0.12f;
   }
+
+  execute_forward_sequence();
 }
 
 void ManualWalk::on_loop() {
-  int cmd = getchar();
+  /*int cmd = getchar();
 
   switch (cmd) {
     case KEY_UP:
@@ -85,9 +140,11 @@ void ManualWalk::on_loop() {
   else if (request_right_walk == true) 
     execute_right_sequence();
   else if (request_left_walk == true)
-    execute_left_sequence(); 
+    execute_left_sequence();*/
 }
 
-void ManualWalk::on_quit() {}
-  tcsetattr(STDIN_FILENO, TCSANOW, &old_chars);
+void ManualWalk::on_quit() {
+  //tcsetattr(STDIN_FILENO, TCSANOW, &old_chars);
+}
+
 }
