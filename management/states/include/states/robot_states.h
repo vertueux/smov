@@ -18,7 +18,7 @@ namespace smov {
                           std_msgs::msg::String state_name;\
                           rclcpp::TimerBase::SharedPtr timer;
 
-#define STATE_NODE_CLASS(node_name,state_class,timeout)\
+#define DECLARE_STATE_NODE_CLASS(node_name,state_class,timeout)\
   using namespace std::chrono_literals;\
   state_class state;\
   class StateNode : public rclcpp::Node{\
@@ -71,7 +71,7 @@ namespace smov {
                           std::vector<int> front_servos_data;\
                           std::vector<int> back_servos_data;
 
-#define STATE_NODE_CLASS_INCLUDE_PARAMS(node_name,state_class,timeout)\
+#define DECLARE_STATE_NODE_CLASS_INCLUDE_PARAMS(node_name,state_class,timeout)\
   using namespace std::chrono_literals;\
   state_class state;\
   class StateNode : public rclcpp::Node{\

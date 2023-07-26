@@ -10,6 +10,5 @@ Test Plan: **Add your test plan here**
 
 <!-- Please check off the appropriate boxes with [x] before submitting your pull request -->
 ### Required before submitting a Pull Request:
-- [ ] I reviewed [CONTRIBUTING.md](https://github.com/vertueux/smov/blob/master/CONTRIBUTING.md)
-- [ ] I tested my changes with a device
-- [ ] I am using Ubuntu (without Docker)
+- [ ] I reviewed [CONTRIBUTING.md](https://github.com/vertueux/smov/blob/prototype/CONTRIBUTING.md)
+- [ ] I tested my changes with a robot

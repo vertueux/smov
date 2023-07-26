@@ -18,10 +18,10 @@ set (dependencies
   states_msgs
 )
 
-add_library(manual_walk_lib SHARED src/robot_manual_walk.cc)
+add_library(manual_walk_lib SHARED src/manual_walk.cc)
 ament_target_dependencies(manual_walk_lib ${dependencies})
 
-add_executable(state src/robot_main.cc)
+add_executable(state src/manual_walk.cc)
 target_link_libraries(state manual_walk_lib)
 ament_target_dependencies(state ${dependencies})
 

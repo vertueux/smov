@@ -1,6 +1,6 @@
 #include <unistd.h>
 
-#include <manual_wake_up/robot_manual_wake_up.h>
+#include <manual_wake_up/manual_wake_up.h>
 
 namespace smov {
 
@@ -54,3 +54,5 @@ void ManualWakeUpState::on_loop() {}
 void ManualWakeUpState::on_quit() {}
 
 }
+
+DECLARE_STATE_NODE_CLASS("smov_manual_wake_up_state", smov::ManualWakeUpState, 500ms)

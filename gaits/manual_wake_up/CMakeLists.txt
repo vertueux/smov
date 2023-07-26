@@ -18,10 +18,10 @@ set (dependencies
   states_msgs
 )
 
-add_library(manual_wake_up_lib SHARED src/robot_manual_wake_up.cc)
+add_library(manual_wake_up_lib SHARED src/manual_wake_up.cc)
 ament_target_dependencies(manual_wake_up_lib ${dependencies})
 
-add_executable(state src/robot_main.cc)
+add_executable(state src/manual_wake_up.cc)
 target_link_libraries(state manual_wake_up_lib)
 ament_target_dependencies(state ${dependencies})
 

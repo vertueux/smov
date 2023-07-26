@@ -1,4 +1,4 @@
-#include <manual_walk/robot_manual_walk.h>
+#include <manual_walk/manual_walk.h>
 #include <iostream>
 
 namespace smov {
@@ -148,3 +148,5 @@ void ManualWalk::on_quit() {
 }
 
 }
+
+DECLARE_STATE_NODE_CLASS("smov_manual_walk_state", smov::ManualWalk, 10ms)

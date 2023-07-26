@@ -23,7 +23,7 @@ I recommend using the latest commit in the master branch in your projects.
 
 **What operating system and version are you using?**
 
-If you are using a Windows or any other operating system include the name and version of the
+If you are using Ubuntu or any other operating system include the name and version of the
 OS/distribution as well.
 
 **Installation type?**
