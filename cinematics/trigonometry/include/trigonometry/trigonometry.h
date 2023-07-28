@@ -7,11 +7,11 @@
 
 namespace smov {
 
-class ManualWakeUpState {
+class TrigonometryState {
  public:
-  STATE_CLASS("Manual Wake Up")
+  STATE_CLASS_INCLUDE_PARAMS("Trigonometry")
 
-  int cooldown = 1;
+  void set_legs_distance_to(float distance);
 };
 
 } // namespace smov
