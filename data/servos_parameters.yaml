@@ -14,3 +14,5 @@ smov_states:
     ARBD: [1,   335,    440,     -1,        0]
     ARJG: [13,  315,    400,     -1,        1]
     ARJD: [2,   315 ,   340,     1,         1]
+
+    use_single_board: true

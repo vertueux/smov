@@ -27,6 +27,7 @@ RobotNodeHandle::RobotNodeHandle()
     robot->back_prop_array.servos.push_back(empty_back_servos[i]);
     robot->front_abs_array.servos.push_back(empty_front_servos[i]);
     robot->back_abs_array.servos.push_back(empty_back_servos[i]);
+    if (use_single_board) robot->single_back_array.servos.push_back(empty_front_servos[i]);
   }
 
   // Default configuration.
@@ -49,8 +50,13 @@ void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::Share
 }
 
 void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) 
-    robot->back_prop_array.servos[i].value = msg->value[i];
+  if (use_single_board) {
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+      robot->single_back_array.servos[i].value = msg->value[i];
+  } else {
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+      robot->back_prop_array.servos[i].value = msg->value[i];
+  }
 }
 
 void RobotNodeHandle::state_topic_callback(std_msgs::msg::String::SharedPtr msg) {
@@ -63,6 +69,12 @@ void RobotNodeHandle::declare_parameters() {
   // Declaring all default parameters first.
   for (size_t j = 0; j < robot->servo_name.size(); j++) 
     this->declare_parameter(robot->servo_name[j], default_value);
+
+  // Declaring the board option.
+  this->declare_parameter("use_single_board", false);
+
+  // Initializing it already to prevent a warning / error during the launch.
+  use_single_board = this->get_parameter("use_single_board").as_bool();
 
   // We initialize the arrays with their default values.
   for (int i = 0; i < SERVO_MAX_SIZE; i++) { // 5 is the number of data in a single array (in ~/parameters.yaml).
@@ -82,7 +94,7 @@ void RobotNodeHandle::set_up_topics() {
 
   // Setting up the servo config client.
   front_servo_config_pub = this->create_client<front_board_msgs::srv::ServosConfig>("config_servos");
-  //back_servo_config_pub = this->create_client<back_board_msgs::srv::ServosConfig>("config_servos");
+  if (!use_single_board) back_servo_config_pub = this->create_client<back_board_msgs::srv::ServosConfig>("config_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 
@@ -92,19 +104,19 @@ void RobotNodeHandle::set_up_topics() {
   RCLCPP_INFO(this->get_logger(), "Set up /last_current_state publisher.");
 
   front_prop_pub  = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_proportional", 1);
-  //back_prop_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_proportional", 1);
+  if (!use_single_board) back_prop_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_proportional", 1);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional publisher.");
 
   // Setting up the absolute publishers.
   front_abs_pub = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
-  //back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+  if (!use_single_board) back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_absolute publisher.");
 }
 
 void RobotNodeHandle::config_servos() {
-  front_board_msgs::msg::ServoConfig front_config[SERVO_MAX_SIZE];
+  front_board_msgs::msg::ServoConfig front_config[SERVO_MAX_SIZE * 2];
   back_board_msgs::msg::ServoConfig back_config[SERVO_MAX_SIZE];
 
   auto front_request = std::make_shared<front_board_msgs::srv::ServosConfig::Request>();
@@ -112,19 +124,24 @@ void RobotNodeHandle::config_servos() {
 
   for (int h = 0; h < SERVO_MAX_SIZE; h++) {
     front_config[h].servo = int(robot->front_servos_data[h][0] + 1);
-    back_config[h].servo = int(robot->back_servos_data[h][0] + 1);
-
-    front_config[h].center = int(robot->front_servos_data[h][1]);
-    back_config[h].center = int(robot->back_servos_data[h][1]);
-
-    front_config[h].range = int(robot->front_servos_data[h][2]);
-    back_config[h].range = int(robot->back_servos_data[h][2]);
-
     front_config[h].direction = int(robot->front_servos_data[h][3]);
-    back_config[h].direction = int(robot->back_servos_data[h][3]);
-
+    front_config[h].center = int(robot->front_servos_data[h][1]);
+    front_config[h].range = int(robot->front_servos_data[h][2]);
     front_request->servos.push_back(front_config[h]); 
-    //back_request->servos.push_back(back_config[h]); 
+
+    if (use_single_board) {
+      front_config[h + SERVO_MAX_SIZE].range = int(robot->back_servos_data[h][2]);
+      front_config[h + SERVO_MAX_SIZE].direction = int(robot->back_servos_data[h][3]);
+      front_config[h + SERVO_MAX_SIZE].center = int(robot->back_servos_data[h][1]);
+      front_config[h + SERVO_MAX_SIZE].servo = int(robot->back_servos_data[h][0] + 1);
+    } else {
+      back_config[h].range = int(robot->back_servos_data[h][2]);
+      back_config[h].direction = int(robot->back_servos_data[h][3]);
+      back_config[h].center = int(robot->back_servos_data[h][1]);
+      back_config[h].servo = int(robot->back_servos_data[h][0] + 1);
+      back_request->servos.push_back(back_config[h]); 
+    }
+    front_request->servos.push_back(front_config[h]); 
   }
 
   while (!front_servo_config_pub->wait_for_service(1s)) {
@@ -134,15 +151,17 @@ void RobotNodeHandle::config_servos() {
     }
     RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
   } 
-  /*while (!back_servo_config_pub->wait_for_service(1s)) {
-    if (!rclcpp::ok()) {
-      RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
-      return;
+  if (!use_single_board) {
+    while (!back_servo_config_pub->wait_for_service(1s)) {
+      if (!rclcpp::ok()) {
+        RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
+        return;
+      }
+      RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
     }
-    RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
-  }*/
+  }
   auto f_result = front_servo_config_pub->async_send_request(front_request);
-  //auto b_result = back_servo_config_pub->async_send_request(back_request);
+  if (!use_single_board) auto b_result = back_servo_config_pub->async_send_request(back_request);
 
   RCLCPP_INFO(this->get_logger(), "Servos have been configured.");
 }
@@ -150,7 +169,8 @@ void RobotNodeHandle::config_servos() {
 void RobotNodeHandle::callback() {
   // Publishing the proportional values.
   front_prop_pub->publish(robot->front_prop_array);
-  //back_prop_pub->publish(robot->back_prop_array);
+  front_prop_pub->publish(robot->single_back_array);
+  if (!use_single_board) back_prop_pub->publish(robot->back_prop_array);
 
   // Publishing the absolute values.
   // FOR NOW WE DON'T PUBLISH ANYTHING AS THIS CAUSE ISSUES.
@@ -184,6 +204,8 @@ void RobotNodeHandle::late_callback() {
     robot->front_servos_data[i] = this->get_parameter(robot->servo_name[i]).as_integer_array();
     robot->back_servos_data[i] = this->get_parameter(robot->servo_name[i + SERVO_MAX_SIZE]).as_integer_array();
   }
+
+  use_single_board = this->get_parameter("use_single_board").as_bool();
 }
 
 } // namespace smov

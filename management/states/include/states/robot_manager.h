@@ -22,6 +22,9 @@ class RobotManager {
   // Arrays to publish in the proportional publisher.
   front_board_msgs::msg::ServoArray front_prop_array;
   back_board_msgs::msg::ServoArray back_prop_array;
+
+  // When using a single board.
+  front_board_msgs::msg::ServoArray single_back_array;
   
   // Arrays to publish in the absolute publisher.
   front_board_msgs::msg::ServoArray front_abs_array;

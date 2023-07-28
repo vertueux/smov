@@ -45,8 +45,11 @@ class RobotNodeHandle : public rclcpp::Node {
   
   rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
   rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
+  
   rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
   rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
+
+  bool use_single_board = false;
 };      
 
 } // namespace smov
