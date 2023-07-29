@@ -18,7 +18,7 @@
 namespace smov {
 
 // A completly static class.
-class Configuration {
+class Calibration {
  public:
   static int get_char();
   static void exit_program();

@@ -34,6 +34,6 @@ You need to have ROS2 installed and theses packages provided by the default desk
 ## To run it
 To launch the project and the executable after compilation, you'll need to enter this command on a terminal (Note that for the moment, there is only one executable for servo control and configuration) :
 ```bash
-ros2 run configuration servos
+ros2 run calibration node
 ```
 Next, you will find a list of commands whose selection is made by entering hexadecimal numbers to choose a specific command.

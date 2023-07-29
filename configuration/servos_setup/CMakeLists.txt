@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(configuration)
+project(servos_setup)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -13,12 +13,12 @@ find_package(std_msgs REQUIRED)
 
 include_directories(include)
 
-add_executable(servos src/smov_configuration_node.cc src/smov_configuration.cc)
+add_executable(node src/robot_servos_setup.cc)
 
-ament_target_dependencies(servos rclcpp std_msgs front_board_msgs back_board_msgs)
+ament_target_dependencies(node rclcpp std_msgs front_board_msgs back_board_msgs)
 
 install(TARGETS
-  servos 
+  node 
   DESTINATION lib/${PROJECT_NAME}
 )
 

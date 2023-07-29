@@ -1,18 +1,18 @@
-#include <configuration/smov_configuration.h>
+#include <calibration/robot_calibration.h>
 
 namespace smov {
 
-front_board_msgs::msg::ServoArray Configuration::front_servo_array;
-back_board_msgs::msg::ServoArray Configuration::back_servo_array;
+front_board_msgs::msg::ServoArray Calibration::front_servo_array;
+back_board_msgs::msg::ServoArray Calibration::back_servo_array;
 
-int Configuration::active_board = 1;
-int Configuration::rep = 0;
-int Configuration::center = 333;
-int Configuration::minimum = 83; 
-int Configuration::maximum = 520;
+int Calibration::active_board = 1;
+int Calibration::rep = 0;
+int Calibration::center = 333;
+int Calibration::minimum = 83; 
+int Calibration::maximum = 520;
 
 // Later on we use std::cin, as it is not problematic to block the loop.
-int Configuration::get_char() {
+int Calibration::get_char() {
   static struct termios oldt, newt;
   tcgetattr( STDIN_FILENO, &oldt);           
   newt = oldt; 
@@ -24,19 +24,19 @@ int Configuration::get_char() {
   return c;
 }
 
-void Configuration::exit_program() {
+void Calibration::exit_program() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Ending program.");
   rclcpp::shutdown();
 }
 
-void Configuration::switch_board() {
+void Calibration::switch_board() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose between the two boards (1: Front board, 2: Back board).");
-  std::cin >> Configuration::rep;
-  active_board = (int)Configuration::rep;
+  std::cin >> Calibration::rep;
+  active_board = (int)Calibration::rep;
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-void Configuration::reset_all_servos_to(int value, const char* msg) {
+void Calibration::reset_all_servos_to(int value, const char* msg) {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg);
   for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servo_array.servos[i].value = value;
@@ -47,28 +47,28 @@ void Configuration::reset_all_servos_to(int value, const char* msg) {
 
 // Increasing: increase_or_decrease = true.
 // Decreasing: increase_or_decrease = false.
-void Configuration::increase_or_decrease_by(int value, bool increase_or_decrease, const char* msg) {
+void Calibration::increase_or_decrease_by(int value, bool increase_or_decrease, const char* msg) {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg); 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
 
-  std::cin >> Configuration::rep;
+  std::cin >> Calibration::rep;
   if (increase_or_decrease) {
-    front_servo_array.servos[Configuration::rep - 1].value += value;
-    back_servo_array.servos[Configuration::rep - 1].value += value;
+    front_servo_array.servos[Calibration::rep - 1].value += value;
+    back_servo_array.servos[Calibration::rep - 1].value += value;
   } else {
-    front_servo_array.servos[Configuration::rep - 1].value -= value;
-    back_servo_array.servos[Configuration::rep - 1].value -= value;
+    front_servo_array.servos[Calibration::rep - 1].value -= value;
+    back_servo_array.servos[Calibration::rep - 1].value -= value;
   }
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
-int Configuration::set_new_value(const char* msg) {
+int Calibration::set_new_value(const char* msg) {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg);
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose a new value : ");
 
-  std::cin >> Configuration::rep;
+  std::cin >> Calibration::rep;
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
-  return (int)Configuration::rep;
+  return (int)Calibration::rep;
 }
 
 } // namespace smov
