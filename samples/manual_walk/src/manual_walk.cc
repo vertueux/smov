@@ -32,8 +32,8 @@ void ManualWalk::smooth_transition(float &receiver, float value) {
       // Calculer la nouvelle valeur de receiver
       receiver = receiver + delta / N;
 
-      front_state_publisher->publish(front_values);
-      back_state_publisher->publish(back_values);
+      front_state_publisher->publish(front_servos);
+      back_state_publisher->publish(back_servos);
 
 
       // Afficher la valeur de receiver
@@ -55,8 +55,8 @@ void ManualWalk::smooth_transition(float &receiver, float value) {
       // Calculer la nouvelle valeur de receiver
       receiver = receiver - delta / N;
 
-      front_state_publisher->publish(front_values);
-      back_state_publisher->publish(back_values);
+      front_state_publisher->publish(front_servos);
+      back_state_publisher->publish(back_servos);
 
       // Afficher la valeur de receiver
       std::cout << "receiver: " << receiver << std::endl;
@@ -71,18 +71,18 @@ void ManualWalk::smooth_transition(float &receiver, float value) {
 
 void ManualWalk::execute_forward_sequence() {
 
-  /*smooth_transition(front_values.value[RIGHT_BICEPS], -0.066f);
-  smooth_transition(back_values.value[LEFT_BICEPS], -0.066f);*/
-  smooth_transition(front_values.value[LEFT_BICEPS], -0.2f);
-  smooth_transition(back_values.value[RIGHT_BICEPS], -0.2f);
+  /*smooth_transition(front_servos.value[RIGHT_BICEPS], -0.066f);
+  smooth_transition(back_servos.value[LEFT_BICEPS], -0.066f);*/
+  smooth_transition(front_servos.value[LEFT_BICEPS], -0.2f);
+  smooth_transition(back_servos.value[RIGHT_BICEPS], -0.2f);
 
-  std::cout << "========Cooldown=========" << "F Val:" << front_values.value[LEFT_BICEPS] << std::endl;
+  std::cout << "========Cooldown=========" << "F Val:" << front_servos.value[LEFT_BICEPS] << std::endl;
   sleep(cooldown);
 
-  smooth_transition(front_values.value[LEFT_BICEPS], -0.066f);
-  smooth_transition(back_values.value[RIGHT_BICEPS], -0.066f);
-  smooth_transition(front_values.value[RIGHT_BICEPS], -0.2f);
-  smooth_transition(back_values.value[LEFT_BICEPS], -0.2f);
+  smooth_transition(front_servos.value[LEFT_BICEPS], -0.066f);
+  smooth_transition(back_servos.value[RIGHT_BICEPS], -0.066f);
+  smooth_transition(front_servos.value[RIGHT_BICEPS], -0.2f);
+  smooth_transition(back_servos.value[LEFT_BICEPS], -0.2f);
   sleep(cooldown);
 }
 
@@ -103,13 +103,13 @@ void ManualWalk::on_start() {
 
   // Default value when awakened.
   for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
-    front_values.value[i] = 0.0f;
-    front_values.value[i + SERVO_MAX_SIZE / 3] = -0.066f; // -2/3
-    front_values.value[i + 2 * SERVO_MAX_SIZE / 3] = 0.12f;
+    front_servos.value[i] = 0.0f;
+    front_servos.value[i + SERVO_MAX_SIZE / 3] = -0.066f; // -2/3
+    front_servos.value[i + 2 * SERVO_MAX_SIZE / 3] = 0.12f;
 
-    back_values.value[i] = 0.0f;
-    back_values.value[i + SERVO_MAX_SIZE / 3] = -0.066f;
-    back_values.value[i + 2 * SERVO_MAX_SIZE / 3] = 0.12f;
+    back_servos.value[i] = 0.0f;
+    back_servos.value[i + SERVO_MAX_SIZE / 3] = -0.066f;
+    back_servos.value[i + 2 * SERVO_MAX_SIZE / 3] = 0.12f;
   }
 
   execute_forward_sequence();

@@ -11,7 +11,7 @@ namespace smov {
                           void on_quit();\
                           void set_name() {state_name.data = name;}\
                           enum RobotParts {LEFT_BODY, RIGHT_BODY, LEFT_BICEPS, RIGHT_BICEPS, LEFT_LEG, RIGHT_LEG};\
-                          states_msgs::msg::StatesServos front_values;states_msgs::msg::StatesServos back_values;\
+                          states_msgs::msg::StatesServos front_servos;states_msgs::msg::StatesServos back_servos;\
                           rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr front_state_publisher;\
                           rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr back_state_publisher;\
                           rclcpp::Publisher<std_msgs::msg::String>::SharedPtr state_publisher;\
@@ -38,8 +38,8 @@ namespace smov {
    private:\
     void timer_callback() {\
       state.on_loop();\
-      state.front_state_publisher->publish(state.front_values);\
-      state.back_state_publisher->publish(state.back_values);\
+      state.front_state_publisher->publish(state.front_servos);\
+      state.back_state_publisher->publish(state.back_servos);\
       state.state_publisher->publish(state.state_name);\
   }\
   size_t count;\
@@ -58,7 +58,7 @@ namespace smov {
                           void on_quit();\
                           void set_name() {state_name.data = name;}\
                           enum RobotParts {LEFT_BODY, RIGHT_BODY, LEFT_BICEPS, RIGHT_BICEPS, LEFT_LEG, RIGHT_LEG};\
-                          states_msgs::msg::StatesServos front_values;states_msgs::msg::StatesServos back_values;\
+                          states_msgs::msg::StatesServos front_servos;states_msgs::msg::StatesServos back_servos;\
                           rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr front_state_publisher;\
                           rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr back_state_publisher;\
                           rclcpp::TimerBase::SharedPtr timer;\
@@ -97,8 +97,8 @@ namespace smov {
    private:\
     void timer_callback() {\
       state.on_loop();\
-      state.front_state_publisher->publish(state.front_values);\
-      state.back_state_publisher->publish(state.back_values);\
+      state.front_state_publisher->publish(state.front_servos);\
+      state.back_state_publisher->publish(state.back_servos);\
       state.state_publisher->publish(state.state_name);\
       for (int i = 0; i < SERVO_MAX_SIZE; i++) {\
         state.front_servos_data[i] = this->get_parameter(state.servo_name[i]).as_int();\
