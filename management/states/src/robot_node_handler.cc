@@ -8,6 +8,8 @@ using namespace std::chrono_literals;
 
 namespace smov {
 
+bool RobotNodeHandle::use_single_board = false;
+
 RobotNodeHandle::RobotNodeHandle()
  : Node("smov_states") {   
 
@@ -134,6 +136,7 @@ void RobotNodeHandle::config_servos() {
       front_config[h + SERVO_MAX_SIZE].direction = int(robot->back_servos_data[h][3]);
       front_config[h + SERVO_MAX_SIZE].center = int(robot->back_servos_data[h][1]);
       front_config[h + SERVO_MAX_SIZE].servo = int(robot->back_servos_data[h][0] + 1);
+      front_request->servos.push_back(front_config[h]); 
     } else {
       back_config[h].range = int(robot->back_servos_data[h][2]);
       back_config[h].direction = int(robot->back_servos_data[h][3]);
@@ -141,7 +144,6 @@ void RobotNodeHandle::config_servos() {
       back_config[h].servo = int(robot->back_servos_data[h][0] + 1);
       back_request->servos.push_back(back_config[h]); 
     }
-    front_request->servos.push_back(front_config[h]); 
   }
 
   while (!front_servo_config_pub->wait_for_service(1s)) {
@@ -169,9 +171,11 @@ void RobotNodeHandle::config_servos() {
 void RobotNodeHandle::callback() {
   // Publishing the proportional values.
   front_prop_pub->publish(robot->front_prop_array);
-  front_prop_pub->publish(robot->single_back_array);
-  if (!use_single_board) back_prop_pub->publish(robot->back_prop_array);
-
+  if (use_single_board) 
+    front_prop_pub->publish(robot->single_back_array);
+  else 
+    back_prop_pub->publish(robot->back_prop_array);
+  
   // Publishing the absolute values.
   // FOR NOW WE DON'T PUBLISH ANYTHING AS THIS CAUSE ISSUES.
   // front_abs_pub->publish(robot->front_abs_array);

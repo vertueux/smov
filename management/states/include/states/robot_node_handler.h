@@ -17,6 +17,8 @@ class RobotNodeHandle : public rclcpp::Node {
  public:
   RobotNodeHandle();
 
+  static bool use_single_board;
+
  private:
   void declare_parameters();
   void set_up_topics();
@@ -48,8 +50,6 @@ class RobotNodeHandle : public rclcpp::Node {
   
   rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
   rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
-
-  bool use_single_board = false;
 };      
 
 } // namespace smov

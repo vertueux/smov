@@ -22,8 +22,8 @@ void ProfilePicture::smooth_transition(float &receiver1, float &receiver2, float
     for (int i = 0; i < N; i++) {
       // Calculer la nouvelle valeur de receiver
       receiver1 = receiver1 + delta / N;
-      receiver2 = receiver2 + delta / N;
-      receiver3 = receiver3 - delta / N;
+      receiver2 = receiver2 - delta / N;
+      receiver3 = receiver3 + delta / N;
       receiver4 = receiver4 - delta / N;
 
 
@@ -49,8 +49,8 @@ void ProfilePicture::smooth_transition(float &receiver1, float &receiver2, float
     for (int i = 0; i < N; i++) {
       // Calculer la nouvelle valeur de receiver
       receiver1 = receiver1 - delta / N;
-      receiver2 = receiver2 - delta / N;
-      receiver3 = receiver3 + delta / N;
+      receiver2 = receiver2 + delta / N;
+      receiver3 = receiver3 - delta / N;
       receiver4 = receiver4 + delta / N;
 
       front_state_publisher->publish(front_servos);
@@ -96,6 +96,9 @@ void ProfilePicture::on_start() {
     back_servos.value[i + SERVO_MAX_SIZE / 3] = -0.066f;
     back_servos.value[i + 2 * SERVO_MAX_SIZE / 3] = 0.12f;
   }
+
+  front_state_publisher->publish(front_servos);
+  back_state_publisher->publish(back_servos);
 
   sleep(5);
   animate_first_part();
