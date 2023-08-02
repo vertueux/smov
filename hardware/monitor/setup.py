@@ -2,7 +2,7 @@ import os
 from glob import glob
 from setuptools import setup
 
-package_name = 'monitor'
+package_name = 'smov_monitor'
 
 setup(
     name=package_name,

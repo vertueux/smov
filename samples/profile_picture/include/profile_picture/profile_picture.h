@@ -19,11 +19,6 @@ namespace smov {
 class ProfilePicture {
  public:
   STATE_CLASS("Profile Picture")
-
-  void smooth_transition(float &receiver1, float &receiver2, float &receiver3, float &receiver4, float value);
-  void animate_first_part();
-  void animate_second_part();
-  int cooldown = 2;
 };
 
 } // namespace smov
