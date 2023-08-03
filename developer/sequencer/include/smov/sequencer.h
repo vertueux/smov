@@ -28,6 +28,7 @@ class SequencerState {
  public:
   STATE_LIBRARY_CLASS(SequencerState)
 
+  void smooth_transition(float& var, float result, int accuracy, int speed);
   void execute_sequence(MicroController mc, int servo, std::vector<float> values, int cooldown);
   void execute_sequence(MicroController mc, std::array<int, 2> servos, std::vector<float> values, int cooldown);
   void execute_group_sequence(MicroController mc, ServoOrder sequence, std::array<float, 3> values, int timeout);

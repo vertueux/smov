@@ -6,6 +6,10 @@
 
 namespace smov {
 
+void SequencerState::smooth_transition(float& var, float result, int accuracy, int speed) {
+  
+}
+
 void SequencerState::execute_sequence(MicroController mc, int servo, std::vector<float> values, int cooldown) {
   if (mc == FRONT) {
     for (size_t i = 0; i < values.size(); i++) {
