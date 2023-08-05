@@ -136,7 +136,7 @@ void RobotNodeHandle::config_servos() {
       front_config[h + SERVO_MAX_SIZE].direction = int(robot->back_servos_data[h][3]);
       front_config[h + SERVO_MAX_SIZE].center = int(robot->back_servos_data[h][1]);
       front_config[h + SERVO_MAX_SIZE].servo = int(robot->back_servos_data[h][0] + 1);
-      front_request->servos.push_back(front_config[h]); 
+      front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]); 
     } else {
       back_config[h].range = int(robot->back_servos_data[h][2]);
       back_config[h].direction = int(robot->back_servos_data[h][3]);

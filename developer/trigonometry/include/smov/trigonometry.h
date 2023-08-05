@@ -10,8 +10,6 @@ namespace smov {
 class TrigonometryState {
  public:
   STATE_LIBRARY_CLASS(TrigonometryState)
-
-  void set_legs_distance_to(float distance);
 };
 
 } // namespace smov

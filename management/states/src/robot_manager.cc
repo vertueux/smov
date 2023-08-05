@@ -29,7 +29,7 @@ void RobotManager::set_up_servos() {
 
     if (RobotNodeHandle::use_single_board) {
       single_back_array.servos[i].servo = back_servos_data[i][0] + 1;
-      back_prop_array.servos[i].value = back_servos_data[i][4];
+      single_back_array.servos[i].value = back_servos_data[i][4];
     }
   }
 }

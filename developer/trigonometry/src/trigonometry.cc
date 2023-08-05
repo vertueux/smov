@@ -5,8 +5,4 @@
 
 namespace smov {
 
-void TrigonometryState::set_legs_distance_to(float distance) {
-
-}
-
 }
