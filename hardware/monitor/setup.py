@@ -23,7 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'example = monitor.lcd_monitor_example:main'
+            'node = smov_monitor.lcd_monitor:main'
         ],
     },
 )

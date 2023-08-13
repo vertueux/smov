@@ -14,4 +14,3 @@ To launch the project and the executable after compilation, you'll need to enter
 ```bash
 ros2 run servos_setup node --ros-args --params-file data/servos_parameters.yaml
 ```
-Next, you will find a list of commands whose selection is made by entering hexadecimal numbers to choose a specific command.

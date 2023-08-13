@@ -2,8 +2,6 @@ build/
 install/
 log/
 
-evolution/
-
 ######### Python
 
 # Byte-compiled / optimized / DLL files

@@ -1,24 +1,13 @@
-# -*- coding: utf-8 -*-
-"""
-Compiled, mashed and generally mutilated 2014-2015 by Denis Pleic
-Made available under GNU GENERAL PUBLIC LICENSE
-
-# Modified Python I2C library for Raspberry Pi
-# as found on http://www.recantha.co.uk/blog/?p=4849
-# Joined existing 'i2c_lib.py' and 'lcddriver.py' into a single library
-# added bits and pieces from various sources
-# By DenisFromHR (Denis Pleic)
-# 2015-02-10, ver 0.1
-
-"""
-#
-#
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from time import *
 import smbus
 from time import *
 
 
 class I2CDevice:
-   def __init__(self, addr, port=1):
+   def __init__(self, addr, port=3):
       self.addr = addr
       self.bus = smbus.SMBus(port)
 
@@ -148,3 +137,33 @@ class LCD:
    def lcd_clear(self):
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_RETURNHOME)
+
+lcd = LCD()
+
+class MonitorNode(Node):
+    def __init__(self):
+        super().__init__('smov_monitor')
+        self.subscription = self.create_subscription(
+            String,
+            'data_display',
+            self.listener_callback,
+            10)
+        self.subscription  
+
+    def listener_callback(self, msg):
+        lcd.lcd_display_string(msg.data, 1)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    monitor_node = MonitorNode()
+    
+    rclpy.spin(monitor_node)
+    
+    monitor_node.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
