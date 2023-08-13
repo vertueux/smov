@@ -1,6 +1,6 @@
 # The Configuration package
 
-> **Note** Changes applied to all servos will also be applied to the other microcontroller when you switch microcontrollers.
+> **Note**: Changes applied to all servos will also be applied to the other microcontroller when you switch microcontrollers.
 
 The Configuration package lets you control servos via a command-line interface, with various choices available by entering hexadecimal numbers. It facilitates calibration of servo motors on the robot. 
 
@@ -26,13 +26,13 @@ The package has been designed to be easily expandable, optimized and modular. It
 
 ## Installation
 
-You need to have ROS2 installed and theses packages provided by the default desktop installation below 
+You need to have ROS2 installed and theses packages provided by the default desktop installation below: 
 
 * **rclcpp**.
 * Have the `front_board_msgs` as well as the `back_board_msgs` package (in the `communications/` directory).
 
 ## To run it
-To launch the project and the executable after compilation, you'll need to enter this command on a terminal (Note that for the moment, there is only one executable for servo control and configuration)
+To launch the project and the executable after compilation, you'll need to enter this command on a terminal (Note that for the moment, there is only one executable for servo control and configuration):
 ```bash
 ros2 run calibration node
 ```
