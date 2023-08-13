@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(sequencer)
+project(smov_sequencer)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,7 +7,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(states REQUIRED)
+find_package(smov_states REQUIRED)
 find_package(states_msgs REQUIRED)
 
 include_directories(include)
