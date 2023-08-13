@@ -78,13 +78,13 @@ git clone --recursive https://github.com/vertueux/smov.git
 ```
 
 ## Installing I2C
-I2C is required to control microcontrollers :
+I2C is required to control microcontrollers
 ```bash
 sudo apt install -y libi2c-dev i2c-tools
 ```
 
 ## Configure Ubuntu
-Make sure that both I2C and SPI are enabled by default. Check the file */boot/firmware/syscfg.txt* and see if you have the following lines :
+Make sure that both I2C and SPI are enabled by default. Check the file */boot/firmware/syscfg.txt* and see if you have the following lines
 ```txt 
 dtparam=i2c_arm=on
 dtparam=spi=on
@@ -93,11 +93,11 @@ If not, maybe you can append them on */boot/firmware/usercfg.txt* and reboot, an
 
 * Refer to [this post](https://askubuntu.com/questions/1273700/enable-spi-and-i2c-on-ubuntu-20-04-raspberry-pi/1273900#1273900).
 
-You can also add the following line to */boot/config.txt* :
+You can also add the following line to */boot/config.txt*
 ```bash
 dtparam=i2c_arm=on
 ```
-As well as this line to */etc/modules* :
+As well as this line to */etc/modules*
 ```bash
 i2c-dev
 ```
@@ -112,34 +112,39 @@ Now when you log in you can type the following command to see all the connected 
 sudo i2cdetect -y 1 # Or 0, depends on the device you use.
 ```
 ## Configuring the Second I2C Port
-We first have to edit */boot/config.txt* : 
+We first have to edit */boot/config.txt* 
 ```bash
 sudo nano /boot/config.txt
 ```
-If we scroll to the bottom we may find the remnants of the precious peripheral (if it was added here previously) :
+If we scroll to the bottom we may find the remnants of the precious peripheral (if it was added here previously)
 ```bash
 dtoverlay=i2c-rtc,pcf8523,wakeup-source #RTC
 ```
 
-We now need to add an additional device under a new bus — e.g. bus 2. We do this by adding an additional line with the following content :
+We now need to add an additional device under a new bus — e.g. bus 2. We do this by adding an additional line with the following content
 ```bash
 dtoverlay=i2c-gpio,bus=2,i2c_gpio_sda=23,i2c_gpio_scl=24
 ```
 
 ## Manual configuration 
-When using a Raspberry Pi, you must first have dtoverlay installed for the manual configuration. Install it by copying this command : 
+When using a Raspberry Pi, you must first have dtoverlay installed for the manual configuration. Install it by copying this command 
 ```bash
 sudo apt install libraspberrypi-bin
 ```
 
-If we do not want to change any files we can tell our Raspberry Pi to load the port through a shell script with the following command. This method is easier for optional loads or prototyping. The dtoverlay the command is similar to that of the config.txt file : 
+If we do not want to change any files we can tell our Raspberry Pi to load the port through a shell script with the following command. This method is easier for optional loads or prototyping. The dtoverlay the command is similar to that of the config.txt file. 
+
 ```bash
 sudo dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24 
 ```
 
-It's also a good idea to add this command to *~/.bashrc* so you don't have to do it again every time you reboot : 
-```bash
-echo "sudo dtoverlay i2c-gpio bus=4 i2c_gpio_sda=23 i2c_gpio_scl=24" >> ~/.bashrc
-```
-
 * Refer to [this post](https://medium.com/cemac/creating-multiple-i2c-ports-on-a-raspberry-pi-e31ce72a3eb2)
+
+## Configuring the LCD I2C Port
+To configure the LCD, you'll need to set up a new I2C port, in the same way as for configuring the second microcontroller input.
+
+After selecting the SDA & SCL port to be configured, enter this command, modifying it as required, Here's an example: 
+
+```bash
+sudo dtoverlay i2c-gpio bus=3 i2c_gpio_sda=10 i2c_gpio_scl=9 
+```

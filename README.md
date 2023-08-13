@@ -35,7 +35,7 @@ This package is designed and tested to be compatible with ROS2 Humble and ROS2 F
 | Raspberry Pi   | Pi 3 Model B+<br/> Pi 4 Model B<br/> | [Ubuntu 22.04 LTS](https://ubuntu.com/download/raspberry-pi)<br/> [Ubuntu 20.04 LTS](https://ubuntu.com/download/raspberry-pi) | For now, the project is currently being only tested on the Raspberry Pi 3 Model B+, but should possibly (and surely) be available on other Raspberry Pi.  |
 
 ## Links and References
-* The I2C PWM Board repository : 
+* The I2C PWM Board repository 
   * [Click here](https://github.com/vertueux/i2c_pwm_board)
-* My quadruped kinematics repository : 
+* My quadruped kinematics repository 
   * [Click here](https://github.com/vertueux/quadruped_kinematics)
