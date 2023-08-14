@@ -38,6 +38,10 @@ RobotNodeHandle::RobotNodeHandle()
   // Setting up the publishers.
   set_up_topics();
 
+  // Setting the display lines.
+  up_display.line = 1;
+  down_display.line = 2;
+
   // Configuring the proportional servos with their defined values.
   config_servos();
 
@@ -113,6 +117,9 @@ void RobotNodeHandle::set_up_topics() {
   // Setting up the absolute publishers.
   front_abs_pub = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
   if (!use_single_board) back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+
+  // Setting up the monitor publisher.
+  monitor_pub = this->create_publisher<monitor_msgs::msg::DisplayText>("data_display", 1);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_absolute publisher.");
 }
@@ -210,6 +217,22 @@ void RobotNodeHandle::late_callback() {
   }
 
   use_single_board = this->get_parameter("use_single_board").as_bool();
+
+  std::string up_display_str;
+  std::string down_display_str;
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
+    up_display_str += std::to_string(robot->front_prop_array.servos[i].value);
+    up_display_str += ", ";
+    down_display_str += std::to_string(robot->back_prop_array.servos[i].value);
+    down_display_str += ", ";
+  }
+
+  up_display.data = up_display_str.c_str();
+  down_display.data = down_display_str.c_str();
+
+  // Publishing to the panel.
+  monitor_pub->publish(up_display);
+  monitor_pub->publish(down_display);
 }
 
 } // namespace smov

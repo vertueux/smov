@@ -11,6 +11,7 @@ find_package(back_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(states_msgs REQUIRED)
+find_package(monitor_msgs REQUIRED)
 
 include_directories(include)
 
@@ -20,6 +21,7 @@ set (dependencies
   front_board_msgs 
   back_board_msgs
   states_msgs
+  monitor_msgs
 )
 
 add_library(states_lib SHARED src/robot_manager.cc src/robot_node_handler.cc src/robot_states.cc)

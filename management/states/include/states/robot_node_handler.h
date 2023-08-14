@@ -8,6 +8,7 @@
 #include "back_board_msgs/srv/servos_config.hpp"
 #include "back_board_msgs/msg/servo_config.hpp"
 #include "states_msgs/msg/states_servos.hpp"
+#include "monitor_msgs/msg/display_text.hpp"
 
 using namespace std::chrono_literals;
 
@@ -35,6 +36,10 @@ class RobotNodeHandle : public rclcpp::Node {
   // Used for non-necessary fast operations
   rclcpp::TimerBase::SharedPtr late_timer;
 
+  // Used to publish on the LCD panel.
+  monitor_msgs::msg::DisplayText up_display;
+  monitor_msgs::msg::DisplayText down_display;
+
   // Creating the base robot with all the necessary data & publishers.
   RobotManager* robot = RobotManager::Instance();
   
@@ -50,6 +55,8 @@ class RobotNodeHandle : public rclcpp::Node {
   
   rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
   rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
+
+  rclcpp::Publisher<monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
 };      
 
 } // namespace smov
