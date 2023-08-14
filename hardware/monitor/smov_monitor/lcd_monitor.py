@@ -1,10 +1,8 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from monitor_msgs.msg import DisplayText
 from time import *
 import smbus
-from time import *
-
 
 class I2CDevice:
    def __init__(self, addr, port=3):
@@ -96,11 +94,13 @@ class LCD:
       self.lcd_write(0x03)
       self.lcd_write(0x03)
       self.lcd_write(0x02)
+      self.get_logger().info('Initializing the LCD Panel.')
 
       self.lcd_write(LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
       self.lcd_write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
+      self.get_logger().info('Set up the display control & configuration.')
       sleep(0.2)
 
    # clocks EN to latch command
@@ -144,14 +144,17 @@ class MonitorNode(Node):
     def __init__(self):
         super().__init__('smov_monitor')
         self.subscription = self.create_subscription(
-            String,
+            DisplayText,
             'data_display',
             self.listener_callback,
             10)
         self.subscription  
+        lcd.lcd_display_string("What's up world?", 1)
 
     def listener_callback(self, msg):
-        lcd.lcd_display_string(msg.data, 1)
+        lcd.lcd_write(LCD_CLEARDISPLAY)
+        self.get_logger().info('Sending %s' % msg.data)
+        lcd.lcd_display_string(msg.data, msg.line)
 
 
 def main(args=None):

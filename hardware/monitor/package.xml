@@ -7,6 +7,9 @@
   <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
   <license>GNU GENERAL PUBLIC LICENSE</license>
 
+  <depend>rclpy</depend>
+  <depend>monitor_msgs</depend>
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
