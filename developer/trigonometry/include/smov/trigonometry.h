@@ -1,22 +1,31 @@
 #pragma once
 
+#include <iostream>
+#include <math.h>
+#include <numeric>
+#include <vector>
+#include <algorithm>
+
 #include <rclcpp/rclcpp.hpp>
 
 #include <states/robot_states.h>
 #include <states_msgs/msg/states_servos.hpp>
+
+#include <Eigen/Dense>
+
+using namespace std;
+using namespace Eigen;
 
 namespace smov {
 
 class TrigonometryState {
  public:
   STATE_LIBRARY_CLASS(TrigonometryState)
-  TrigonometryState(float _l1, float _l2, float _l3);
 
-  float l1;
-  float l2;
-  float l3;
+  TrigonometryState();
 
-  void solve_leg_kinematics(float x, float y, float z, bool is_right);
+  // Phi is the default angle between the body and the leg, it is usually a 90° angle.
+  float phi = 90;
 };
 
 } // namespace smov
