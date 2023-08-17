@@ -16,9 +16,9 @@
 
 namespace smov {
 
-class ProfilePicture {
+class KinematicsTesting {
  public:
-  STATE_CLASS("Profile Picture")
+  STATE_CLASS("Kinematics Testing")
 };
 
 } // namespace smov
