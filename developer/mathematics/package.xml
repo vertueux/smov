@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>smov_sequencer</name>
+  <name>smov_mathematics</name>
   <version>0.0.0</version>
-  <description>Sequencer motions on the SMOV robot.</description>
+  <description>Mathematics on the SMOV robot.</description>
   <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
   <license>EUPL-1.2</license>
 

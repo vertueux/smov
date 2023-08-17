@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(smov_sequencer)
+project(smov_mathematics)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -18,10 +18,10 @@ set (dependencies
   states_msgs
 )
 
-add_library(sequencer_lib SHARED src/sequencer.cc)
-ament_target_dependencies(sequencer_lib ${dependencies})
+add_library(mathematics_lib SHARED src/mathematics.cc)
+ament_target_dependencies(mathematics_lib ${dependencies})
 
-install(TARGETS sequencer_lib
+install(TARGETS mathematics_lib
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
@@ -32,7 +32,7 @@ install(DIRECTORY include/
 )
 
 ament_export_include_directories(include)
-ament_export_libraries(sequencer_lib)
+ament_export_libraries(mathematics_lib)
 ament_export_dependencies(${dependencies})
 
 ament_package()

@@ -9,7 +9,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(smov_states REQUIRED)
 find_package(states_msgs REQUIRED)
-find_package(Eigen3 REQUIRED NO_MODULE)
+find_package(smov_mathematics REQUIRED)
 
 include_directories(include)
 
@@ -17,15 +17,11 @@ set (dependencies
   rclcpp 
   smov_states
   states_msgs
+  smov_mathematics
 )
 
 add_library(trigonometry_lib SHARED src/trigonometry.cc)
 ament_target_dependencies(trigonometry_lib ${dependencies})
-
-target_link_libraries(trigonometry_lib
-	Eigen3::Eigen
-)
-
 
 install(TARGETS trigonometry_lib
   ARCHIVE DESTINATION lib
