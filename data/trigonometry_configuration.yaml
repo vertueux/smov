@@ -1,0 +1,19 @@
+smov_state_trigonometry:  
+  ros__parameters:
+    #     Center angle, Converting pulse to angle factor.
+    AVCG: [90         , 30.5]        
+    AVCD: [90         , 30.5]
+    AVBG: [1          , 30.5]
+    AVBD: [1          , 30.5]
+    AVJG: [1          , 30.5]
+    AVJD: [1          , 30.5]
+    ARCG: [90         , 30.5]
+    ARCD: [90         , 30.5]
+    ARBG: [1          , 30.5]
+    ARBD: [1          , 30.5]
+    ARJG: [1          , 30.5]
+    ARJD: [1          , 30.5]
+
+    length_body_shoulder: 10 # L1.
+    length_shoulder_leg: 10 # L2.
+
