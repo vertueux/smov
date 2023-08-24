@@ -17,20 +17,7 @@ namespace smov {
                           rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr back_state_publisher;\
                           rclcpp::Publisher<std_msgs::msg::String>::SharedPtr state_publisher;\
                           std_msgs::msg::String state_name;\
-                          rclcpp::TimerBase::SharedPtr timer;
-
-#define STATE_LIBRARY_CLASS(name) states_msgs::msg::StatesServos* front_servos;\
-                                  states_msgs::msg::StatesServos* back_servos;\
-                                  rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* front_state_publisher;\
-                                  rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* back_state_publisher;\
-                                  name(states_msgs::msg::StatesServos f_servos, states_msgs::msg::StatesServos b_servos,\
-                                   rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr f_pub,\
-                                   rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr b_pub) {\
-                                    front_servos = &f_servos;\
-                                    back_servos = &b_servos;\
-                                    front_state_publisher = &f_pub;\
-                                    back_state_publisher = &b_pub;\
-                                  }\
+                          rclcpp::TimerBase::SharedPtr timer;\
 
 #define DECLARE_STATE_NODE_CLASS(node_name,state_class,timeout)\
   using namespace std::chrono_literals;\

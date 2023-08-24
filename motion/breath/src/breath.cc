@@ -1,16 +1,15 @@
 #include <breath/breath.h>
+#include <iostream>
 
 namespace smov {
 
 void BreathState::on_start() {
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_servos.value[i] = 0.0f;
-    back_servos.value[i] = 0.0f;
-  }
+  trig.set_legs_distance_to(8, front_servos, back_servos); // 8 cm.
 
-  trig = TrigonometryState(&front_servos, &back_servos,
-   &front_state_publisher, &back_state_publisher, data, 14, 14); // Mine are 14cm both.
-  trig.set_legs_distance_to(8); // 8 cm.
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
+    std::cout << front_servos.value[i] << std::endl;
+    std::cout << back_servos.value[i] << std::endl;
+  }
 }
 
 void BreathState::on_loop() {
