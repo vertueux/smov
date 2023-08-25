@@ -29,11 +29,11 @@ You need to have ROS2 installed and theses packages provided by the default desk
 To launch the project and the executables after compilation, you'll need to enter the two commands on two separate terminals (for the moment, there's no `.launch` file). 
 Firstly, to launch the microcontroller before: 
 ```bash
-ros2 run board front
+ros2 run smov_board front
 ```
 Then, in a separate terminal, paste: 
 ```bash
-ros2 run board back
+ros2 run smov_board back
 ```
 
 ## Examples

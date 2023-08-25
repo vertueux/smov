@@ -5,4 +5,4 @@
 ## Run it
 This is where you are supposed to show the required commands in order to launch the node : 
 ```bash
-ros2 run breath state 
+ros2 run smov_breath state 
