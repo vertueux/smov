@@ -35,7 +35,6 @@ void ManualWalk::smooth_transition(float &receiver, float value) {
       front_state_publisher->publish(front_servos);
       back_state_publisher->publish(back_servos);
 
-
       // Afficher la valeur de receiver
       std::cout << "receiver: " << receiver << std::endl;
 

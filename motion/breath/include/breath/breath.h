@@ -15,7 +15,7 @@ class BreathState {
 
   std::array<std::array<float, 2>, 12> data = {{{0, 70},{0, 70},{45, 135},{45, 135},{-10, 150},{-10, 150},  // Front servos.
                                                {0, 70},{0, 70},{45, 135},{45, 135},{-10, 150},{-10, 150}}}; // Back servos.
-  TrigonometryState trig = TrigonometryState(14, 14, data);
+  TrigonometryState trig = TrigonometryState(&front_servos, &back_servos, &front_state_publisher, &back_state_publisher, 14, 14, data);
 };
 
 } // namespace smov

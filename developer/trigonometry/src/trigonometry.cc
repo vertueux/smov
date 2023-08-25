@@ -6,8 +6,7 @@ float TrigonometryState::convert_rad_to_deg(float rad) {
   return (rad * (180.0f / M_PI));
 }
 
-void TrigonometryState::move_servo_to_ang(MicroController mc, int servo, float angle,
-  states_msgs::msg::StatesServos& f_servos, states_msgs::msg::StatesServos& b_servos) {
+void TrigonometryState::move_servo_to_ang(MicroController mc, int servo, float angle) {
   float relative_servo = servo;
   if (mc == BACK) relative_servo += SERVO_MAX_SIZE;
 
@@ -18,11 +17,13 @@ void TrigonometryState::move_servo_to_ang(MicroController mc, int servo, float a
   float factor = 1 / (data[relative_servo][1] - data[relative_servo][0]);
 
   if (mc == FRONT) {
-    f_servos.value[servo] = angle * factor;
+    front_servos->value[servo] = angle * factor;
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Final result=%f", angle * factor);
+    (*front_state_publisher)->publish(*front_servos);
   } else {
-    b_servos.value[servo] = angle * factor;
+    back_servos->value[servo] = angle * factor;
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Final result=%f", angle * factor);
+    (*back_state_publisher)->publish(*back_servos);
   }
 }
 
@@ -41,8 +42,7 @@ Vector3 TrigonometryState::set_leg_to(Vector3 xyz) {
   return result;
 }
 
-void TrigonometryState::set_legs_distance_to(float value,
-  states_msgs::msg::StatesServos& f_servos, states_msgs::msg::StatesServos& b_servos) {
+void TrigonometryState::set_legs_distance_to(float value) {
   // l1: A, l2: B, value: C.
   // We don't actually need angle A, in any case the triangle has to add up to 180°.
   //float a = acos((pow(l2, 2.0) + pow(value, 2.0) - pow(a, 2.0)) / 2 * l2 * value);
@@ -54,20 +54,20 @@ void TrigonometryState::set_legs_distance_to(float value,
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Theta angle is=%f", theta);
 
   // Moving the front biceps servos.
-  move_servo_to_ang(FRONT, 2, convert_rad_to_deg(b), f_servos, b_servos);
-  move_servo_to_ang(FRONT, 3, convert_rad_to_deg(b), f_servos, b_servos);
+  move_servo_to_ang(FRONT, 2, convert_rad_to_deg(b));
+  move_servo_to_ang(FRONT, 3, convert_rad_to_deg(b));
 
   // Moving the front legs servos.
-  move_servo_to_ang(FRONT, 4, convert_rad_to_deg(theta), f_servos, b_servos);
-  move_servo_to_ang(FRONT, 5, convert_rad_to_deg(theta), f_servos, b_servos);
+  move_servo_to_ang(FRONT, 4, convert_rad_to_deg(theta));
+  move_servo_to_ang(FRONT, 5, convert_rad_to_deg(theta));
 
   // Moving the back biceps servos.
-  move_servo_to_ang(BACK, 2, convert_rad_to_deg(b), f_servos, b_servos);
-  move_servo_to_ang(BACK, 3, convert_rad_to_deg(b), f_servos, b_servos);
+  move_servo_to_ang(BACK, 2, convert_rad_to_deg(b));
+  move_servo_to_ang(BACK, 3, convert_rad_to_deg(b));
 
   // Moving the back legs servos.
-  move_servo_to_ang(BACK, 4, convert_rad_to_deg(theta), f_servos, b_servos);
-  move_servo_to_ang(BACK, 5, convert_rad_to_deg(theta), f_servos, b_servos);
+  move_servo_to_ang(BACK, 4, convert_rad_to_deg(theta));
+  move_servo_to_ang(BACK, 5, convert_rad_to_deg(theta));
 }
 
 }
