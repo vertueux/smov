@@ -45,23 +45,40 @@ RobotNodeHandle::RobotNodeHandle()
   // Configuring the proportional servos with their defined values.
   config_servos();
 
+  // Publishing the proportional values.
+  front_prop_pub->publish(robot->front_prop_array);
+  if (use_single_board) 
+    front_prop_pub->publish(robot->single_back_array);
+  else 
+    back_prop_pub->publish(robot->back_prop_array);
+
   // Calling the loops with some timeouts.
-  timer = this->create_wall_timer(10ms, std::bind(&RobotNodeHandle::callback, this));
   late_timer = this->create_wall_timer(4s, std::bind(&RobotNodeHandle::late_callback, this));
 }
 
+// Publishing the absolute values.
+// FOR NOW WE DON'T PUBLISH ANYTHING AS IT CAUSES ISSUES.
+// front_abs_pub->publish(robot->front_abs_array);
+// back_abs_pub->publish(robot->back_abs_array);
+
 void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
     robot->front_prop_array.servos[i].value = msg->value[i];
+    front_prop_pub->publish(robot->front_prop_array);
+  }
 }
 
 void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
   if (use_single_board) {
-    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) {
       robot->single_back_array.servos[i].value = msg->value[i];
+      front_prop_pub->publish(robot->single_back_array);
+    }
   } else {
-    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) {
       robot->back_prop_array.servos[i].value = msg->value[i];
+      back_prop_pub->publish(robot->back_prop_array);
+    }
   }
 }
 
@@ -173,20 +190,6 @@ void RobotNodeHandle::config_servos() {
   if (!use_single_board) auto b_result = back_servo_config_pub->async_send_request(back_request);
 
   RCLCPP_INFO(this->get_logger(), "Servos have been configured.");
-}
-
-void RobotNodeHandle::callback() {
-  // Publishing the proportional values.
-  front_prop_pub->publish(robot->front_prop_array);
-  if (use_single_board) 
-    front_prop_pub->publish(robot->single_back_array);
-  else 
-    back_prop_pub->publish(robot->back_prop_array);
-  
-  // Publishing the absolute values.
-  // FOR NOW WE DON'T PUBLISH ANYTHING AS THIS CAUSE ISSUES.
-  // front_abs_pub->publish(robot->front_abs_array);
-  // back_abs_pub->publish(robot->back_abs_array);
 }
 
 void RobotNodeHandle::late_callback() {

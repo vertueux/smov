@@ -5,11 +5,6 @@ namespace smov {
 
 void BreathState::on_start() {
   trig.set_legs_distance_to(8); // 8 cm.
-
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    std::cout << front_servos.value[i] << std::endl;
-    std::cout << back_servos.value[i] << std::endl;
-  }
 }
 
 void BreathState::on_loop() {

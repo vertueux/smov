@@ -49,8 +49,8 @@ namespace smov {
    private:\
     void timer_callback() {\
       state.on_loop();\
-      state.front_state_publisher->publish(state.front_servos);\
-      state.back_state_publisher->publish(state.back_servos);\
+      /*state.front_state_publisher->publish(state.front_servos);*/\
+      /*state.back_state_publisher->publish(state.back_servos);*/\
       state.state_publisher->publish(state.state_name);\
   }\
   size_t count;\

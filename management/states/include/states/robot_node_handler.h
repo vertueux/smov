@@ -24,7 +24,6 @@ class RobotNodeHandle : public rclcpp::Node {
   void declare_parameters();
   void set_up_topics();
   void config_servos();
-  void callback();
   void late_callback();
   void front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg);
   void back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg);

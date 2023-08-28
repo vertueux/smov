@@ -10,7 +10,7 @@ void TrigonometryState::move_servo_to_ang(MicroController mc, int servo, float a
   float relative_servo = servo;
   if (mc == BACK) relative_servo += SERVO_MAX_SIZE;
 
-  if (angle > data[relative_servo][1] || angle < -data[relative_servo][1]) {
+  if (angle > data[relative_servo][1] || angle < (data[relative_servo][0] - data[relative_servo][1])) {
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Angle out of range, max angle=%f", data[relative_servo][1]);
     return;
   }
