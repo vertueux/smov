@@ -94,13 +94,13 @@ class LCD:
       self.lcd_write(0x03)
       self.lcd_write(0x03)
       self.lcd_write(0x02)
-      self.get_logger().info('Initializing the LCD Panel.')
+      print('Initializing the LCD Panel.')
 
       self.lcd_write(LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
       self.lcd_write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
-      self.get_logger().info('Set up the display control & configuration.')
+      print('Set up the display control & configuration.')
       sleep(0.2)
 
    # clocks EN to latch command
