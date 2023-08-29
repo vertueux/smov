@@ -25,6 +25,9 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <errno.h>   // for errno.
+#include <limits.h>  // for INT_MAX, INT_MIN.
+#include <stdlib.h>  // for strtol.
 
 extern "C" {
   #include <linux/i2c.h>
@@ -39,15 +42,15 @@ extern "C" {
 
 #include <xmlrpcpp/XmlRpc.h>
 
-#include "back_board_msgs/msg/servo.hpp"
-#include "back_board_msgs/msg/servo_array.hpp"
-#include "back_board_msgs/msg/servo_config.hpp"
-#include "back_board_msgs/msg/servo_config_array.hpp"
-#include "back_board_msgs/srv/servos_config.hpp"
-#include "back_board_msgs/srv/drive_mode.hpp"
-#include "back_board_msgs/msg/position.hpp"
-#include "back_board_msgs/msg/position_array.hpp"
-#include "back_board_msgs/srv/int_value.hpp"
+#include "board_msgs/msg/servo.hpp"
+#include "board_msgs/msg/servo_array.hpp"
+#include "board_msgs/msg/servo_config.hpp"
+#include "board_msgs/msg/servo_config_array.hpp"
+#include "board_msgs/srv/servos_config.hpp"
+#include "board_msgs/srv/drive_mode.hpp"
+#include "board_msgs/msg/position.hpp"
+#include "board_msgs/msg/position_array.hpp"
+#include "board_msgs/srv/int_value.hpp"
 
 #ifndef _PI
   #define _PI 3.14159265358979323846
@@ -124,9 +127,9 @@ int _controller_io_device;                  // Linux file for I2C.
 int _pwm_frequency = 50;                    // Default is 50Hz.
 
 // The class that handles messages between the controller and ROS2.
-class BackBoardNode : public rclcpp::Node {
+class FrontBoardNode : public rclcpp::Node {
 public:
-    explicit BackBoardNode(const std::string & node_name="back_board", const std::string & node_namespace="/")
+    explicit FrontBoardNode(const std::string & node_name="smov_board", const std::string & node_namespace="/")
       : rclcpp::Node(node_name, node_namespace) {}
 };
 
@@ -486,8 +489,8 @@ static void _init (const char* filename) {
 	RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "I2C bus opened on %s", filename);
 }
 
-void servos_absolute (const std::shared_ptr<back_board_msgs::msg::ServoArray> msg) {
-  for (std::vector<back_board_msgs::msg::Servo>::const_iterator sp = msg->servos.begin(); sp != msg->servos.end(); ++sp) {
+void servos_absolute (const std::shared_ptr<board_msgs::msg::ServoArray> msg) {
+  for (std::vector<board_msgs::msg::Servo>::const_iterator sp = msg->servos.begin(); sp != msg->servos.end(); ++sp) {
     int servo = sp->servo;
     int value = sp->value;
 
@@ -500,8 +503,8 @@ void servos_absolute (const std::shared_ptr<back_board_msgs::msg::ServoArray> ms
   }
 }
 
-void servos_proportional (const std::shared_ptr<back_board_msgs::msg::ServoArray> msg) {
-  for (std::vector<back_board_msgs::msg::Servo>::const_iterator sp = msg->servos.begin(); sp != msg->servos.end(); ++sp) {
+void servos_proportional (const std::shared_ptr<board_msgs::msg::ServoArray> msg) {
+  for (std::vector<board_msgs::msg::Servo>::const_iterator sp = msg->servos.begin(); sp != msg->servos.end(); ++sp) {
     int servo = sp->servo;
     float value = sp->value;
     _set_pwm_interval_proportional(servo, value);
@@ -661,7 +664,7 @@ void servos_drive (const std::shared_ptr<geometry_msgs::msg::Twist> msg) {
 	}
 }
 
-bool set_pwm_frequency (const std::shared_ptr<back_board_msgs::srv::IntValue::Request> req, std::shared_ptr<back_board_msgs::srv::IntValue::Response> res) {
+bool set_pwm_frequency (const std::shared_ptr<board_msgs::srv::IntValue::Request> req, std::shared_ptr<board_msgs::srv::IntValue::Response> res) {
   int freq;
   freq = req->value;
   if ((freq < 12) || (freq > 1024)) {
@@ -675,7 +678,7 @@ bool set_pwm_frequency (const std::shared_ptr<back_board_msgs::srv::IntValue::Re
   return true;
 }
 
-bool config_servos (const std::shared_ptr<back_board_msgs::srv::ServosConfig::Request> req, std::shared_ptr<back_board_msgs::srv::ServosConfig::Response> res) {
+bool config_servos (const std::shared_ptr<board_msgs::srv::ServosConfig::Request> req, std::shared_ptr<board_msgs::srv::ServosConfig::Response> res) {
   long unsigned int i;
     
   res->error = 0;
@@ -698,7 +701,7 @@ bool config_servos (const std::shared_ptr<back_board_msgs::srv::ServosConfig::Re
   return true;
 }
 
-bool config_drive_mode (const std::shared_ptr<back_board_msgs::srv::DriveMode::Request> req, std::shared_ptr<back_board_msgs::srv::DriveMode::Response> res) {
+bool config_drive_mode (const std::shared_ptr<board_msgs::srv::DriveMode::Request> req, std::shared_ptr<board_msgs::srv::DriveMode::Response> res) {
   res->error = 0;
   long unsigned int i;
 
@@ -778,7 +781,7 @@ static double _get_float_param (XmlRpc::XmlRpcValue obj, std::string param_name)
 }
     
 static int _load_params (void) {		
-  auto node = std::make_shared<BackBoardNode>("front_board1");
+  auto node = std::make_shared<FrontBoardNode>("front_board1");
 
   // Default I2C device on RPi2 and RPi3 = "/dev/i2c-1" Orange Pi Lite = "/dev/i2c-0".
   node->declare_parameter("i2c_device_number", _controller_io_device); 
@@ -911,23 +914,42 @@ static int _load_params (void) {
   return 1;
 }	
 
+rclcpp::Service<board_msgs::srv::ServosConfig>::SharedPtr config_srv;
+rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr abs_sub;
+rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr rel_sub;
+
 int main (int argc, char **argv) {	
 	rclcpp::init(argc, argv);
 
-	auto node = std::make_shared<BackBoardNode>("front_board2");
+  char *p;
+  errno = 0;
+  if (argv[1] != NULL) {
+    long conv = strtol(argv[1], &p, 10);
+    if (errno != 0 || *p != '\0' || conv > INT_MAX || conv < INT_MIN) 
+      RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Expecting an integer to open the i2c-n/ address.");
+    else 
+      _controller_io_device = conv;
+  } else 
+    _controller_io_device = 1;
 
-	_controller_io_device = 4;	// Default I2C device on RPi2 and RPi3 = "/dev/i2c-1" Orange Pi Lite = "/dev/i2c-0".
+	auto node = std::make_shared<FrontBoardNode>("smov_board");
 	_controller_io_handle = 0;
 	_pwm_frequency = 50;		    // Set the initial pulse frequency to 50 Hz which is standard for RC servos.
 
-	rclcpp::Service<back_board_msgs::srv::IntValue>::SharedPtr freq_srv         = node->create_service<back_board_msgs::srv::IntValue>("set_pwm_frequency", &set_pwm_frequency);
-	rclcpp::Service<back_board_msgs::srv::ServosConfig>::SharedPtr config_srv   =	node->create_service<back_board_msgs::srv::ServosConfig>("config_servos", &config_servos);			                // 'config' will setup the necessary properties of continuous servos and is helpful for standard servos.
-	rclcpp::Service<back_board_msgs::srv::DriveMode>::SharedPtr mode_srv        =	node->create_service<back_board_msgs::srv::DriveMode>("config_drive_mode", &config_drive_mode);		              // 'mode' specifies which servos are used for motion and which behavior will be applied when driving.
-	rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_srv                     = node->create_service<std_srvs::srv::Empty>("stop_servos", &stop_servos);			                                // The 'stop' service can be used at any time.
+	rclcpp::Service<board_msgs::srv::IntValue>::SharedPtr freq_srv         = node->create_service<board_msgs::srv::IntValue>("set_pwm_frequency", &set_pwm_frequency);
+	rclcpp::Service<board_msgs::srv::DriveMode>::SharedPtr mode_srv        =	node->create_service<board_msgs::srv::DriveMode>("config_drive_mode", &config_drive_mode);		            // 'mode' specifies which servos are used for motion and which behavior will be applied when driving.
+	rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_srv                     = node->create_service<std_srvs::srv::Empty>("stop_servos", &stop_servos);			                                  // The 'stop' service can be used at any time.
+	rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr          drive_sub = node->create_subscription<geometry_msgs::msg::Twist>("servos_drive", 500, &servos_drive);			                  // The 'drive' topic will be used for continuous rotation aka drive servos controlled by Twist messages.
 
-	rclcpp::Subscription<back_board_msgs::msg::ServoArray>::SharedPtr abs_sub   = node->create_subscription<back_board_msgs::msg::ServoArray>("servos_absolute", 500, &servos_absolute);		      // The 'absolute' topic will be used for standard servo motion and testing of continuous servos.
-	rclcpp::Subscription<back_board_msgs::msg::ServoArray>::SharedPtr rel_sub   = node->create_subscription<back_board_msgs::msg::ServoArray>("servos_proportional", 500, &servos_proportional);	// The 'proportion' topic will be used for standard servos and continuous rotation aka drive servos.
-	rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr          drive_sub = node->create_subscription<geometry_msgs::msg::Twist>("servos_drive", 500, &servos_drive);			                // The 'drive' topic will be used for continuous rotation aka drive servos controlled by Twist messages.
+	if (_controller_io_device == 1) {
+    config_srv = node->create_service<board_msgs::srv::ServosConfig>("front_config_servos", &config_servos);			                // 'config' will setup the necessary properties of continuous servos and is helpful for standard servos.
+	  abs_sub   = node->create_subscription<board_msgs::msg::ServoArray>("front_servos_absolute", 500, &servos_absolute);		      // The 'absolute' topic will be used for standard servo motion and testing of continuous servos.
+	  rel_sub   = node->create_subscription<board_msgs::msg::ServoArray>("front_servos_proportional", 500, &servos_proportional);	// The 'proportion' topic will be used for standard servos and continuous rotation aka drive servos.
+  } else {
+    config_srv = node->create_service<board_msgs::srv::ServosConfig>("back_config_servos", &config_servos);			                
+	  abs_sub   = node->create_subscription<board_msgs::msg::ServoArray>("back_servos_absolute", 500, &servos_absolute);		      
+	  rel_sub   = node->create_subscription<board_msgs::msg::ServoArray>("back_servos_proportional", 500, &servos_proportional);	
+  }
 	
 	_load_params();	// Loads parameters and performs initialization.
 	

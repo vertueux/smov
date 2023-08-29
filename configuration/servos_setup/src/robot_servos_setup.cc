@@ -46,18 +46,18 @@ void ServosSetup::declare_parameters() {
 
 void ServosSetup::set_up_topics() {
   // Setting up the servo config client.
-  front_servo_config_pub = this->create_client<front_board_msgs::srv::ServosConfig>("config_servos");
-  if (!use_single_board) back_servo_config_pub = this->create_client<back_board_msgs::srv::ServosConfig>("config_servos");
+  front_servo_config_pub = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
+  if (!use_single_board) back_servo_config_pub = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 }
 
 void ServosSetup::config_servos() {
-  front_board_msgs::msg::ServoConfig front_config[SERVO_MAX_SIZE * 2];
-  back_board_msgs::msg::ServoConfig back_config[SERVO_MAX_SIZE];
+  board_msgs::msg::ServoConfig front_config[SERVO_MAX_SIZE * 2];
+  board_msgs::msg::ServoConfig back_config[SERVO_MAX_SIZE];
 
-  auto front_request = std::make_shared<front_board_msgs::srv::ServosConfig::Request>();
-  auto back_request = std::make_shared<back_board_msgs::srv::ServosConfig::Request>();
+  auto front_request = std::make_shared<board_msgs::srv::ServosConfig::Request>();
+  auto back_request = std::make_shared<board_msgs::srv::ServosConfig::Request>();
 
   for (int h = 0; h < SERVO_MAX_SIZE; h++) {
     front_config[h].servo = int(front_servos_data[h][0] + 1);

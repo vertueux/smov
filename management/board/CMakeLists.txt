@@ -9,23 +9,17 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
-find_package(front_board_msgs REQUIRED)
-find_package(back_board_msgs REQUIRED)
+find_package(board_msgs REQUIRED)
 find_package(xmlrpcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-add_executable(front src/front_board_controller.cc)
-target_link_libraries(front i2c)
+add_executable(controller src/dual_board_controller.cc)
+target_link_libraries(controller i2c)
 
-add_executable(back src/back_board_controller.cc)
-target_link_libraries(back i2c)
-
-ament_target_dependencies(front rclcpp std_msgs std_srvs front_board_msgs xmlrpcpp geometry_msgs)
-ament_target_dependencies(back rclcpp std_msgs std_srvs back_board_msgs xmlrpcpp geometry_msgs)
+ament_target_dependencies(controller rclcpp std_msgs std_srvs board_msgs xmlrpcpp geometry_msgs)
 
 install(TARGETS
-  front 
-  back
+  controller
   DESTINATION lib/${PROJECT_NAME}
 )
 

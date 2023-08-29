@@ -8,10 +8,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "front_board_msgs/srv/servos_config.hpp"
-#include "front_board_msgs/msg/servo_config.hpp"
-#include "back_board_msgs/srv/servos_config.hpp"
-#include "back_board_msgs/msg/servo_config.hpp"
+#include "board_msgs/srv/servos_config.hpp"
+#include "board_msgs/msg/servo_config.hpp"
 
 using namespace std::chrono_literals;
 
@@ -26,8 +24,8 @@ class ServosSetup : public rclcpp::Node {
   void set_up_topics();
   void config_servos();
 
-  rclcpp::Client<front_board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
-  rclcpp::Client<back_board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;
 
   std::vector<std::vector<long int>> front_servos_data;
   std::vector<std::vector<long int>> back_servos_data;

@@ -10,11 +10,8 @@
 #include <termios.h>
 #include <iostream>
 
-#include "front_board_msgs/msg/servo_array.hpp"
-#include "front_board_msgs/msg/servo.hpp"
-#include "back_board_msgs/msg/servo_array.hpp"
-#include "back_board_msgs/msg/servo.hpp"
-
+#include "board_msgs/msg/servo_array.hpp"
+#include "board_msgs/msg/servo.hpp"
 namespace smov {
 
 // A completly static class.
@@ -47,8 +44,8 @@ class Calibration {
   // Setting the front board by default.
   static int active_board;
 
-  static front_board_msgs::msg::ServoArray front_servo_array;
-  static back_board_msgs::msg::ServoArray back_servo_array;
+  static board_msgs::msg::ServoArray front_servo_array;
+  static board_msgs::msg::ServoArray back_servo_array;
 
   // Used for answers.
   static int rep;

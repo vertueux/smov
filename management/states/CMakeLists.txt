@@ -6,8 +6,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
-find_package(front_board_msgs REQUIRED)
-find_package(back_board_msgs REQUIRED)
+find_package(board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(states_msgs REQUIRED)
@@ -18,8 +17,7 @@ include_directories(include)
 set (dependencies 
   rclcpp 
   std_msgs 
-  front_board_msgs 
-  back_board_msgs
+  board_msgs 
   states_msgs
   monitor_msgs
 )

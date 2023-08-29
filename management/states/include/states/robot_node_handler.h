@@ -3,10 +3,8 @@
 #include <states/robot_manager.h>
 
 #include "std_msgs/msg/string.hpp"
-#include "front_board_msgs/srv/servos_config.hpp"
-#include "front_board_msgs/msg/servo_config.hpp"
-#include "back_board_msgs/srv/servos_config.hpp"
-#include "back_board_msgs/msg/servo_config.hpp"
+#include "board_msgs/srv/servos_config.hpp"
+#include "board_msgs/msg/servo_config.hpp"
 #include "states_msgs/msg/states_servos.hpp"
 #include "monitor_msgs/msg/display_text.hpp"
 
@@ -46,14 +44,14 @@ class RobotNodeHandle : public rclcpp::Node {
   rclcpp::Subscription<states_msgs::msg::StatesServos>::SharedPtr back_states_sub;
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr last_current_state_pub;
 
-  rclcpp::Client<front_board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
-  rclcpp::Client<back_board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;
   
-  rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
-  rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
+  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
+  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
   
-  rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
-  rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
+  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
+  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
 
   rclcpp::Publisher<monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
 };      

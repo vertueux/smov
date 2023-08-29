@@ -34,8 +34,8 @@ class ServoControl : public rclcpp::Node {
   }
 
   void set_up_abs_servos() {
-    front_board_msgs::msg::Servo front_temp_servo;
-    back_board_msgs::msg::Servo back_temp_servo;
+    board_msgs::msg::Servo front_temp_servo;
+    board_msgs::msg::Servo back_temp_servo;
 
     // We set all the known servos to their original position.
     for (int i = 1; i < number_of_servos; i++) {
@@ -51,15 +51,15 @@ class ServoControl : public rclcpp::Node {
       Calibration::back_servo_array.servos.push_back(back_temp_servo);
     }
 
-    front_abs_pub = this->create_publisher<front_board_msgs::msg::ServoArray>("servos_absolute", 1);
-    back_abs_pub = this->create_publisher<back_board_msgs::msg::ServoArray>("servos_absolute", 1);
+    front_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_absolute", 1);
+    back_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_absolute", 1);
   }
 
  private:
   int number_of_servos = 16;
 
-  rclcpp::Publisher<front_board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
-  rclcpp::Publisher<back_board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
+  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
+  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
 };
 
 } // namespace smov
