@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>manual_walk</name>
+  <name>smov_awakening</name>
   <version>0.0.0</version>
-  <description>This package should allow the robot to walk.</description>
-  <maintainer email="you@todo.todo">You</maintainer>
+  <description>Old way allowing the robot to wake up.</description>
+  <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
   <license>EUPL-1.2</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
@@ -20,3 +20,4 @@
     <build_type>ament_cmake</build_type>
   </export>
 </package>
+ 

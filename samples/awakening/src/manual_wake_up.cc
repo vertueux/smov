@@ -1,13 +1,20 @@
+#include <time.h>   
 #include <unistd.h>
 
 #include <manual_wake_up/manual_wake_up.h>
 
 namespace smov {
 
+void ManualWakeUpState::sleep_in_milliseconds(int time) {
+  ts.tv_sec = time / 1000;
+  ts.tv_nsec = (time % 1000) * 1000000;
+  nanosleep(&ts, NULL);
+}  
+
 void ManualWakeUpState::on_start() {
   // We add a tiny cooldown for safety & to make sure
   // it does the command succesfully.
-  sleep(cooldown);
+  sleep_in_milliseconds(cooldown);
   for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
     front_servos.value[i] = 0.0f;
     front_servos.value[i + SERVO_MAX_SIZE / 3] = 0.0f;
@@ -24,7 +31,7 @@ void ManualWakeUpState::on_start() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executed first sequence to wake up.");
 
   // To mark a transition.
-  sleep(cooldown);
+  sleep_in_milliseconds(cooldown);
 
   // Doing the separate waking up phase to the back servos.
   for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) 
@@ -34,7 +41,7 @@ void ManualWakeUpState::on_start() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executed second sequence to wake up.");
 
   // One more transition.
-  sleep(cooldown);
+  sleep_in_milliseconds(cooldown);
 
   // Executing the last sequence.
   for (int i = 0; i < SERVO_MAX_SIZE / 3; i++) {
@@ -55,4 +62,4 @@ void ManualWakeUpState::on_quit() {}
 
 }
 
-DECLARE_STATE_NODE_CLASS("smov_manual_wake_up_state", smov::ManualWakeUpState, 500ms)
+DECLARE_STATE_NODE_CLASS("smov_legacy_awakening_state", smov::ManualWakeUpState, 500ms)

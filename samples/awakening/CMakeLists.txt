@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(manual_walk)
+project(smov_awakening)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -18,14 +18,14 @@ set (dependencies
   states_msgs
 )
 
-add_library(manual_walk_lib SHARED src/manual_walk.cc)
-ament_target_dependencies(manual_walk_lib ${dependencies})
+add_library(manual_wake_up_lib SHARED src/manual_wake_up.cc)
+ament_target_dependencies(manual_wake_up_lib ${dependencies})
 
-add_executable(state src/manual_walk.cc)
-target_link_libraries(state manual_walk_lib)
+add_executable(state src/manual_wake_up.cc)
+target_link_libraries(state manual_wake_up_lib)
 ament_target_dependencies(state ${dependencies})
 
-install(TARGETS state manual_walk_lib
+install(TARGETS state manual_wake_up_lib
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
@@ -36,7 +36,7 @@ install(DIRECTORY include/
 )
 
 ament_export_include_directories(include)
-ament_export_libraries(manual_walk_lib)
+ament_export_libraries(manual_wake_up_lib)
 ament_export_dependencies(${dependencies})
 
 ament_package()

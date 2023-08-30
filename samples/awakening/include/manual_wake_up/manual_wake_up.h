@@ -1,5 +1,8 @@
 #pragma once
 
+#include <time.h>   
+#include <unistd.h>
+
 #include <rclcpp/rclcpp.hpp>
 
 #include <states/robot_states.h>
@@ -9,9 +12,11 @@ namespace smov {
 
 class ManualWakeUpState {
  public:
-  STATE_CLASS("Manual Wake Up")
+  STATE_CLASS("Awakening")
 
-  int cooldown = 1;
+  void sleep_in_milliseconds(int time);
+  struct timespec ts;
+  int cooldown = 700; // 700 milliseconds.
 };
 
 } // namespace smov

@@ -60,25 +60,25 @@ void ServosSetup::config_servos() {
   auto back_request = std::make_shared<board_msgs::srv::ServosConfig::Request>();
 
   for (int h = 0; h < SERVO_MAX_SIZE; h++) {
-    front_config[h].servo = int(front_servos_data[h][0] + 1);
-    front_config[h].direction = int(front_servos_data[h][3]);
-    front_config[h].center = int(front_servos_data[h][1]);
-    front_config[h].range = int(front_servos_data[h][2]);
+    front_config[h].servo = int(robot->front_servos_data[h][0] + 1);
+    front_config[h].direction = int(robot->front_servos_data[h][3]);
+    front_config[h].center = int(robot->front_servos_data[h][1]);
+    front_config[h].range = int(robot->front_servos_data[h][2]);
     front_request->servos.push_back(front_config[h]); 
 
     if (use_single_board) {
-      front_config[h + SERVO_MAX_SIZE].range = int(back_servos_data[h][2]);
-      front_config[h + SERVO_MAX_SIZE].direction = int(back_servos_data[h][3]);
-      front_config[h + SERVO_MAX_SIZE].center = int(back_servos_data[h][1]);
-      front_config[h + SERVO_MAX_SIZE].servo = int(back_servos_data[h][0] + 1);
+      front_config[h + SERVO_MAX_SIZE].range = int(robot->back_servos_data[h][2]);
+      front_config[h + SERVO_MAX_SIZE].direction = int(robot->back_servos_data[h][3]);
+      front_config[h + SERVO_MAX_SIZE].center = int(robot->back_servos_data[h][1]);
+      front_config[h + SERVO_MAX_SIZE].servo = int(robot->back_servos_data[h][0] + 1);
+      front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]); 
     } else {
-      back_config[h].range = int(back_servos_data[h][2]);
-      back_config[h].direction = int(back_servos_data[h][3]);
-      back_config[h].center = int(back_servos_data[h][1]);
-      back_config[h].servo = int(back_servos_data[h][0] + 1);
+      back_config[h].range = int(robot->back_servos_data[h][2]);
+      back_config[h].direction = int(robot->back_servos_data[h][3]);
+      back_config[h].center = int(robot->back_servos_data[h][1]);
+      back_config[h].servo = int(robot->back_servos_data[h][0] + 1);
       back_request->servos.push_back(back_config[h]); 
     }
-    front_request->servos.push_back(front_config[h]); 
   }
 
   while (!front_servo_config_pub->wait_for_service(1s)) {
