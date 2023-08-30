@@ -10,19 +10,21 @@ void TrigonometryState::move_servo_to_ang(MicroController mc, int servo, float a
   float relative_servo = servo;
   if (mc == BACK) relative_servo += SERVO_MAX_SIZE;
 
-  if (angle > data[relative_servo][1] || angle < (data[relative_servo][0] - data[relative_servo][1])) {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Angle out of range, max angle=%f", data[relative_servo][1]);
+  if (angle > data[relative_servo][1] || angle < -(data[relative_servo][1] - (2 * data[relative_servo][0]))) {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Angle out of range, must be between [%f, %f].",
+    -(data[relative_servo][1] - (2 * data[relative_servo][0])), data[relative_servo][1]);
     return;
-  }
-  float factor = 1 / (data[relative_servo][1] - data[relative_servo][0]);
+  } 
+
+  float result = (angle - data[relative_servo][0]) / (data[relative_servo][1] - data[relative_servo][0]);
 
   if (mc == FRONT) {
-    front_servos->value[servo] = angle * factor;
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Final result=%f", angle * factor);
+    front_servos->value[servo] = result;
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Final result=%f", result);
     (*front_state_publisher)->publish(*front_servos);
   } else {
-    back_servos->value[servo] = angle * factor;
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Final result=%f", angle * factor);
+    back_servos->value[servo] = result;
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Final result=%f", result);
     (*back_state_publisher)->publish(*back_servos);
   }
 }
