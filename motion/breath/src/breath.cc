@@ -5,6 +5,7 @@ namespace smov {
 
 void BreathState::on_start() {
   trig.set_legs_distance_to(8); // 8 cm.
+  trig.move_servo_to_ang(FRONT, 2, -36);
 }
 
 void BreathState::on_loop() {
