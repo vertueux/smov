@@ -6,11 +6,24 @@
 
 namespace smov {
 
+enum MicroController {
+  FRONT = 0,
+  BACK = 1
+};
+
+enum RobotParts {
+  LEFT_BODY, 
+  RIGHT_BODY, 
+  LEFT_BICEPS, 
+  RIGHT_BICEPS, 
+  LEFT_LEG, 
+  RIGHT_LEG
+};
+
 #define STATE_CLASS(name) void on_start();\
                           void on_loop();\
                           void on_quit();\
                           void set_name() {state_name.data = name;}\
-                          enum RobotParts {LEFT_BODY, RIGHT_BODY, LEFT_BICEPS, RIGHT_BICEPS, LEFT_LEG, RIGHT_LEG};\
                           states_msgs::msg::StatesServos front_servos;\
                           states_msgs::msg::StatesServos back_servos;\
                           rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr front_state_publisher;\
@@ -38,9 +51,9 @@ namespace smov {
     : Node(node_name), count(0) {\
       state.set_name();\
       state.front_state_publisher =\
-        this->create_publisher<states_msgs::msg::StatesServos>("front_proportional_servos", 1);\
+        this->create_publisher<states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
       state.back_state_publisher =\
-        this->create_publisher<states_msgs::msg::StatesServos>("back_proportional_servos", 1);\
+        this->create_publisher<states_msgs::msg::StatesServos>("back_proportional_servos", 50);\
       state.state_publisher =\
         this->create_publisher<std_msgs::msg::String>("last_current_state", 1);\
       state.timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
@@ -49,8 +62,8 @@ namespace smov {
    private:\
     void timer_callback() {\
       state.on_loop();\
-      state.front_state_publisher->publish(state.front_servos);\
-      state.back_state_publisher->publish(state.back_servos);\
+      /*state.front_state_publisher->publish(state.front_servos);*/\
+      /*state.back_state_publisher->publish(state.back_servos);*/\
       state.state_publisher->publish(state.state_name);\
   }\
   size_t count;\

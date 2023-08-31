@@ -127,15 +127,15 @@ int _controller_io_device;                  // Linux file for I2C.
 int _pwm_frequency = 50;                    // Default is 50Hz.
 
 // The class that handles messages between the controller and ROS2.
-class FrontBoardNode : public rclcpp::Node {
+class BoardNode : public rclcpp::Node {
 public:
-    explicit FrontBoardNode(const std::string & node_name="smov_board", const std::string & node_namespace="/")
-      : rclcpp::Node(node_name, node_namespace) {}
+ explicit BoardNode(const std::string & node_name="smov_board", const std::string & node_namespace="/")
+  : rclcpp::Node(node_name, node_namespace) {}
 };
 
 static float _abs (float v1) {
   if (v1 < 0)
-      return (0 - v1);
+    return (0 - v1);
   return v1;
 }
 
@@ -781,7 +781,7 @@ static double _get_float_param (XmlRpc::XmlRpcValue obj, std::string param_name)
 }
     
 static int _load_params (void) {		
-  auto node = std::make_shared<FrontBoardNode>("front_board1");
+  auto node = std::make_shared<BoardNode>("smov_board_params");
 
   // Default I2C device on RPi2 and RPi3 = "/dev/i2c-1" Orange Pi Lite = "/dev/i2c-0".
   node->declare_parameter("i2c_device_number", _controller_io_device); 
@@ -932,7 +932,7 @@ int main (int argc, char **argv) {
   } else 
     _controller_io_device = 1;
 
-	auto node = std::make_shared<FrontBoardNode>("smov_board");
+	auto node = std::make_shared<BoardNode>("smov_board");
 	_controller_io_handle = 0;
 	_pwm_frequency = 50;		    // Set the initial pulse frequency to 50 Hz which is standard for RC servos.
 

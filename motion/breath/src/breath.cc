@@ -1,14 +1,23 @@
 #include <breath/breath.h>
-#include <iostream>
 
 namespace smov {
 
+void BreathState::sleep_in_milliseconds(int time) {
+  ts.tv_sec = time / 1000;
+  ts.tv_nsec = (time % 1000) * 1000000;
+  nanosleep(&ts, NULL);
+}  
+
 void BreathState::on_start() {
-  trig.set_legs_distance_to(8); // 8 cm.
-  trig.move_servo_to_ang(FRONT, 2, -36);
 }
 
 void BreathState::on_loop() {
+  trig.set_legs_distance_to(8); // 8 cm.
+
+  // Sleeping for a short period of time.
+  sleep_in_milliseconds(2000);
+
+  trig.set_legs_distance_to(14); // 14 cm.
 }
 
 void BreathState::on_quit() {

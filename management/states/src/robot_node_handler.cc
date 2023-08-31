@@ -124,14 +124,14 @@ void RobotNodeHandle::set_up_topics() {
 
   RCLCPP_INFO(this->get_logger(), "Set up /last_current_state publisher.");
 
-  front_prop_pub  = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_proportional", 1);
-  if (!use_single_board) back_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_proportional", 1);
+  front_prop_pub  = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_proportional", 100);
+  if (!use_single_board) back_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_proportional", 100);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional publisher.");
 
   // Setting up the absolute publishers.
-  front_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_absolute", 1);
-  if (!use_single_board) back_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_absolute", 1);
+  front_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_absolute", 100);
+  if (!use_single_board) back_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_absolute", 100);
 
   // Setting up the monitor publisher.
   monitor_pub = this->create_publisher<monitor_msgs::msg::DisplayText>("data_display", 1);

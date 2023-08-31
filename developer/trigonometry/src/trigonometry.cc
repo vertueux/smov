@@ -48,8 +48,8 @@ void TrigonometryState::set_legs_distance_to(float value) {
   // l1: A, l2: B, value: C.
   // We don't actually need angle A, in any case the triangle has to add up to 180°.
   //float a = acos((pow(l2, 2.0) + pow(value, 2.0) - pow(a, 2.0)) / 2 * l2 * value);
-  float b = acos((pow(l1, 2.0) + pow(value, 2.0) - pow(l2, 2.0)) / (2 * l1 * value));
-  float c = acos((pow(l1, 2.0) + pow(l2, 2.0) - pow(value, 2.0)) / (2 * l1 * l2));
+  float b = acos((pow(l1, 2.0) + pow(value + leg_width, 2.0) - pow(l2, 2.0)) / (2 * (l1) * (value + leg_width)));
+  float c = acos((pow(l1, 2.0) + pow(l2, 2.0) - pow(value + leg_width, 2.0)) / (2 * (l1) * (l2)));
   float theta = M_PI - c;
 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Beta angle is=%f", b);
