@@ -15,9 +15,12 @@ void BreathState::on_loop() {
   trig.set_legs_distance_to(8); // 8 cm.
 
   // Sleeping for a short period of time.
-  sleep_in_milliseconds(2000);
+  sleep_in_milliseconds(800);
 
   trig.set_legs_distance_to(14); // 14 cm.
+
+  // Sleeping for a short period of time.
+  sleep_in_milliseconds(800);
 }
 
 void BreathState::on_quit() {

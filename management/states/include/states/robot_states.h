@@ -77,4 +77,41 @@ enum RobotParts {
     return 0;\
   }\
 
+#define DECLARE_STATE_NODE_CLASS_GET_ARGS(node_name,state_class,timeout, _argc, _argv)\
+  using namespace std::chrono_literals;\
+  state_class state;\
+  class StateNode : public rclcpp::Node{\
+   public:\
+    StateNode()\
+    : Node(node_name), count(0) {\
+      state.set_name();\
+      state.front_state_publisher =\
+        this->create_publisher<states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
+      state.back_state_publisher =\
+        this->create_publisher<states_msgs::msg::StatesServos>("back_proportional_servos", 50);\
+      state.state_publisher =\
+        this->create_publisher<std_msgs::msg::String>("last_current_state", 1);\
+      state.timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
+      state.on_start();\
+    }\
+   private:\
+    void timer_callback() {\
+      state.on_loop();\
+      /*state.front_state_publisher->publish(state.front_servos);*/\
+      /*state.back_state_publisher->publish(state.back_servos);*/\
+      state.state_publisher->publish(state.state_name);\
+  }\
+  size_t count;\
+  };\
+  int main(int argc, char **argv)\
+  {\
+    _argc = argc;\
+    _argv = argv;\
+    rclcpp::init(argc, argv);\
+    rclcpp::spin(std::make_shared<StateNode>());\
+    state.on_quit();\
+    rclcpp::shutdown();\
+    return 0;\
+  }\
+
 } // namespace smov
