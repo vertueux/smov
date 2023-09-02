@@ -40,7 +40,6 @@ RobotNodeHandle::RobotNodeHandle()
 
   // Setting the display lines.
   up_display.line = 1;
-  down_display.line = 2;
 
   // Configuring the proportional servos with their defined values.
   config_servos();
@@ -62,26 +61,40 @@ RobotNodeHandle::RobotNodeHandle()
 // back_abs_pub->publish(robot->back_abs_array);
 
 void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    robot->front_prop_array.servos[i].value = msg->value[i];
+  if (robot->state == "None") {
+    robot->state = msg->state_name.c_str();
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Given a new state name: %s", robot->state.c_str());
   }
-  front_prop_pub->publish(robot->front_prop_array);
+
+  if (msg->state_name == robot->state) {
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+      robot->front_prop_array.servos[i].value = msg->value[i];
+    front_prop_pub->publish(robot->front_prop_array);
+  }
 }
 
 void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
-  if (use_single_board) {
-    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
-      robot->single_back_array.servos[i].value = msg->value[i];
-    front_prop_pub->publish(robot->single_back_array);
-  } else {
-    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
-      robot->back_prop_array.servos[i].value = msg->value[i];
-    back_prop_pub->publish(robot->back_prop_array);
+  if (robot->state == "None") {
+    robot->state = msg->state_name.c_str();
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Given a new state name: %s", robot->state.c_str());
+  }
+
+  if (msg->state_name == robot->state) {
+    if (use_single_board) {
+      for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+        robot->single_back_array.servos[i].value = msg->value[i];
+      front_prop_pub->publish(robot->single_back_array);
+    } else {
+      for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+        robot->back_prop_array.servos[i].value = msg->value[i];
+      back_prop_pub->publish(robot->back_prop_array);
+    }
   }
 }
 
-void RobotNodeHandle::state_topic_callback(std_msgs::msg::String::SharedPtr msg) {
-  robot->state = msg->data.c_str();
+void RobotNodeHandle::end_state_callback(states_msgs::msg::EndState::SharedPtr msg) {
+  if (msg->state_name == robot->state) 
+    robot->state = "None";
 }
 
 void RobotNodeHandle::declare_parameters() {
@@ -119,10 +132,10 @@ void RobotNodeHandle::set_up_topics() {
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 
-  last_current_state_pub  = this->create_subscription<std_msgs::msg::String>(
-  "last_current_state", 1, std::bind(&RobotNodeHandle::state_topic_callback, this, std::placeholders::_1));
+  end_state_sub  = this->create_subscription<states_msgs::msg::EndState>(
+  "end_state", 1, std::bind(&RobotNodeHandle::end_state_callback, this, std::placeholders::_1));
 
-  RCLCPP_INFO(this->get_logger(), "Set up /last_current_state publisher.");
+  RCLCPP_INFO(this->get_logger(), "Set up /end_state subscriber.");
 
   front_prop_pub  = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_proportional", 100);
   if (!use_single_board) back_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_proportional", 100);
@@ -184,6 +197,7 @@ void RobotNodeHandle::config_servos() {
       RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
     }
   }
+
   auto f_result = front_servo_config_pub->async_send_request(front_request);
   if (!use_single_board) auto b_result = back_servo_config_pub->async_send_request(back_request);
 
@@ -224,21 +238,12 @@ void RobotNodeHandle::late_callback() {
 
   use_single_board = this->get_parameter("use_single_board").as_bool();
 
-  std::string up_display_str;
-  std::string down_display_str;
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    up_display_str += std::to_string(robot->front_prop_array.servos[i].value);
-    up_display_str += ", ";
-    down_display_str += std::to_string(robot->back_prop_array.servos[i].value);
-    down_display_str += ", ";
-  }
 
-  up_display.data = up_display_str.c_str();
-  down_display.data = down_display_str.c_str();
+  // Making sure we are on the desired state.
+  up_display.data = std::string("Last state: ") + robot->state.c_str();
 
   // Publishing to the panel.
   monitor_pub->publish(up_display);
-  monitor_pub->publish(down_display);
 }
 
 } // namespace smov

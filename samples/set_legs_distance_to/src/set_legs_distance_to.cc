@@ -1,13 +1,7 @@
 #include <set_legs_distance_to/set_legs_distance_to.h>
 
 namespace smov {
-
-void LegsDistanceState::sleep_in_milliseconds(int time) {
-  ts.tv_sec = time / 1000;
-  ts.tv_nsec = (time % 1000) * 1000000;
-  nanosleep(&ts, NULL);
-}  
-
+  
 void LegsDistanceState::on_start() {
   char *p;
   errno = 0;
