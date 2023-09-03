@@ -63,7 +63,9 @@ RobotNodeHandle::RobotNodeHandle()
 void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
   if (robot->state == "None") {
     robot->state = msg->state_name.c_str();
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Given a new state name: %s", robot->state.c_str());
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Detecting a new state: %s", robot->state.c_str());
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
   }
 
   if (msg->state_name == robot->state) {
@@ -76,7 +78,9 @@ void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::Share
 void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
   if (robot->state == "None") {
     robot->state = msg->state_name.c_str();
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Given a new state name: %s", robot->state.c_str());
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Detecting a new state: %s", robot->state.c_str());
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
   }
 
   if (msg->state_name == robot->state) {
@@ -93,8 +97,12 @@ void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::Shared
 }
 
 void RobotNodeHandle::end_state_callback(states_msgs::msg::EndState::SharedPtr msg) {
-  if (msg->state_name == robot->state) 
+  if (msg->state_name == robot->state) {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "State has shutdown: %s", msg->state_name.c_str());
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
     robot->state = "None";
+  }
 }
 
 void RobotNodeHandle::declare_parameters() {
@@ -222,7 +230,7 @@ void RobotNodeHandle::late_callback() {
         if (a == SERVO_MAX_SIZE - 1) {
           RCLCPP_INFO(rclcpp::get_logger("rclcpp"), 
           "-------------------------------------------");
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Last State: %s", robot->state.c_str());
+          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Current State: %s", robot->state.c_str());
           RCLCPP_INFO(rclcpp::get_logger("rclcpp"), 
           "-------------------------------------------");
         }
@@ -240,7 +248,7 @@ void RobotNodeHandle::late_callback() {
 
 
   // Making sure we are on the desired state.
-  up_display.data = std::string("Last state: ") + robot->state.c_str();
+  up_display.data = std::string("Current state: ") + robot->state.c_str();
 
   // Publishing to the panel.
   monitor_pub->publish(up_display);
