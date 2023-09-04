@@ -19,10 +19,17 @@ enum ServoOrder {
   LEGS_BICEPS_BODY = 5,
 };
 
+enum RobotMuscles {
+  BODY = 0,
+  BICEPS = 1,
+  LEGS = 2,
+};
+
 class SequencerState {
  public:
   STATE_LIBRARY_CLASS(SequencerState)
 
+  void execute_muscles_sequence(RobotMuscles group, std::vector<float> values, int cooldown);
   void execute_sequence(MicroController mc, int servo, std::vector<float> values, int cooldown);
   void execute_sequence(MicroController mc, std::array<int, 2> servos, std::vector<float> values, int cooldown);
   void execute_group_sequence(MicroController mc, ServoOrder sequence, std::array<float, 3> values, int timeout);

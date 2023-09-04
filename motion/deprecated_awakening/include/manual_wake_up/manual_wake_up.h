@@ -7,15 +7,13 @@
 
 #include <states/robot_states.h>
 
-#include <smov/sequencer.h>
-
 namespace smov {
 
 class ManualWakeUpState {
  public:
-  STATE_CLASS("Awakening")
-
-  SequencerState seq = SequencerState(&front_servos, &back_servos, &front_state_publisher, &back_state_publisher);
+  STATE_CLASS("Deprecated Awakening")
+  
+  int cooldown = 700; // 700 milliseconds.
 };
 
 } // namespace smov

@@ -6,15 +6,62 @@ void BreathState::on_start() {
 }
 
 void BreathState::on_loop() {
-  trig.set_legs_distance_to(8); // 8 cm.
+  trig.set_legs_distance_to(8); 
 
   // Sleeping for a short period of time.
-  delay(800);
+  delay(100);
+
+  trig.set_legs_distance_to(9); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(10); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(11); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(12); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(13); 
+
+  // Sleeping for a short period of time.
+  delay(100);
 
   trig.set_legs_distance_to(14); // 14 cm.
 
   // Sleeping for a short period of time.
   delay(800);
+
+  trig.set_legs_distance_to(13); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(12); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(11); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(10); 
+
+  // Sleeping for a short period of time.
+  delay(100);
+
+  trig.set_legs_distance_to(9); 
 }
 
 void BreathState::on_quit() {

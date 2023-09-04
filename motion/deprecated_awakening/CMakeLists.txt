@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(smov_awakening)
+project(smov_deprecated_awakening)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -9,7 +9,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(smov_states REQUIRED)
 find_package(states_msgs REQUIRED)
-find_package(smov_sequencer REQUIRED)
 
 include_directories(include)
 
@@ -17,7 +16,6 @@ set (dependencies
   rclcpp 
   smov_states
   states_msgs
-  smov_sequencer
 )
 
 add_library(manual_wake_up_lib SHARED src/manual_wake_up.cc)

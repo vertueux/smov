@@ -34,6 +34,7 @@ enum RobotParts {
                           void on_quit();\
                           void set_name() {front_servos.state_name = name; back_servos.state_name = name; end_state.state_name = name;}\
                           void delay(int time) {struct timespec ts; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
+                          public: void end_program() {end_state_publisher->publish(end_state);}\
                           states_msgs::msg::StatesServos front_servos;\
                           states_msgs::msg::StatesServos back_servos;\
                           states_msgs::msg::EndState end_state;\
@@ -56,7 +57,6 @@ enum RobotParts {
   using namespace std::chrono_literals;\
   state_class state;\
   struct termios old_chars, new_chars;\
-  void end_program() {state.end_state_publisher->publish(state.end_state);}\
   class StateNode : public rclcpp::Node{\
    public:\
     StateNode()\
@@ -93,7 +93,7 @@ enum RobotParts {
       int c = getchar();\
       if (c == 27) {\
         RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Quitting.");\
-        end_program();\
+        state.end_program();\
         rclcpp::shutdown();\
       }\
     }\

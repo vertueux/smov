@@ -5,6 +5,47 @@
 
 namespace smov {
 
+void SequencerState::execute_muscles_sequence(RobotMuscles group, std::vector<float> values, int cooldown) {
+  switch (group) {
+    case BODY:
+      for (size_t i = 0; i < values.size(); i++) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          front_servos->value[j] = values[i];
+          back_servos->value[j] = values[i];
+        }
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Sending value: %f", values[i]);
+        (*front_state_publisher)->publish(*front_servos);
+        (*back_state_publisher)->publish(*back_servos);
+        delay(cooldown);
+      }  
+      break;
+    case BICEPS:
+      for (size_t i = 0; i < values.size(); i++) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          front_servos->value[j + (SERVO_MAX_SIZE / 3)] = values[i];
+          back_servos->value[j + (SERVO_MAX_SIZE / 3)] = values[i];
+        }
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Sending value: %f", values[i]);
+        (*front_state_publisher)->publish(*front_servos);
+        (*back_state_publisher)->publish(*back_servos);
+        delay(cooldown);
+      }  
+      break;
+    case LEGS: 
+      for (size_t i = 0; i < values.size(); i++) {
+        for (int j = 0; j < SERVO_MAX_SIZE / 3; j++) {
+          front_servos->value[j + 2 * (SERVO_MAX_SIZE / 3)] = values[i];
+          back_servos->value[j + 2 * (SERVO_MAX_SIZE / 3)] = values[i];
+        }
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Sending value: %f", values[i]);
+        (*front_state_publisher)->publish(*front_servos);
+        (*back_state_publisher)->publish(*back_servos);
+        delay(cooldown);
+      }  
+      break;
+  }
+}
+
 void SequencerState::execute_sequence(MicroController mc, int servo, std::vector<float> values, int cooldown) {
   if (mc == FRONT) {
     for (size_t i = 0; i < values.size(); i++) {
