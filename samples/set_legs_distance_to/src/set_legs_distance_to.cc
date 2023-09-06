@@ -17,6 +17,9 @@ void LegsDistanceState::on_start() {
   }
 
 	trig.set_legs_distance_to(desired_distance); // In centimeters.
+
+  // We end the program at the end.
+  end_program();
 }
 
 void LegsDistanceState::on_loop() {

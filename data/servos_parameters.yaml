@@ -5,14 +5,14 @@ smov_states:
     use_single_board: false
 
     #     Port, Center, Range,   Direction, Default value on Start (Proportional)
-    AVCG: [0,   315,    220,     -1,        1]
-    AVCD: [15,  315,    220,     1,         1]
+    AVCG: [0,   315,    220,     -1,        0]
+    AVCD: [15,  315,    220,     1,         0]
     AVBG: [1,   315,    440,     1,         0]
     AVBD: [14,  300,    440,     -1,        0]
     AVJG: [2,   315,    440,     -1,        1]
     AVJD: [13,  340,    390,     1,         1]
-    ARCG: [15,  315,    220,     1,         1]
-    ARCD: [0,   315,    220,     -1,        1] 
+    ARCG: [15,  315,    220,     1,         0]
+    ARCD: [0,   315,    220,     -1,        0] 
     ARBG: [14,  315,    440,     1,         0]
     ARBD: [1,   335,    440,     -1,        0]
     ARJG: [13,  315,    400,     -1,        1]
