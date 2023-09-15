@@ -2,7 +2,8 @@
 
 #include <states/robot_manager.h>
 
-#include "std_msgs/msg/string.hpp"
+#include <std_srvs/srv/empty.hpp>
+
 #include "board_msgs/srv/servos_config.hpp"
 #include "board_msgs/msg/servo_config.hpp"
 #include "states_msgs/msg/states_servos.hpp"
@@ -27,6 +28,7 @@ class RobotNodeHandle : public rclcpp::Node {
   void front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg);
   void back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg);
   void end_state_callback(states_msgs::msg::EndState::SharedPtr msg);
+  void stop_servos();
 
   // Used for fast operations
   rclcpp::TimerBase::SharedPtr timer;
@@ -48,8 +50,11 @@ class RobotNodeHandle : public rclcpp::Node {
 
   rclcpp::Subscription<states_msgs::msg::EndState>::SharedPtr end_state_sub;
 
-  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
-  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_client;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_client;
+
+  rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
+  rclcpp::Client<std_srvs::srv::Empty>::SharedPtr back_stop_servos_client;
   
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;

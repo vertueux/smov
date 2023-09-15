@@ -46,8 +46,8 @@ void ServosSetup::declare_parameters() {
 
 void ServosSetup::set_up_topics() {
   // Setting up the servo config client.
-  front_servo_config_pub = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
-  if (!use_single_board) back_servo_config_pub = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
+  front_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
+  if (!use_single_board) back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 }
@@ -81,7 +81,7 @@ void ServosSetup::config_servos() {
     }
   }
 
-  while (!front_servo_config_pub->wait_for_service(1s)) {
+  while (!front_servo_config_client->wait_for_service(1s)) {
     if (!rclcpp::ok()) {
       RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
       return;
@@ -89,7 +89,7 @@ void ServosSetup::config_servos() {
     RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
   } 
   if (!use_single_board) {
-    while (!back_servo_config_pub->wait_for_service(1s)) {
+    while (!back_servo_config_client->wait_for_service(1s)) {
       if (!rclcpp::ok()) {
         RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
         return;
@@ -97,8 +97,8 @@ void ServosSetup::config_servos() {
       RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
     }
   }
-  auto f_result = front_servo_config_pub->async_send_request(front_request);
-  if (!use_single_board) auto b_result = back_servo_config_pub->async_send_request(back_request);
+  auto f_result = front_servo_config_client->async_send_request(front_request);
+  if (!use_single_board) auto b_result = back_servo_config_client->async_send_request(back_request);
 
   RCLCPP_INFO(this->get_logger(), "Servos have been configured.");
 }

@@ -24,8 +24,8 @@ class ServosSetup : public rclcpp::Node {
   void set_up_topics();
   void config_servos();
 
-  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_pub;
-  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_pub;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_client;
+  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_client;
 
   std::vector<std::vector<long int>> front_servos_data;
   std::vector<std::vector<long int>> back_servos_data;

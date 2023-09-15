@@ -135,8 +135,11 @@ void RobotNodeHandle::set_up_topics() {
   RCLCPP_INFO(this->get_logger(), "Set up states subscribers.");
 
   // Setting up the servo config client.
-  front_servo_config_pub = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
-  if (!use_single_board) back_servo_config_pub = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
+  front_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
+  if (!use_single_board) back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
+
+  front_stop_servos_client = this->create_client<std_srvs::srv::Empty>("front_stop_servos");
+  if (!use_single_board) back_stop_servos_client = this->create_client<std_srvs::srv::Empty>("back_stop_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 
@@ -189,27 +192,49 @@ void RobotNodeHandle::config_servos() {
     }
   }
 
-  while (!front_servo_config_pub->wait_for_service(1s)) {
+  while (!front_servo_config_client->wait_for_service(1s)) {
     if (!rclcpp::ok()) {
       RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
       return;
     }
-    RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
+    RCLCPP_INFO(this->get_logger(), "Front Config Servos service not available, waiting again...");
   } 
   if (!use_single_board) {
-    while (!back_servo_config_pub->wait_for_service(1s)) {
+    while (!back_servo_config_client->wait_for_service(1s)) {
       if (!rclcpp::ok()) {
         RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
         return;
       }
-      RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
+      RCLCPP_INFO(this->get_logger(), "Back Config Servos service not available, waiting again...");
     }
   }
 
-  auto f_result = front_servo_config_pub->async_send_request(front_request);
-  if (!use_single_board) auto b_result = back_servo_config_pub->async_send_request(back_request);
+  auto f_result = front_servo_config_client->async_send_request(front_request);
+  if (!use_single_board) auto b_result = back_servo_config_client->async_send_request(back_request);
 
   RCLCPP_INFO(this->get_logger(), "Servos have been configured.");
+}
+
+void RobotNodeHandle::stop_servos() {
+  auto req = std::make_shared<std_srvs::srv::Empty::Request>();
+
+  while (!front_stop_servos_client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
+      return;
+    }
+    RCLCPP_INFO(this->get_logger(), "Front Stop Servos service not available, waiting again...");
+  } 
+  while (!back_stop_servos_client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
+      return;
+    }
+    RCLCPP_INFO(this->get_logger(), "Back Stop Servos service not available, waiting again...");
+  } 
+
+  auto f_result = front_stop_servos_client->async_send_request(req);
+  if (!use_single_board) auto b_result = back_stop_servos_client->async_send_request(req);
 }
 
 void RobotNodeHandle::late_callback() {

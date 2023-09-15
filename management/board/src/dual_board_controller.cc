@@ -917,6 +917,10 @@ static int _load_params (void) {
 rclcpp::Service<board_msgs::srv::ServosConfig>::SharedPtr config_srv;
 rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr abs_sub;
 rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr rel_sub;
+rclcpp::Service<board_msgs::srv::IntValue>::SharedPtr freq_srv;
+rclcpp::Service<board_msgs::srv::DriveMode>::SharedPtr mode_srv;	    
+rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_srv;			           
+rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr;
 
 int main (int argc, char **argv) {	
 	rclcpp::init(argc, argv);
@@ -936,25 +940,28 @@ int main (int argc, char **argv) {
 	_controller_io_handle = 0;
 	_pwm_frequency = 50;		    // Set the initial pulse frequency to 50 Hz which is standard for RC servos.
 
-	rclcpp::Service<board_msgs::srv::IntValue>::SharedPtr freq_srv         = node->create_service<board_msgs::srv::IntValue>("set_pwm_frequency", &set_pwm_frequency);
-	rclcpp::Service<board_msgs::srv::DriveMode>::SharedPtr mode_srv        =	node->create_service<board_msgs::srv::DriveMode>("config_drive_mode", &config_drive_mode);		            // 'mode' specifies which servos are used for motion and which behavior will be applied when driving.
-	rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_srv                     = node->create_service<std_srvs::srv::Empty>("stop_servos", &stop_servos);			                                  // The 'stop' service can be used at any time.
-	rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr          drive_sub = node->create_subscription<geometry_msgs::msg::Twist>("servos_drive", 500, &servos_drive);			                  // The 'drive' topic will be used for continuous rotation aka drive servos controlled by Twist messages.
-
 	if (_controller_io_device == 1) {
-    config_srv = node->create_service<board_msgs::srv::ServosConfig>("front_config_servos", &config_servos);			                // 'config' will setup the necessary properties of continuous servos and is helpful for standard servos.
-	  abs_sub   = node->create_subscription<board_msgs::msg::ServoArray>("front_servos_absolute", 500, &servos_absolute);		      // The 'absolute' topic will be used for standard servo motion and testing of continuous servos.
-	  rel_sub   = node->create_subscription<board_msgs::msg::ServoArray>("front_servos_proportional", 500, &servos_proportional);	// The 'proportion' topic will be used for standard servos and continuous rotation aka drive servos.
+    config_srv = node->create_service<board_msgs::srv::ServosConfig>("front_config_servos", &config_servos);			               // 'config' will setup the necessary properties of continuous servos and is helpful for standard servos.
+	  abs_sub    = node->create_subscription<board_msgs::msg::ServoArray>("front_servos_absolute", 500, &servos_absolute);		     // The 'absolute' topic will be used for standard servo motion and testing of continuous servos.
+	  rel_sub    = node->create_subscription<board_msgs::msg::ServoArray>("front_servos_proportional", 500, &servos_proportional); // The 'proportion' topic will be used for standard servos and continuous rotation aka drive servos.
+    freq_srv   = node->create_service<board_msgs::srv::IntValue>("front_set_pwm_frequency", &set_pwm_frequency);
+	  mode_srv   = node->create_service<board_msgs::srv::DriveMode>("front_config_drive_mode", &config_drive_mode);	    	         // 'mode' specifies which servos are used for motion and which behavior will be applied when driving.
+	  stop_srv  = node->create_service<std_srvs::srv::Empty>("front_stop_servos", &stop_servos);			            	               // The 'stop' service can be used at any time.
+	  drive_sub  = node->create_subscription<geometry_msgs::msg::Twist>("front_servos_drive", 500, &servos_drive);		             // The 'drive' topic will be used for continuous rotation aka drive servos controlled by Twist messages.
   } else {
-    config_srv = node->create_service<board_msgs::srv::ServosConfig>("back_config_servos", &config_servos);			                
-	  abs_sub   = node->create_subscription<board_msgs::msg::ServoArray>("back_servos_absolute", 500, &servos_absolute);		      
+    config_srv = node->create_service<board_msgs::srv::ServosConfig>("back_config_servos", &config_servos);
+	  abs_sub   = node->create_subscription<board_msgs::msg::ServoArray>("back_servos_absolute", 500, &servos_absolute);
 	  rel_sub   = node->create_subscription<board_msgs::msg::ServoArray>("back_servos_proportional", 500, &servos_proportional);	
+    freq_srv   = node->create_service<board_msgs::srv::IntValue>("back_set_pwm_frequency", &set_pwm_frequency);
+	  mode_srv   = node->create_service<board_msgs::srv::DriveMode>("back_config_drive_mode", &config_drive_mode);
+	  stop_srv  = node->create_service<std_srvs::srv::Empty>("back_stop_servos", &stop_servos);
+	  drive_sub  = node->create_subscription<geometry_msgs::msg::Twist>("back_servos_drive", 500, &servos_drive);
   }
 	
 	_load_params();	// Loads parameters and performs initialization.
 	
 	rclcpp::spin(node);
 
-	close (_controller_io_handle);
+	close(_controller_io_handle);
   rclcpp::shutdown();
 }

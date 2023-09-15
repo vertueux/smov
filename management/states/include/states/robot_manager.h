@@ -31,6 +31,8 @@ class RobotManager {
   // Setting up the servos to their corresponding port.
   void set_up_servos();
 
+  void stop_servos();
+
   // We push all the servos into the arrays to be published.
   void update_servos_arrays();
 
