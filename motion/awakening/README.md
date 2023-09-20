@@ -1,8 +1,8 @@
 # The Awakening State package
 
-> **Note**: This doesn't rely on inverse kinematics.
+> **Note**: THIS PACKAGE IS NOT DONE YET.
 
-This package should allow the robot to wake up.
+This package will allow the robot to wake up.
 
 ## Run it
 To run the project, you need to copy & paste this commands:  

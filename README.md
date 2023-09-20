@@ -10,8 +10,7 @@
 
 SMOV is the robot I was and still working on. It is a quadruped dog robot which would never have never existed without seeing ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). It's main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
 
-![Special SMOV Awakening1](https://github.com/vertueux/smov/assets/81981323/562bf6d2-6a03-461b-bf25-ed146b75184d)
-![Special SMOV Awakening2](assets/special_smov_awakening.mp4)
+https://github.com/vertueux/smov/assets/81981323/9ed944ef-58ae-4891-be51-7f4106dde0f9
 
 ## Table of Contents
 
@@ -19,6 +18,9 @@ SMOV is the robot I was and still working on. It is a quadruped dog robot which 
 * [What makes SMOV different?](#what-makes-smov-different)
 * [Context & Background](#context--background)
 * [Supported Platforms](#supported-platforms)
+* [How can I get quickly started with my robot?](#how-can-i-get-quickly-started-with-my-robot)
+* [Where is the documentation?](#but-wheres-the-documentation)
+* [How can I contribute?](#how-can-i-contribute)
 * [Links and References](#links-and-references)
 
 ## Overview
@@ -80,7 +82,7 @@ So you can create your own package to control the robot according to your needs.
 
 I started this project at the beginning of the year 2022 in January, and since then I have spent a minimum of time on it. Unfortunately, 2022 is also the year I take my final middle school exam ("Le Brevet", in french), allowing me to go to high school. With these exams, as well as the other sub-projects and learning that I was doing externally, the project has not progressed that much. 
 
-But I'm now back, in August, and ready to make great progress on this project.
+But I'm now back, and ready to make great progress on this project.
 
 ## Supported Platforms
 This package is designed and tested to be compatible with ROS2 Humble and ROS2 Foxy running on a [Raspberry Pi](https://www.raspberrypi.com/) with other tools like servos & micro-controllers. 
@@ -90,6 +92,15 @@ But it should also be able to run on a ESP32.
 | Platform | Hardware                                                                                                                                                                                                | Software                                                       | Notes                                                                                                                                                                                                                                                                                                                                                       |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | Raspberry Pi   | Pi 3 Model B+<br/> Pi 4 Model B<br/> | [Ubuntu 22.04 LTS](https://ubuntu.com/download/raspberry-pi)<br/> [Ubuntu 20.04 LTS](https://ubuntu.com/download/raspberry-pi) | For now, the project is currently being only tested on the Raspberry Pi 3 Model B+, but should possibly (and surely) be available on other Raspberry Pi.  |
+
+## How can I get quickly started with my robot?
+To get started quickly and configure your robot, take a look at [LEARN.md](https://github.com/vertueux/smov/blob/prototype/LEARN.md).
+## Where is the documentation?
+Don't worry, I am currently working on the documentation, so you'll know how to adapt your robot to work with SMOV, and how to create the robot. But right now, for an overview and simple documentation on how to configure the robot, take a look at [LEARN.md](https://github.com/vertueux/smov/blob/prototype/LEARN.md).
+
+
+## How can I contribute?
+To be able to contribute, you need to take a look at [CONTRIBUTING.md](https://github.com/vertueux/smov/blob/prototype/CONTRIBUTING.md) to find out the conditions.
 
 ## Links and References
 * The I2C PWM Board repository: 
