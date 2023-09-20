@@ -5,7 +5,7 @@
   <version>0.0.0</version>
   <description>This package should allow the robot to "breath" (I know it doesn't sound right).</description>
   <maintainer email="you@todo.todo">You</maintainer>
-  <license>EUPL-1.2</license>
+  <license>GPL-3.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

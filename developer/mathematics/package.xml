@@ -5,7 +5,7 @@
   <version>0.0.0</version>
   <description>Mathematics on the SMOV robot.</description>
   <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
-  <license>EUPL-1.2</license>
+  <license>GPL-3.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
