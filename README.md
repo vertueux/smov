@@ -4,13 +4,13 @@
   </p>
   <p align="center">
     <a href="https://github.com/vertueux/smov/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-GPL%203.0.2-blue"/></a>
-    <a href="https://discord.com/"><img src="https://img.shields.io/badge/Join%20the%20Discord%20server%20for%20help%20&%20questions-Click%20here-informational"/></a>
+    <a href="https://discord.gg/4m2SgCmWMr/"><img src="https://img.shields.io/badge/Join%20the%20Discord%20server%20for%20help%20&%20questions-Click%20here-informational"/></a>
   </p>
 </h1>
 
 SMOV is the robot I was and still working on. It is a quadruped dog robot which would never have never existed without seeing ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). It's main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
 
-https://github.com/vertueux/smov/assets/81981323/9ed944ef-58ae-4891-be51-7f4106dde0f9
+https://github.com/vertueux/smov/assets/81981323/b2234707-8f5c-4f4c-adbb-8d1c0cae671e
 
 ## Table of Contents
 
