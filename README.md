@@ -10,8 +10,7 @@
 
 SMOV is the robot I was and still working on. It is a quadruped dog robot which would never have never existed without seeing ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). It's main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
 
-![Special SMOV Awakening1](https://github.com/vertueux/smov/assets/81981323/562bf6d2-6a03-461b-bf25-ed146b75184d)
-![Special SMOV Awakening2](assets/special_smov_awakening.mp4)
+https://github.com/vertueux/smov/assets/81981323/9ed944ef-58ae-4891-be51-7f4106dde0f9
 
 ## Table of Contents
 
