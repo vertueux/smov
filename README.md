@@ -19,7 +19,7 @@ https://github.com/vertueux/smov/assets/81981323/b2234707-8f5c-4f4c-adbb-8d1c0ca
 * [Context & Background](#context--background)
 * [Supported Platforms](#supported-platforms)
 * [How can I get quickly started with my robot?](#how-can-i-get-quickly-started-with-my-robot)
-* [Where is the documentation?](#but-wheres-the-documentation)
+* [Where is the documentation?](#where-is-the-documentation)
 * [How can I contribute?](#how-can-i-contribute)
 * [Links and References](#links-and-references)
 
