@@ -20,7 +20,6 @@ class RobotNodeHandle : public rclcpp::Node {
 
   static bool use_single_board;
 
- private:
   void declare_parameters();
   void set_up_topics();
   void config_servos();

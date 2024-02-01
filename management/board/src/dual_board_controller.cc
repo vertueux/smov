@@ -920,7 +920,7 @@ rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr rel_sub;
 rclcpp::Service<board_msgs::srv::IntValue>::SharedPtr freq_srv;
 rclcpp::Service<board_msgs::srv::DriveMode>::SharedPtr mode_srv;	    
 rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_srv;			           
-rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr;
+rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr drive_sub;
 
 int main (int argc, char **argv) {	
 	rclcpp::init(argc, argv);
