@@ -10,6 +10,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>smov_states</depend>
+  <depend>smov_trigonometry</depend>
 
   <build_depend>rclcpp</build_depend>
 
