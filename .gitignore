@@ -156,3 +156,6 @@ Thumbs.db
 
 ######### Jetbrains
 .idea/
+
+######### User config
+config.yaml

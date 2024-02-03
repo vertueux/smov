@@ -7,6 +7,6 @@ def generate_launch_description():
             package='smov_states',
             executable='manager',
             name='smov_states',
-            parameters=["data/servos_params_with_single_board.yaml"]
+            parameters=["config/config.yaml"]
         )
     ])
