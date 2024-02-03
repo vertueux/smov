@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>set_legs_distance_to</name>
+  <name>smov_set_legs_distance_to</name>
   <version>0.0.0</version>
   <description>Just set the robots legs at a specific distance.</description>
   <maintainer email="you@todo.todo">You</maintainer>

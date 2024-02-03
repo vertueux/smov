@@ -31,4 +31,4 @@ void LegsDistanceState::on_quit() {
 }
 
 // This macro creates the node and the main() input, which spins the node.
-DECLARE_STATE_NODE_CLASS_GET_ARGS("smov_breath_state", smov::LegsDistanceState, 500ms, smov::_argc, smov::_argv)
+DECLARE_STATE_NODE_CLASS_GET_ARGS("smov_set_legs_distance_to", smov::LegsDistanceState, 500ms, smov::_argc, smov::_argv)
