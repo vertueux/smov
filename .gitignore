@@ -153,3 +153,6 @@ Thumbs.db
 
 ######### Visual Studio Code
 .vscode/
+
+######### Jetbrains
+.idea/
