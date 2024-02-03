@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <iostream>
 
-#include <manual_wake_up/manual_wake_up.h>
+#include "manual_wake_up.h"
 
 namespace smov {
 

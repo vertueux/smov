@@ -1,4 +1,4 @@
-#include <set_legs_distance_to/set_legs_distance_to.h>
+#include "set_legs_distance_to.h"
 
 namespace smov {
   
