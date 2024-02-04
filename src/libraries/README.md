@@ -1,4 +1,4 @@
-> The Developer sub-directory
+> The libraries sub-directory
 
 ## Overview
 

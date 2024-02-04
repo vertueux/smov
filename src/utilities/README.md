@@ -1,4 +1,4 @@
-> The Configuration sub-directory
+> The utilities sub-directory
 
 ## Overview
 

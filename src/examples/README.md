@@ -1,5 +1,5 @@
-> The Samples sub-directory
+> The examples sub-directory
 
 ## Overview
 
-The samples sub-directory contains a few samples to test on the robot.
+The examples sub-directory contains a few example states for the smov robot

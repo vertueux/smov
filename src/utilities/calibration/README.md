@@ -29,7 +29,7 @@ The package has been designed to be easily expandable, optimized and modular. It
 You need to have ROS2 installed and theses packages provided by the default desktop installation below: 
 
 * **rclcpp**.
-* Have the `board_msgs` package installed (in the `communications/` directory).
+* Have the `board_msgs` package installed (in the `messages/` directory).
 
 ## To run it
 To launch the project and the executable after compilation, you'll need to enter this command on a terminal (Note that for the moment, there is only one executable for servo control and configuration):

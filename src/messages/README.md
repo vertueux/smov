@@ -1,4 +1,4 @@
-> The Communications sub-directory
+> The messages sub-directory
 
 ## Overview
 
