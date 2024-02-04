@@ -25,7 +25,7 @@ This folder contains all the source code for the smov robot. Below is a breakdow
 │   ├── monitor_msgs                            -- Monitor communication messages
 │   └── states_msgs                             -- State communication Messages
 └── utilities                                   -- Contains all the utility code for configuring your bot    
-    ├── calibration                               -- Calibrate the servo configuration
-    └── servos_setup                              -- Setup the overall servo file
+    ├── calibration                             -- Calibrate the servo configuration
+    └── servos_setup                            -- Setup the overall servo file
 
 ```
