@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
 project(smov_states)
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif ()
 
 find_package(ament_cmake REQUIRED)
 find_package(board_msgs REQUIRED)
@@ -15,13 +15,13 @@ find_package(monitor_msgs REQUIRED)
 
 include_directories(include)
 
-set (dependencies 
-  rclcpp 
-  std_srvs 
-  std_msgs
-  board_msgs 
-  states_msgs
-  monitor_msgs
+set(dependencies
+        rclcpp
+        std_srvs
+        std_msgs
+        board_msgs
+        states_msgs
+        monitor_msgs
 )
 
 add_library(states_lib SHARED src/robot_manager.cc src/robot_node_handler.cc src/robot_states.cc)
@@ -32,13 +32,13 @@ target_link_libraries(manager states_lib)
 ament_target_dependencies(manager ${dependencies})
 
 install(TARGETS manager states_lib
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
 install(DIRECTORY include/
-  DESTINATION include/
+        DESTINATION include/
 )
 
 ament_export_include_directories(include)

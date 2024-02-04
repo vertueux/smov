@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SET_LEGS_DISTANCE_TO_H_
+#define SET_LEGS_DISTANCE_TO_H_
 
 #include <errno.h>   // for errno.
 #include <limits.h>  // for INT_MAX, INT_MIN.
@@ -27,3 +28,5 @@ class LegsDistanceState {
 };
 
 } // namespace smov
+
+#endif // SET_LEGS_DISTANCE_TO_H_

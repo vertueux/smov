@@ -6,13 +6,13 @@
 
 namespace smov {
 
-RobotManager::RobotManager() {}
-RobotManager::~RobotManager() {}
+RobotManager::RobotManager() = default;
+RobotManager::~RobotManager() = default;
 
 // Initializing default static values.
 RobotManager *RobotManager::instance = nullptr;
 RobotManager *RobotManager::Instance() {
-  if (!instance) 
+  if (!instance)
     instance = new RobotManager;
   return instance;
 }

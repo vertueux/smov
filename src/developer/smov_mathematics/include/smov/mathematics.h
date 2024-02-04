@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MATHEMATICS_H_
+#define MATHEMATICS_H_
 
 #include <vector>
 #include <array>
@@ -44,3 +45,5 @@ struct Vector3 {
 };
 
 } // namespace smov
+
+#endif // MATHEMATICS_H_

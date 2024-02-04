@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
 project(smov_board)
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif ()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -19,8 +19,8 @@ target_link_libraries(controller i2c)
 ament_target_dependencies(controller rclcpp std_msgs std_srvs board_msgs xmlrpcpp geometry_msgs)
 
 install(TARGETS
-  controller
-  DESTINATION lib/${PROJECT_NAME}
+        controller
+        DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SEQUENCER_H_
+#define SEQUENCER_H_
 
 #include <vector>
 #include <array>
@@ -37,3 +38,5 @@ class SequencerState {
 };
 
 } // namespace smov
+
+#endif // SEQUENCER_H_

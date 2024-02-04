@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROBOT_CALIBRATION_H_
+#define ROBOT_CALIBRATION_H_
 
 #define SERVO_MAX_SIZE 16
 
@@ -56,3 +57,5 @@ class Calibration {
 };
 
 } // namespace smov
+
+#endif // ROBOT_CALIBRATION_H_

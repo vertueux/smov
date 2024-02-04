@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TRIGONOMETRY_H_
+#define TRIGONOMETRY_H_
 
 #include <iostream>
 #include <vector>
@@ -36,3 +37,5 @@ class TrigonometryState {
 };
 
 } // namespace smov
+
+#endif // TRIGONOMETRY_H_

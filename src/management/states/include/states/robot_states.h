@@ -1,9 +1,10 @@
-#pragma once
+#ifndef ROBOT_STATES_H_
+#define ROBOT_STATES_H_
 
-#include <time.h>   
+#include <ctime>
 #include <unistd.h>
 #include <fcntl.h>
-#include <termios.h> 
+#include <termios.h>
 #include <thread>
 
 #include "std_msgs/msg/string.hpp"
@@ -21,11 +22,11 @@ enum MicroController {
 };
 
 enum RobotParts {
-  LEFT_BODY, 
-  RIGHT_BODY, 
-  LEFT_BICEPS, 
-  RIGHT_BICEPS, 
-  LEFT_LEG, 
+  LEFT_BODY,
+  RIGHT_BODY,
+  LEFT_BICEPS,
+  RIGHT_BICEPS,
+  LEFT_LEG,
   RIGHT_LEG
 };
 
@@ -53,7 +54,7 @@ enum RobotParts {
                                    : front_servos(f_servos), back_servos(b_servos),\
                                    front_state_publisher(f_pub), back_state_publisher(b_pub) { }\
 
-#define DECLARE_STATE_NODE_CLASS(node_name,state_class,timeout)\
+#define DECLARE_STATE_NODE_CLASS(node_name, state_class, timeout)\
   using namespace std::chrono_literals;\
   state_class state;\
   struct termios old_chars, new_chars;\
@@ -111,7 +112,7 @@ enum RobotParts {
     return 0;\
   }\
 
-#define DECLARE_STATE_NODE_CLASS_GET_ARGS(node_name,state_class,timeout, _argc, _argv)\
+#define DECLARE_STATE_NODE_CLASS_GET_ARGS(node_name, state_class, timeout, _argc, _argv)\
   using namespace std::chrono_literals;\
   state_class state;\
   struct termios old_chars, new_chars;\
@@ -173,3 +174,5 @@ enum RobotParts {
   }\
 
 } // namespace smov
+
+#endif // ROBOT_STATES_H_

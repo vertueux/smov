@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROBOT_SERVOS_SETUP_H_
+#define ROBOT_SERVOS_SETUP_H_
 
 #define SERVO_MAX_SIZE 6
 
@@ -39,3 +40,5 @@ class ServosSetup : public rclcpp::Node {
 };      
 
 } // namespace smov
+
+#endif // ROBOT_SERVOS_SETUP_H_

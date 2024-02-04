@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROBOT_NODE_HANDLER_H_
+#define ROBOT_NODE_HANDLER_H_
 
 #include <states/robot_manager.h>
 
@@ -9,8 +10,6 @@
 #include "states_msgs/msg/states_servos.hpp"
 #include "states_msgs/msg/end_state.hpp"
 #include "monitor_msgs/msg/display_text.hpp"
-
-using namespace std::chrono_literals;
 
 namespace smov {
 
@@ -42,8 +41,8 @@ class RobotNodeHandle : public rclcpp::Node {
   std::string up_display_str;
 
   // Creating the base robot with all the necessary data & publishers.
-  RobotManager* robot = RobotManager::Instance();
-  
+  RobotManager *robot = RobotManager::Instance();
+
   rclcpp::Subscription<states_msgs::msg::StatesServos>::SharedPtr front_states_sub;
   rclcpp::Subscription<states_msgs::msg::StatesServos>::SharedPtr back_states_sub;
 
@@ -54,14 +53,16 @@ class RobotNodeHandle : public rclcpp::Node {
 
   rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
   rclcpp::Client<std_srvs::srv::Empty>::SharedPtr back_stop_servos_client;
-  
+
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
-  
+
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
 
   rclcpp::Publisher<monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
-};      
+};
 
 } // namespace smov
+
+#endif // ROBOT_NODE_HANDLER_H_

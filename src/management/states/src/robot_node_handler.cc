@@ -4,14 +4,12 @@
 
 #include <states/robot_node_handler.h>
 
-using namespace std::chrono_literals;
-
 namespace smov {
 
 bool RobotNodeHandle::use_single_board = false;
 
 RobotNodeHandle::RobotNodeHandle()
- : Node("smov_states") {   
+    : Node("smov_states") {
 
   // Declaring the different parameters.
   declare_parameters();
@@ -46,13 +44,13 @@ RobotNodeHandle::RobotNodeHandle()
 
   // Publishing the proportional values.
   front_prop_pub->publish(robot->front_prop_array);
-  if (use_single_board) 
+  if (use_single_board)
     front_prop_pub->publish(robot->single_back_array);
-  else 
+  else
     back_prop_pub->publish(robot->back_prop_array);
 
   // Calling the loops with some timeouts.
-  late_timer = this->create_wall_timer(4s, std::bind(&RobotNodeHandle::late_callback, this));
+  late_timer = this->create_wall_timer(std::chrono::seconds(1), std::bind(&RobotNodeHandle::late_callback, this));
 }
 
 // Publishing the absolute values.
@@ -69,7 +67,7 @@ void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::Share
   }
 
   if (msg->state_name == robot->state) {
-    for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+    for (int i = 0; i < SERVO_MAX_SIZE; i++)
       robot->front_prop_array.servos[i].value = msg->value[i];
     front_prop_pub->publish(robot->front_prop_array);
   }
@@ -85,11 +83,11 @@ void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::Shared
 
   if (msg->state_name == robot->state) {
     if (use_single_board) {
-      for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+      for (int i = 0; i < SERVO_MAX_SIZE; i++)
         robot->single_back_array.servos[i].value = msg->value[i];
       front_prop_pub->publish(robot->single_back_array);
     } else {
-      for (int i = 0; i < SERVO_MAX_SIZE; i++) 
+      for (int i = 0; i < SERVO_MAX_SIZE; i++)
         robot->back_prop_array.servos[i].value = msg->value[i];
       back_prop_pub->publish(robot->back_prop_array);
     }
@@ -109,7 +107,7 @@ void RobotNodeHandle::declare_parameters() {
   std::vector<long int> default_value(5, 0);
 
   // Declaring all default parameters first.
-  for (size_t j = 0; j < robot->servo_name.size(); j++) 
+  for (size_t j = 0; j < robot->servo_name.size(); j++)
     this->declare_parameter(robot->servo_name[j], default_value);
 
   // Declaring the board option.
@@ -127,35 +125,38 @@ void RobotNodeHandle::declare_parameters() {
 
 void RobotNodeHandle::set_up_topics() {
   front_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
-  "front_proportional_servos", 1, std::bind(&RobotNodeHandle::front_topic_callback, this, std::placeholders::_1));
+      "front_proportional_servos", 1, std::bind(&RobotNodeHandle::front_topic_callback, this, std::placeholders::_1));
 
   back_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
-  "back_proportional_servos", 1, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
+      "back_proportional_servos", 1, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
 
   RCLCPP_INFO(this->get_logger(), "Set up states subscribers.");
 
   // Setting up the servo config client.
   front_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
-  if (!use_single_board) back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
+  if (!use_single_board)
+    back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
 
   front_stop_servos_client = this->create_client<std_srvs::srv::Empty>("front_stop_servos");
   if (!use_single_board) back_stop_servos_client = this->create_client<std_srvs::srv::Empty>("back_stop_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 
-  end_state_sub  = this->create_subscription<states_msgs::msg::EndState>(
-  "end_state", 1, std::bind(&RobotNodeHandle::end_state_callback, this, std::placeholders::_1));
+  end_state_sub = this->create_subscription<states_msgs::msg::EndState>(
+      "end_state", 1, std::bind(&RobotNodeHandle::end_state_callback, this, std::placeholders::_1));
 
   RCLCPP_INFO(this->get_logger(), "Set up /end_state subscriber.");
 
-  front_prop_pub  = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_proportional", 100);
-  if (!use_single_board) back_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_proportional", 100);
+  front_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_proportional", 100);
+  if (!use_single_board)
+    back_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_proportional", 100);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional publisher.");
 
   // Setting up the absolute publishers.
   front_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_absolute", 100);
-  if (!use_single_board) back_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_absolute", 100);
+  if (!use_single_board)
+    back_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_absolute", 100);
 
   // Setting up the monitor publisher.
   monitor_pub = this->create_publisher<monitor_msgs::msg::DisplayText>("data_display", 1);
@@ -175,32 +176,32 @@ void RobotNodeHandle::config_servos() {
     front_config[h].direction = int(robot->front_servos_data[h][3]);
     front_config[h].center = int(robot->front_servos_data[h][1]);
     front_config[h].range = int(robot->front_servos_data[h][2]);
-    front_request->servos.push_back(front_config[h]); 
+    front_request->servos.push_back(front_config[h]);
 
     if (use_single_board) {
       front_config[h + SERVO_MAX_SIZE].range = int(robot->back_servos_data[h][2]);
       front_config[h + SERVO_MAX_SIZE].direction = int(robot->back_servos_data[h][3]);
       front_config[h + SERVO_MAX_SIZE].center = int(robot->back_servos_data[h][1]);
       front_config[h + SERVO_MAX_SIZE].servo = int(robot->back_servos_data[h][0] + 1);
-      front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]); 
+      front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]);
     } else {
       back_config[h].range = int(robot->back_servos_data[h][2]);
       back_config[h].direction = int(robot->back_servos_data[h][3]);
       back_config[h].center = int(robot->back_servos_data[h][1]);
       back_config[h].servo = int(robot->back_servos_data[h][0] + 1);
-      back_request->servos.push_back(back_config[h]); 
+      back_request->servos.push_back(back_config[h]);
     }
   }
 
-  while (!front_servo_config_client->wait_for_service(1s)) {
+  while (!front_servo_config_client->wait_for_service(std::chrono::seconds(1))) {
     if (!rclcpp::ok()) {
       RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
       return;
     }
     RCLCPP_INFO(this->get_logger(), "Front Config Servos service not available, waiting again...");
-  } 
+  }
   if (!use_single_board) {
-    while (!back_servo_config_client->wait_for_service(1s)) {
+    while (!back_servo_config_client->wait_for_service(std::chrono::seconds(1))) {
       if (!rclcpp::ok()) {
         RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
         return;
@@ -218,53 +219,53 @@ void RobotNodeHandle::config_servos() {
 void RobotNodeHandle::stop_servos() {
   auto req = std::make_shared<std_srvs::srv::Empty::Request>();
 
-  while (!front_stop_servos_client->wait_for_service(1s)) {
+  while (!front_stop_servos_client->wait_for_service(std::chrono::seconds(1))) {
     if (!rclcpp::ok()) {
       RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
       return;
     }
     RCLCPP_INFO(this->get_logger(), "Front Stop Servos service not available, waiting again...");
-  } 
-  while (!back_stop_servos_client->wait_for_service(1s)) {
+  }
+  while (!back_stop_servos_client->wait_for_service(std::chrono::seconds(1))) {
     if (!rclcpp::ok()) {
       RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
       return;
     }
     RCLCPP_INFO(this->get_logger(), "Back Stop Servos service not available, waiting again...");
-  } 
+  }
 
   auto f_result = front_stop_servos_client->async_send_request(req);
   if (!use_single_board) auto b_result = back_stop_servos_client->async_send_request(req);
 }
 
 void RobotNodeHandle::late_callback() {
-  for (int b = 0; b < SERVO_MAX_SIZE; b++) { 
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Front Servo Array Servo %d [value=%f].", 
-    robot->front_prop_array.servos[b].servo, robot->front_prop_array.servos[b].value);
+  for (int b = 0; b < SERVO_MAX_SIZE; b++) {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Front Servo Array Servo %d [value=%f].",
+                robot->front_prop_array.servos[b].servo, robot->front_prop_array.servos[b].value);
     if (b == SERVO_MAX_SIZE - 1) {
-      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), 
-      "-------------------------------------------");
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
+                  "-------------------------------------------");
       for (int a = 0; a < SERVO_MAX_SIZE; a++) {
         if (use_single_board) {
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Back Servo Array Servo %d [value=%f].", 
-          robot->single_back_array.servos[a].servo, robot->single_back_array.servos[a].value);
+          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Back Servo Array Servo %d [value=%f].",
+                      robot->single_back_array.servos[a].servo, robot->single_back_array.servos[a].value);
         } else {
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Back Servo Array Servo %d [value=%f].", 
-          robot->back_prop_array.servos[a].servo, robot->back_prop_array.servos[a].value);
+          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Back Servo Array Servo %d [value=%f].",
+                      robot->back_prop_array.servos[a].servo, robot->back_prop_array.servos[a].value);
         }
         if (a == SERVO_MAX_SIZE - 1) {
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), 
-          "-------------------------------------------");
+          RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
+                      "-------------------------------------------");
           RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Current State: %s", robot->state.c_str());
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), 
-          "-------------------------------------------");
+          RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
+                      "-------------------------------------------");
         }
       }
     }
   }
 
   // For now, we are basically nesting loops, cool right...
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) { 
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
     robot->front_servos_data[i] = this->get_parameter(robot->servo_name[i]).as_integer_array();
     robot->back_servos_data[i] = this->get_parameter(robot->servo_name[i + SERVO_MAX_SIZE]).as_integer_array();
   }

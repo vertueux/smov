@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BREATH_H_
+#define BREATH_H_
 
 #include <time.h>   
 #include <unistd.h>
@@ -22,3 +23,5 @@ class BreathState {
 };
 
 } // namespace smov
+
+#endif // BREATH_H_

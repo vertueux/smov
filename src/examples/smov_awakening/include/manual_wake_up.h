@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MANUAL_WAKE_U_H_
+#define MANUAL_WAKE_U_H_
 
 #include <time.h>   
 #include <unistd.h>
@@ -19,3 +20,5 @@ class ManualWakeUpState {
 };
 
 } // namespace smov
+
+#endif // MANUAL_WAKE_U_H_
