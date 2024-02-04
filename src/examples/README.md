@@ -1,5 +1,5 @@
-> The examples sub-directory
+> The Examples sub-directory
 
 ## Overview
 
-The examples sub-directory contains a few example states for the smov robot
+The examples sub-directory contains a few example states for the SMOV robot.

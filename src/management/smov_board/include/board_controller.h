@@ -104,7 +104,6 @@ class BoardNode : public rclcpp::Node {
   int controller_io_handle; // Defaults to 0
   int controller_io_device; // Defaults to 0
 
-
 };
 }
 #endif //BOARD_CONTROLLER_H_
