@@ -38,9 +38,9 @@ class BoardHandler {
   bool stop_servos_handler(std::shared_ptr<std_srvs::srv::Empty::Request> req,
                            std::shared_ptr<std_srvs::srv::Empty::Response> res);
 
- private:
-
   std::shared_ptr<smov::BoardNode> board_node;
+
+ private:
 
   rclcpp::Service<board_msgs::srv::ServosConfig>::SharedPtr config_srv;
   rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr abs_sub;

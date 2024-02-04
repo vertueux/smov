@@ -28,13 +28,11 @@ int main(int argc, char **argv) {
   } else
     io_device = 1;
 
-  auto node = std::make_shared<smov::BoardNode>("smov_board");
-
   board_handler->set_handlers(io_device);
 
   board_handler->init(io_device, 50);    // Loads parameters and performs initialization.
 
-  rclcpp::spin(node);
+  rclcpp::spin(board_handler->board_node);
 
   close(io_device);
   rclcpp::shutdown();
