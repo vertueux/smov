@@ -16,7 +16,6 @@ https://github.com/vertueux/smov/assets/81981323/b2234707-8f5c-4f4c-adbb-8d1c0ca
 
 * [Overview](#overview)
 * [What makes SMOV different?](#what-makes-smov-different)
-* [Context & Background](#context--background)
 * [Supported Platforms](#supported-platforms)
 * [How can I get quickly started with my robot?](#how-can-i-get-quickly-started-with-my-robot)
 * [Where is the documentation?](#where-is-the-documentation)
@@ -77,12 +76,6 @@ DECLARE_STATE_NODE_CLASS("smov_template_state", smov::TemplateState, 500ms)
 ```
 
 So you can create your own package to control the robot according to your needs. You might even be able to publish it and share it with your colleagues and other four-legged robot creators.
-## Context & Background
-> My father, for a long time, wanted to create his 4 legged robot, but not having the time to do it, he asked me to do it for him, and taking advantage of it to make the project using the last version of ROS (2). And so, here we are. But I don't intend to stop there.
-
-I started this project at the beginning of the year 2022 in January, and since then I have spent a minimum of time on it. Unfortunately, 2022 is also the year I take my final middle school exam ("Le Brevet", in french), allowing me to go to high school. With these exams, as well as the other sub-projects and learning that I was doing externally, the project has not progressed that much. 
-
-But I'm now back, and ready to make great progress on this project.
 
 ## Supported Platforms
 This package is designed and tested to be compatible with ROS2 Humble and ROS2 Foxy running on a [Raspberry Pi](https://www.raspberrypi.com/) with other tools like servos & micro-controllers. 
