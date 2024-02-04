@@ -57,7 +57,7 @@ RobotNodeHandle::RobotNodeHandle()
 // front_abs_pub->publish(robot->front_abs_array);
 // back_abs_pub->publish(robot->back_abs_array);
 
-void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
+void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg) {
   if (robot->state == "None") {
     robot->state = msg->state_name.c_str();
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
@@ -72,7 +72,7 @@ void RobotNodeHandle::front_topic_callback(states_msgs::msg::StatesServos::Share
   }
 }
 
-void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg) {
+void RobotNodeHandle::back_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg) {
   if (robot->state == "None") {
     robot->state = msg->state_name.c_str();
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
@@ -93,7 +93,7 @@ void RobotNodeHandle::back_topic_callback(states_msgs::msg::StatesServos::Shared
   }
 }
 
-void RobotNodeHandle::end_state_callback(states_msgs::msg::EndState::SharedPtr msg) {
+void RobotNodeHandle::end_state_callback(smov_states_msgs::msg::EndState::SharedPtr msg) {
   if (msg->state_name == robot->state) {
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "State has shutdown: %s", msg->state_name.c_str());
@@ -123,10 +123,10 @@ void RobotNodeHandle::declare_parameters() {
 }
 
 void RobotNodeHandle::set_up_topics() {
-  front_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
+  front_states_sub = this->create_subscription<smov_states_msgs::msg::StatesServos>(
       "front_proportional_servos", 1, std::bind(&RobotNodeHandle::front_topic_callback, this, std::placeholders::_1));
 
-  back_states_sub = this->create_subscription<states_msgs::msg::StatesServos>(
+  back_states_sub = this->create_subscription<smov_states_msgs::msg::StatesServos>(
       "back_proportional_servos", 1, std::bind(&RobotNodeHandle::back_topic_callback, this, std::placeholders::_1));
 
   RCLCPP_INFO(this->get_logger(), "Set up states subscribers.");
@@ -141,7 +141,7 @@ void RobotNodeHandle::set_up_topics() {
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos_handler publisher.");
 
-  end_state_sub = this->create_subscription<states_msgs::msg::EndState>(
+  end_state_sub = this->create_subscription<smov_states_msgs::msg::EndState>(
       "end_state", 1, std::bind(&RobotNodeHandle::end_state_callback, this, std::placeholders::_1));
 
   RCLCPP_INFO(this->get_logger(), "Set up /end_state subscriber.");

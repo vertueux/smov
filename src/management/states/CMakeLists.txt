@@ -10,7 +10,7 @@ find_package(board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(states_msgs REQUIRED)
+find_package(smov_states_msgs REQUIRED)
 find_package(monitor_msgs REQUIRED)
 
 include_directories(include)
@@ -20,7 +20,7 @@ set(dependencies
         std_srvs
         std_msgs
         board_msgs
-        states_msgs
+        smov_states_msgs
         monitor_msgs
 )
 

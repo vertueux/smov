@@ -8,7 +8,7 @@ endif ()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(smov_states REQUIRED)
-find_package(states_msgs REQUIRED)
+find_package(smov_states_msgs REQUIRED)
 find_package(smov_mathematics REQUIRED)
 
 include_directories(include)
@@ -16,7 +16,7 @@ include_directories(include)
 set(dependencies
         rclcpp
         smov_states
-        states_msgs
+        smov_states_msgs
         smov_mathematics
 )
 

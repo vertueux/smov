@@ -8,7 +8,7 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include <states/robot_states.h>
-#include <states_msgs/msg/states_servos.hpp>
+#include <smov_states_msgs/msg/states_servos.hpp>
 
 #include <smov/trigonometry.h>
 

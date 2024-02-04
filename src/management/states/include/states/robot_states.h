@@ -11,8 +11,8 @@
 
 #include <states/robot_manager.h>
 
-#include "states_msgs/msg/states_servos.hpp"
-#include "states_msgs/msg/end_state.hpp"
+#include "smov_states_msgs/msg/states_servos.hpp"
+#include "smov_states_msgs/msg/end_state.hpp"
 
 namespace smov {
 
@@ -36,21 +36,21 @@ enum RobotParts {
                           void set_name() {front_servos.state_name = name; back_servos.state_name = name; end_state.state_name = name;}\
                           void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
                           public: void end_program() {end_state_publisher->publish(end_state);}\
-                          states_msgs::msg::StatesServos front_servos;\
-                          states_msgs::msg::StatesServos back_servos;\
-                          states_msgs::msg::EndState end_state;\
-                          rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr front_state_publisher;\
-                          rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr back_state_publisher;\
-                          rclcpp::Publisher<states_msgs::msg::EndState>::SharedPtr end_state_publisher;\
+                          smov_states_msgs::msg::StatesServos front_servos;\
+                          smov_states_msgs::msg::StatesServos back_servos;\
+                          smov_states_msgs::msg::EndState end_state;\
+                          rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr front_state_publisher;\
+                          rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr back_state_publisher;\
+                          rclcpp::Publisher<smov_states_msgs::msg::EndState>::SharedPtr end_state_publisher;\
 
-#define STATE_LIBRARY_CLASS(name) states_msgs::msg::StatesServos* front_servos;\
-                                  states_msgs::msg::StatesServos* back_servos;\
+#define STATE_LIBRARY_CLASS(name) smov_states_msgs::msg::StatesServos* front_servos;\
+                                  smov_states_msgs::msg::StatesServos* back_servos;\
                                   void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
-                                  rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* front_state_publisher;\
-                                  rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* back_state_publisher;\
-                                  name(states_msgs::msg::StatesServos* f_servos, states_msgs::msg::StatesServos* b_servos,\
-                                   rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* f_pub,\
-                                   rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* b_pub)\
+                                  rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr* front_state_publisher;\
+                                  rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr* back_state_publisher;\
+                                  name(smov_states_msgs::msg::StatesServos* f_servos, smov_states_msgs::msg::StatesServos* b_servos,\
+                                   rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr* f_pub,\
+                                   rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr* b_pub)\
                                    : front_servos(f_servos), back_servos(b_servos),\
                                    front_state_publisher(f_pub), back_state_publisher(b_pub) { }\
 
@@ -65,11 +65,11 @@ enum RobotParts {
       state.set_name();\
       init_reader(0);\
       state.front_state_publisher =\
-        this->create_publisher<states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
+        this->create_publisher<smov_states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
       state.back_state_publisher =\
-        this->create_publisher<states_msgs::msg::StatesServos>("back_proportional_servos", 50);\
+        this->create_publisher<smov_states_msgs::msg::StatesServos>("back_proportional_servos", 50);\
       state.end_state_publisher =\
-        this->create_publisher<states_msgs::msg::EndState>("end_state", 1);\
+        this->create_publisher<smov_states_msgs::msg::EndState>("end_state", 1);\
       timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
       state.on_start();\
     }\
@@ -124,11 +124,11 @@ enum RobotParts {
       state.set_name();\
       init_reader(0);\
       state.front_state_publisher =\
-        this->create_publisher<states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
+        this->create_publisher<smov_states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
       state.back_state_publisher =\
-        this->create_publisher<states_msgs::msg::StatesServos>("back_proportional_servos", 50);\
+        this->create_publisher<smov_states_msgs::msg::StatesServos>("back_proportional_servos", 50);\
       state.end_state_publisher =\
-        this->create_publisher<states_msgs::msg::EndState>("end_state", 1);\
+        this->create_publisher<smov_states_msgs::msg::EndState>("end_state", 1);\
       timer = this->create_wall_timer(timeout, std::bind(&StateNode::timer_callback, this));\
       state.on_start();\
     }\

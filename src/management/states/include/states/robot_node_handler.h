@@ -7,8 +7,8 @@
 
 #include "board_msgs/srv/servos_config.hpp"
 #include "board_msgs/msg/servo_config.hpp"
-#include "states_msgs/msg/states_servos.hpp"
-#include "states_msgs/msg/end_state.hpp"
+#include "smov_states_msgs/msg/states_servos.hpp"
+#include "smov_states_msgs/msg/end_state.hpp"
 #include "monitor_msgs/msg/display_text.hpp"
 
 namespace smov {
@@ -23,9 +23,9 @@ class RobotNodeHandle : public rclcpp::Node {
   void set_up_topics();
   void config_servos();
   void late_callback();
-  void front_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg);
-  void back_topic_callback(states_msgs::msg::StatesServos::SharedPtr msg);
-  void end_state_callback(states_msgs::msg::EndState::SharedPtr msg);
+  void front_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg);
+  void back_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg);
+  void end_state_callback(smov_states_msgs::msg::EndState::SharedPtr msg);
   void stop_servos();
 
   // Used for fast operations
@@ -43,10 +43,10 @@ class RobotNodeHandle : public rclcpp::Node {
   // Creating the base robot with all the necessary data & publishers.
   RobotManager *robot = RobotManager::Instance();
 
-  rclcpp::Subscription<states_msgs::msg::StatesServos>::SharedPtr front_states_sub;
-  rclcpp::Subscription<states_msgs::msg::StatesServos>::SharedPtr back_states_sub;
+  rclcpp::Subscription<smov_states_msgs::msg::StatesServos>::SharedPtr front_states_sub;
+  rclcpp::Subscription<smov_states_msgs::msg::StatesServos>::SharedPtr back_states_sub;
 
-  rclcpp::Subscription<states_msgs::msg::EndState>::SharedPtr end_state_sub;
+  rclcpp::Subscription<smov_states_msgs::msg::EndState>::SharedPtr end_state_sub;
 
   rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_client;
   rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_client;

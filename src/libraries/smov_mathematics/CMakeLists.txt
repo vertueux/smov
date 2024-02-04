@@ -7,15 +7,11 @@ endif ()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(smov_states REQUIRED)
-find_package(states_msgs REQUIRED)
 
 include_directories(include)
 
 set(dependencies
         rclcpp
-        smov_states
-        states_msgs
 )
 
 add_library(smov_mathematics_lib SHARED src/mathematics.cc)

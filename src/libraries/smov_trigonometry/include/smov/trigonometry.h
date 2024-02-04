@@ -9,7 +9,7 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include <states/robot_states.h>
-#include <states_msgs/msg/states_servos.hpp>
+#include <smov_states_msgs/msg/states_servos.hpp>
 
 #include <smov/mathematics.h>
 
@@ -19,9 +19,9 @@ class TrigonometryState {
  public:
   STATE_LIBRARY_CLASS(TrigonometryState)
 
-  TrigonometryState(states_msgs::msg::StatesServos *f_servos, states_msgs::msg::StatesServos *b_servos,
-                    rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr *f_pub,
-                    rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr *b_pub,
+  TrigonometryState(smov_states_msgs::msg::StatesServos *f_servos, smov_states_msgs::msg::StatesServos *b_servos,
+                    rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr *f_pub,
+                    rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr *b_pub,
                     float _l1, float _l2, float _leg_width, std::array<std::array<float, 2>, 12> _data)
       : front_servos(f_servos), back_servos(b_servos),
         front_state_publisher(f_pub), back_state_publisher(b_pub),
