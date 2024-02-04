@@ -139,7 +139,7 @@ void RobotNodeHandle::set_up_topics() {
   front_stop_servos_client = this->create_client<std_srvs::srv::Empty>("front_stop_servos");
   if (!use_single_board) back_stop_servos_client = this->create_client<std_srvs::srv::Empty>("back_stop_servos");
 
-  RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
+  RCLCPP_INFO(this->get_logger(), "Set up /config_servos_handler publisher.");
 
   end_state_sub = this->create_subscription<states_msgs::msg::EndState>(
       "end_state", 1, std::bind(&RobotNodeHandle::end_state_callback, this, std::placeholders::_1));
@@ -150,7 +150,7 @@ void RobotNodeHandle::set_up_topics() {
   if (!use_single_board)
     back_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_proportional", 100);
 
-  RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional publisher.");
+  RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional_handler publisher.");
 
   // Setting up the absolute publishers.
   front_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_absolute", 100);
@@ -160,7 +160,7 @@ void RobotNodeHandle::set_up_topics() {
   // Setting up the monitor publisher.
   monitor_pub = this->create_publisher<monitor_msgs::msg::DisplayText>("data_display", 1);
 
-  RCLCPP_INFO(this->get_logger(), "Set up /servos_absolute publisher.");
+  RCLCPP_INFO(this->get_logger(), "Set up /servos_absolute_handler publisher.");
 }
 
 void RobotNodeHandle::config_servos() {

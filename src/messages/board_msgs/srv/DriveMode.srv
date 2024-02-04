@@ -1,4 +1,4 @@
-# the drive_mode service is used to assigned servos to various drive modes
+# the DriveMode service is used to assigned servos to various drive modes
 # the drive modes determine how the assigned servos respond to geometry_msgs::Twist messages
 # drive modes are one of: ackerman, differential, or mecanum
 # to accurately convert velocity in m/s the controller needs to know three values:

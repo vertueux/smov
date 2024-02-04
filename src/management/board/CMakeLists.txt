@@ -12,15 +12,22 @@ find_package(std_srvs REQUIRED)
 find_package(board_msgs REQUIRED)
 find_package(xmlrpcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(smov_xmlrp REQUIRED)
 
-add_executable(controller src/dual_board_controller.cc)
+include_directories(include)
+
+add_executable(controller src/board.cc src/board_handler.cc src/board_controller.cc)
 target_link_libraries(controller i2c)
 
-ament_target_dependencies(controller rclcpp std_msgs std_srvs board_msgs xmlrpcpp geometry_msgs)
+ament_target_dependencies(controller rclcpp std_msgs std_srvs board_msgs xmlrpcpp geometry_msgs smov_xmlrp)
 
 install(TARGETS
         controller
         DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
+        DESTINATION include/
 )
 
 ament_package()

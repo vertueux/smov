@@ -34,7 +34,7 @@ void RobotManager::set_up_servos() {
   }
 }
 void RobotManager::stop_servos() {
-  RCLCPP_FATAL(rclcpp::get_logger("rclcpp"), "RobotManager::stop_servos is not implemented");
+  RCLCPP_FATAL(rclcpp::get_logger("rclcpp"), "RobotManager::stop_servos_handler is not implemented");
 }
 void RobotManager::update_servos_arrays() {
   RCLCPP_FATAL(rclcpp::get_logger("rclcpp"), "RobotManager::update_servos_arrays is not implemented");

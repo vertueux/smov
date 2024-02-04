@@ -6,4 +6,4 @@ The configuration sub-directory contains all packages and source to the calibrat
 
 This is achieved through two packages: 
 * `The Calibration package`: Depends on the Board package. It facilitates independent calibration of each servo.
-* `The Servos Setup package`: Depends on the Board package. It automates the setup of each servos on the `/config_servos` topic. 
+* `The Servos Setup package`: Depends on the Board package. It automates the setup of each servos on the `/config_servos_handler` topic. 

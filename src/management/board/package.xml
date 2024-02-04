@@ -16,18 +16,19 @@
     <test_depend>ament_lint_common</test_depend>
 
     <depend>board_msgs</depend>
+    <depend>smov_xmlrp</depend>
 
     <build_depend>rclcpp</build_depend>
     <build_depend>std_msgs</build_depend>
     <build_depend>std_srvs</build_depend>
-    <build_depend>xmlrpcpp</build_depend>
     <build_depend>geometry_msgs</build_depend>
+    <build_depend>smov_xlmrp</build_depend>
 
     <exec_depend>rclcpp</exec_depend>
     <exec_depend>std_msgs</exec_depend>
     <exec_depend>std_srvs</exec_depend>
-    <exec_depend>xmlrpcpp</exec_depend>
     <exec_depend>geometry_msgs</exec_depend>
+    <exec_depend>smov_xlmrp</exec_depend>
 
     <export>
         <build_type>ament_cmake</build_type>

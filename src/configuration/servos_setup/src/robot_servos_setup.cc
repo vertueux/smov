@@ -50,7 +50,7 @@ void ServosSetup::set_up_topics() {
   if (!use_single_board)
     back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
 
-  RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
+  RCLCPP_INFO(this->get_logger(), "Set up /config_servos_handler publisher.");
 }
 
 void ServosSetup::config_servos() {
