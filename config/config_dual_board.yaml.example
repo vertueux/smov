@@ -1,5 +1,4 @@
 smov_states:  
-  # AVJG: 0.9 pour le rendre stable
   ros__parameters:
     # It is important to change the back servos ports if you use a single board.
     use_single_board: false
