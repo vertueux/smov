@@ -148,3 +148,12 @@ After selecting the SDA & SCL port to be configured, enter this command, modifyi
 ```bash
 sudo dtoverlay i2c-gpio bus=3 i2c_gpio_sda=10 i2c_gpio_scl=9 
 ```
+
+## Surpress Python setup.py deprecated warnings
+Ros2 Humble still uses the old setup.py method of installing packages within its enviornment. This has been deprecated in python 3.10.
+If you are getting these warnings you can safely ignore them but if you want to surpress them you can downgrade your version of setup tools
+doing the following.
+
+```bash
+pip install setuptools==58.2.0
+```
