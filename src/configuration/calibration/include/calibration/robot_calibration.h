@@ -15,7 +15,7 @@
 #include "board_msgs/msg/servo.hpp"
 namespace smov {
 
-// A completly static class.
+// A completely static class.
 class Calibration {
  public:
   static int get_char();

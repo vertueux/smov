@@ -37,10 +37,10 @@ void Calibration::switch_board() {
 }
 
 void Calibration::reset_all_servos_to(int value, const char* msg) {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg);
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "%s", msg);
   for (size_t i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_servo_array.servos[i].value = value;
-    back_servo_array.servos[i].value = value;
+    front_servo_array.servos[i].value = static_cast<int16_t >(value);
+    back_servo_array.servos[i].value = static_cast<int16_t >(value);
   }
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
@@ -48,22 +48,22 @@ void Calibration::reset_all_servos_to(int value, const char* msg) {
 // Increasing: increase_or_decrease = true.
 // Decreasing: increase_or_decrease = false.
 void Calibration::increase_or_decrease_by(int value, bool increase_or_decrease, const char* msg) {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg); 
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "%s", msg);
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "You choose servo number between 1 to 16.");
 
   std::cin >> Calibration::rep;
   if (increase_or_decrease) {
-    front_servo_array.servos[Calibration::rep - 1].value += value;
-    back_servo_array.servos[Calibration::rep - 1].value += value;
+    front_servo_array.servos[Calibration::rep - 1].value += static_cast<float>(value);
+    back_servo_array.servos[Calibration::rep - 1].value += static_cast<float >(value);
   } else {
-    front_servo_array.servos[Calibration::rep - 1].value -= value;
-    back_servo_array.servos[Calibration::rep - 1].value -= value;
+    front_servo_array.servos[Calibration::rep - 1].value -= static_cast<float >(value);
+    back_servo_array.servos[Calibration::rep - 1].value -= static_cast<float >(value);
   }
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), message);
 }
 
 int Calibration::set_new_value(const char* msg) {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), msg);
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "%s", msg);
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Choose a new value : ");
 
   std::cin >> Calibration::rep;
