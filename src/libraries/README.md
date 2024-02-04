@@ -1,4 +1,4 @@
-> The libraries sub-directory
+> The Libraries sub-directory
 
 ## Overview
 
@@ -6,4 +6,4 @@ The developer sub-directory contains all tools related to software development o
 
 ### Why is the library separated into packages ?
 
-It has been separated into small packages simply to facilitate compilation on much less powerful computers (like my Raspberry Pi 3 B+).
+It has been separated into small packages simply to facilitate compilation on much less powerful computers (like an old Raspberry Pi 3 B+).
