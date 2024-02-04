@@ -9,7 +9,7 @@
 #include "board_msgs/msg/servo_config.hpp"
 #include "smov_states_msgs/msg/states_servos.hpp"
 #include "smov_states_msgs/msg/end_state.hpp"
-#include "monitor_msgs/msg/display_text.hpp"
+#include "smov_monitor_msgs/msg/display_text.hpp"
 
 namespace smov {
 
@@ -35,7 +35,7 @@ class RobotNodeHandle : public rclcpp::Node {
   rclcpp::TimerBase::SharedPtr late_timer;
 
   // Used to publish on the LCD panel.
-  monitor_msgs::msg::DisplayText up_display;
+  smov_monitor_msgs::msg::DisplayText up_display;
 
   // Used to publish on the LCD panel.
   std::string up_display_str;
@@ -60,7 +60,7 @@ class RobotNodeHandle : public rclcpp::Node {
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
   rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
 
-  rclcpp::Publisher<monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
+  rclcpp::Publisher<smov_monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
 };
 
 } // namespace smov

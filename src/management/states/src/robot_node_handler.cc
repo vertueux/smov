@@ -158,7 +158,7 @@ void RobotNodeHandle::set_up_topics() {
     back_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_absolute", 100);
 
   // Setting up the monitor publisher.
-  monitor_pub = this->create_publisher<monitor_msgs::msg::DisplayText>("data_display", 1);
+  monitor_pub = this->create_publisher<smov_monitor_msgs::msg::DisplayText>("data_display", 1);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_absolute_handler publisher.");
 }
