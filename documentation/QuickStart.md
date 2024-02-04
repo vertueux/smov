@@ -185,4 +185,4 @@ To compile individual packages you can run the following. This will also build w
 
 ## To run the project
 
-Right now there is no fully operation launch file to see basic usage please check the following [README.md](src/management/board/README.md)
+Right now there is no fully operation launch file to see basic usage please check the following [README.md](../src/management/board/README.md)
