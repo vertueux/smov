@@ -94,13 +94,14 @@ But it should also be able to run on a ESP32.
 | Raspberry Pi   | Pi 3 Model B+<br/> Pi 4 Model B<br/> | [Ubuntu 22.04 LTS](https://ubuntu.com/download/raspberry-pi)<br/> [Ubuntu 20.04 LTS](https://ubuntu.com/download/raspberry-pi) | For now, the project is currently being only tested on the Raspberry Pi 3 Model B+, but should possibly (and surely) be available on other Raspberry Pi.  |
 
 ## How can I get quickly started with my robot?
-To get started quickly and configure your robot, take a look at [LEARN.md](https://github.com/vertueux/smov/blob/prototype/LEARN.md).
+To get started quickly and configure your robot, take a look at [QuickStart.md](documentation/QuickStart.md).
+
 ## Where is the documentation?
-Don't worry, I am currently working on the documentation, so you'll know how to adapt your robot to work with SMOV, and how to create the robot. But right now, for an overview and simple documentation on how to configure the robot, take a look at [LEARN.md](https://github.com/vertueux/smov/blob/prototype/LEARN.md).
+Don't worry, I am currently working on the documentation, so you'll know how to adapt your robot to work with SMOV, and how to create the robot. But right now, for an overview and simple documentation on how to configure the robot, take a look at [README.md](documentation/README.md).
 
 
 ## How can I contribute?
-To be able to contribute, you need to take a look at [CONTRIBUTING.md](https://github.com/vertueux/smov/blob/prototype/CONTRIBUTING.md) to find out the conditions.
+To be able to contribute, you need to take a look at [CONTRIBUTING.md](CONTRIBUTING.md) to find out the conditions.
 
 ## Links and References
 * The I2C PWM Board repository: 

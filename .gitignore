@@ -153,3 +153,9 @@ Thumbs.db
 
 ######### Visual Studio Code
 .vscode/
+
+######### Jetbrains
+.idea/
+
+######### User config
+config.yaml
