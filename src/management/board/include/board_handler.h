@@ -39,7 +39,17 @@ class BoardHandler {
                            std::shared_ptr<std_srvs::srv::Empty::Response> res);
 
  private:
+
   std::shared_ptr<smov::BoardNode> board_node;
+
+  rclcpp::Service<board_msgs::srv::ServosConfig>::SharedPtr config_srv;
+  rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr abs_sub;
+  rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr rel_sub;
+  rclcpp::Service<board_msgs::srv::IntValue>::SharedPtr freq_srv;
+  rclcpp::Service<board_msgs::srv::DriveMode>::SharedPtr mode_srv;
+  rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_srv;
+  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr drive_sub;
+
 };
 }
 

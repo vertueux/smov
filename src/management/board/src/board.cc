@@ -8,11 +8,6 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include <std_srvs/srv/empty.hpp>
-#include "geometry_msgs/msg/twist.hpp"
-#include "board_msgs/msg/servo_array.hpp"
-#include "board_msgs/srv/servos_config.hpp"
-#include "board_msgs/srv/drive_mode.hpp"
-#include "board_msgs/srv/int_value.hpp"
 
 #include "board_handler.h"
 
@@ -22,15 +17,6 @@ int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
 
   auto board_handler = std::make_shared<smov::BoardHandler>("smov_board");
-
-  rclcpp::Service<board_msgs::srv::ServosConfig>::SharedPtr config_srv;
-  rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr abs_sub;
-  rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr rel_sub;
-  rclcpp::Service<board_msgs::srv::IntValue>::SharedPtr freq_srv;
-  rclcpp::Service<board_msgs::srv::DriveMode>::SharedPtr mode_srv;
-  rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_srv;
-  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr drive_sub;
-
   char *p;
   errno = 0;
   if (argv[1] != nullptr) {

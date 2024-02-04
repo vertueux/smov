@@ -18,81 +18,83 @@ void BoardHandler::set_handlers(int board_number) {
 
   if (board_number == 1) {
 
-    this->board_node->create_service<board_msgs::srv::ServosConfig>("front_config_servos",
-                                                                    std::bind(&BoardHandler::config_servos_handler,
-                                                                              this,
-                                                                              std::placeholders::_1,
-                                                                              std::placeholders::_2));     // 'config' will setup the necessary properties of continuous servos and is helpful for standard servos.
-    this->board_node->create_subscription<board_msgs::msg::ServoArray>("front_servos_absolute",
-                                                                       500,
-                                                                       std::bind(&BoardHandler::servos_absolute_handler,
-                                                                                 this,
-                                                                                 std::placeholders::_1));             // The 'absolute' topic will be used for standard servo motion and testing of continuous servos.
+    this->config_srv = this->board_node->create_service<board_msgs::srv::ServosConfig>("front_config_servos",
+                                                                                       std::bind(&BoardHandler::config_servos_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1,
+                                                                                                 std::placeholders::_2));     // 'config' will setup the necessary properties of continuous servos and is helpful for standard servos.
+    this->abs_sub = this->board_node->create_subscription<board_msgs::msg::ServoArray>("front_servos_absolute",
+                                                                                       500,
+                                                                                       std::bind(&BoardHandler::servos_absolute_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1));             // The 'absolute' topic will be used for standard servo motion and testing of continuous servos.
 
-    this->board_node->create_subscription<board_msgs::msg::ServoArray>("front_servos_proportional",
-                                                                       500,
-                                                                       std::bind(&BoardHandler::servos_proportional_handler,
-                                                                                 this,
-                                                                                 std::placeholders::_1)); // The 'proportion' topic will be used for standard servos and continuous rotation aka drive servos.
+    this->rel_sub = this->board_node->create_subscription<board_msgs::msg::ServoArray>("front_servos_proportional",
+                                                                                       500,
+                                                                                       std::bind(&BoardHandler::servos_proportional_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1)); // The 'proportion' topic will be used for standard servos and continuous rotation aka drive servos.
 
-    this->board_node->create_service<board_msgs::srv::IntValue>("front_set_pwm_frequency",
-                                                                std::bind(&BoardHandler::set_pwm_frequency_handler,
-                                                                          this,
-                                                                          std::placeholders::_1,
-                                                                          std::placeholders::_2));
-    this->board_node->create_service<board_msgs::srv::DriveMode>("front_config_drive_mode",
-                                                                 std::bind(&BoardHandler::config_drive_mode_handler,
-                                                                           this,
-                                                                           std::placeholders::_1,
-                                                                           std::placeholders::_2));                    // 'mode' specifies which servos are used for motion and which behavior will be applied when driving.
-    this->board_node->create_service<std_srvs::srv::Empty>("front_stop_servos",
-                                                           std::bind(&BoardHandler::stop_servos_handler, this,
-                                                                     std::placeholders::_1,
-                                                                     std::placeholders::_2));                                         // The 'stop' service can be used at any time.
-    this->board_node->create_subscription<geometry_msgs::msg::Twist>("front_servos_drive",
-                                                                     500,
-                                                                     std::bind(&BoardHandler::servos_drive_handler,
-                                                                               this,
-                                                                               std::placeholders::_1));                     // The 'drive' topic will be used for continuous rotation aka drive servos controlled by Twist messages.
+    this->freq_srv = this->board_node->create_service<board_msgs::srv::IntValue>("front_set_pwm_frequency",
+                                                                                 std::bind(&BoardHandler::set_pwm_frequency_handler,
+                                                                                           this,
+                                                                                           std::placeholders::_1,
+                                                                                           std::placeholders::_2));
+    this->mode_srv = this->board_node->create_service<board_msgs::srv::DriveMode>("front_config_drive_mode",
+                                                                                  std::bind(&BoardHandler::config_drive_mode_handler,
+                                                                                            this,
+                                                                                            std::placeholders::_1,
+                                                                                            std::placeholders::_2));                    // 'mode' specifies which servos are used for motion and which behavior will be applied when driving.
+    this->stop_srv = this->board_node->create_service<std_srvs::srv::Empty>("front_stop_servos",
+                                                                            std::bind(&BoardHandler::stop_servos_handler,
+                                                                                      this,
+                                                                                      std::placeholders::_1,
+                                                                                      std::placeholders::_2));                                         // The 'stop' service can be used at any time.
+    this->drive_sub = this->board_node->create_subscription<geometry_msgs::msg::Twist>("front_servos_drive",
+                                                                                       500,
+                                                                                       std::bind(&BoardHandler::servos_drive_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1));                     // The 'drive' topic will be used for continuous rotation aka drive servos controlled by Twist messages.
   } else {
-    this->board_node->create_service<board_msgs::srv::ServosConfig>("back_config_servos",
-                                                                    std::bind(&BoardHandler::config_servos_handler,
-                                                                              this,
-                                                                              std::placeholders::_1,
-                                                                              std::placeholders::_2));
-    this->board_node->create_subscription<board_msgs::msg::ServoArray>("back_servos_absolute",
-                                                                       500,
-                                                                       std::bind(&BoardHandler::servos_absolute_handler,
-                                                                                 this,
-                                                                                 std::placeholders::_1));
-    this->board_node->create_subscription<board_msgs::msg::ServoArray>("back_servos_proportional",
-                                                                       500,
-                                                                       std::bind(&BoardHandler::servos_proportional_handler,
-                                                                                 this,
-                                                                                 std::placeholders::_1));
+    this->config_srv = this->board_node->create_service<board_msgs::srv::ServosConfig>("back_config_servos",
+                                                                                       std::bind(&BoardHandler::config_servos_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1,
+                                                                                                 std::placeholders::_2));
+    this->abs_sub = this->board_node->create_subscription<board_msgs::msg::ServoArray>("back_servos_absolute",
+                                                                                       500,
+                                                                                       std::bind(&BoardHandler::servos_absolute_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1));
+    this->rel_sub = this->board_node->create_subscription<board_msgs::msg::ServoArray>("back_servos_proportional",
+                                                                                       500,
+                                                                                       std::bind(&BoardHandler::servos_proportional_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1));
 
-    this->board_node->create_service<board_msgs::srv::IntValue>("back_set_pwm_frequency",
-                                                                std::bind(&BoardHandler::set_pwm_frequency_handler,
-                                                                          this,
-                                                                          std::placeholders::_1,
-                                                                          std::placeholders::_2));
+    this->freq_srv = this->board_node->create_service<board_msgs::srv::IntValue>("back_set_pwm_frequency",
+                                                                                 std::bind(&BoardHandler::set_pwm_frequency_handler,
+                                                                                           this,
+                                                                                           std::placeholders::_1,
+                                                                                           std::placeholders::_2));
 
-    this->board_node->create_service<board_msgs::srv::DriveMode>("back_config_drive_mode",
-                                                                 std::bind(&BoardHandler::config_drive_mode_handler,
-                                                                           this,
-                                                                           std::placeholders::_1,
-                                                                           std::placeholders::_2));
+    this->mode_srv = this->board_node->create_service<board_msgs::srv::DriveMode>("back_config_drive_mode",
+                                                                                  std::bind(&BoardHandler::config_drive_mode_handler,
+                                                                                            this,
+                                                                                            std::placeholders::_1,
+                                                                                            std::placeholders::_2));
 
-    this->board_node->create_service<std_srvs::srv::Empty>("back_stop_servos",
-                                                           std::bind(&BoardHandler::stop_servos_handler, this,
-                                                                     std::placeholders::_1,
-                                                                     std::placeholders::_2));
+    this->stop_srv = this->board_node->create_service<std_srvs::srv::Empty>("back_stop_servos",
+                                                                            std::bind(&BoardHandler::stop_servos_handler,
+                                                                                      this,
+                                                                                      std::placeholders::_1,
+                                                                                      std::placeholders::_2));
 
-    this->board_node->create_subscription<geometry_msgs::msg::Twist>("back_servos_drive",
-                                                                     500,
-                                                                     std::bind(&BoardHandler::servos_drive_handler,
-                                                                               this,
-                                                                               std::placeholders::_1));
+    this->drive_sub = this->board_node->create_subscription<geometry_msgs::msg::Twist>("back_servos_drive",
+                                                                                       500,
+                                                                                       std::bind(&BoardHandler::servos_drive_handler,
+                                                                                                 this,
+                                                                                                 std::placeholders::_1));
   }
 }
 
