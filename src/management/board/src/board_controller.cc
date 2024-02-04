@@ -29,13 +29,8 @@ extern "C" {
 }
 
 #include <rclcpp/logging.hpp>
-#include <std_srvs/srv/empty.hpp>
-#include <geometry_msgs/msg/twist.hpp>
 
-#include "board_msgs/msg/servo_array.hpp"
-#include "board_msgs/srv/servos_config.hpp"
-#include "board_msgs/srv/drive_mode.hpp"
-#include "board_msgs/srv/int_value.hpp"
+#include "smov_board_msgs/srv/int_value.hpp"
 
 #include <smov/xmlrp.h>
 #include "board_controller.h"

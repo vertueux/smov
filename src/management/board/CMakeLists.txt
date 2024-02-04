@@ -9,7 +9,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
-find_package(board_msgs REQUIRED)
+find_package(smov_board_msgs REQUIRED)
 find_package(xmlrpcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(smov_xmlrp REQUIRED)
@@ -19,7 +19,7 @@ include_directories(include)
 add_executable(controller src/board.cc src/board_handler.cc src/board_controller.cc)
 target_link_libraries(controller i2c)
 
-ament_target_dependencies(controller rclcpp std_msgs std_srvs board_msgs xmlrpcpp geometry_msgs smov_xmlrp)
+ament_target_dependencies(controller rclcpp std_msgs std_srvs smov_board_msgs xmlrpcpp geometry_msgs smov_xmlrp)
 
 install(TARGETS
         controller

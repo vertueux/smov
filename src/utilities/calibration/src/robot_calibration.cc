@@ -2,8 +2,8 @@
 
 namespace smov {
 
-board_msgs::msg::ServoArray Calibration::front_servo_array;
-board_msgs::msg::ServoArray Calibration::back_servo_array;
+smov_board_msgs::msg::ServoArray Calibration::front_servo_array;
+smov_board_msgs::msg::ServoArray Calibration::back_servo_array;
 
 int Calibration::active_board = 1;
 int Calibration::rep = 0;

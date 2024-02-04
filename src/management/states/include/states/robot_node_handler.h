@@ -5,8 +5,8 @@
 
 #include <std_srvs/srv/empty.hpp>
 
-#include "board_msgs/srv/servos_config.hpp"
-#include "board_msgs/msg/servo_config.hpp"
+#include "smov_board_msgs/srv/servos_config.hpp"
+#include "smov_board_msgs/msg/servo_config.hpp"
 #include "smov_states_msgs/msg/states_servos.hpp"
 #include "smov_states_msgs/msg/end_state.hpp"
 #include "smov_monitor_msgs/msg/display_text.hpp"
@@ -48,17 +48,17 @@ class RobotNodeHandle : public rclcpp::Node {
 
   rclcpp::Subscription<smov_states_msgs::msg::EndState>::SharedPtr end_state_sub;
 
-  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_client;
-  rclcpp::Client<board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_client;
+  rclcpp::Client<smov_board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_client;
+  rclcpp::Client<smov_board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_client;
 
   rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
   rclcpp::Client<std_srvs::srv::Empty>::SharedPtr back_stop_servos_client;
 
-  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
-  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
+  rclcpp::Publisher<smov_board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
+  rclcpp::Publisher<smov_board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
 
-  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
-  rclcpp::Publisher<board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
+  rclcpp::Publisher<smov_board_msgs::msg::ServoArray>::SharedPtr front_abs_pub;
+  rclcpp::Publisher<smov_board_msgs::msg::ServoArray>::SharedPtr back_abs_pub;
 
   rclcpp::Publisher<smov_monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
 };

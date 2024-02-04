@@ -9,8 +9,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "board_msgs/msg/servo_array.hpp"
-#include "board_msgs/msg/servo.hpp"
+#include "smov_board_msgs/msg/servo_array.hpp"
+#include "smov_board_msgs/msg/servo.hpp"
 
 namespace smov {
 
@@ -21,15 +21,15 @@ class RobotManager {
   RobotManager &operator=(const RobotManager &) = delete;
 
   // Arrays to publish in the proportional publisher.
-  board_msgs::msg::ServoArray front_prop_array;
-  board_msgs::msg::ServoArray back_prop_array;
+  smov_board_msgs::msg::ServoArray front_prop_array;
+  smov_board_msgs::msg::ServoArray back_prop_array;
 
   // When using a single board.
-  board_msgs::msg::ServoArray single_back_array;
+  smov_board_msgs::msg::ServoArray single_back_array;
 
   // Arrays to publish in the absolute publisher.
-  board_msgs::msg::ServoArray front_abs_array;
-  board_msgs::msg::ServoArray back_abs_array;
+  smov_board_msgs::msg::ServoArray front_abs_array;
+  smov_board_msgs::msg::ServoArray back_abs_array;
 
   // Setting up the servos to their corresponding port.
   void set_up_servos();

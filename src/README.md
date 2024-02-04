@@ -21,9 +21,9 @@ This folder contains all the source code for the smov robot. Below is a breakdow
 │   ├── board                                   -- Primary node for use with direct interaction with servo controller
 │   └── states                                  -- Primary node for state management within the smov bot
 ├── messages                                    -- Contains all the message definitions for each node/service
-│   ├── board_msgs                              -- Board communication messages
-│   ├── monitor_msgs                            -- Monitor communication messages
-│   └── states_msgs                             -- State communication Messages
+│   ├── smov_board_msgs                              -- Board communication messages
+│   ├── smov_monitor_msgs                            -- Monitor communication messages
+│   └── ssmov_tates_msgs                             -- State communication Messages
 └── utilities                                   -- Contains all the utility code for configuring your bot    
     ├── calibration                             -- Calibrate the servo configuration
     └── servos_setup                            -- Setup the overall servo file

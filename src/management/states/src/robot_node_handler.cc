@@ -17,8 +17,8 @@ RobotNodeHandle::RobotNodeHandle()
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Attempt to lock the servos at their initial value.");
 
   // Initializing with default values.
-  std::array<board_msgs::msg::Servo, SERVO_MAX_SIZE> empty_front_servos;
-  std::array<board_msgs::msg::Servo, SERVO_MAX_SIZE> empty_back_servos;
+  std::array<smov_board_msgs::msg::Servo, SERVO_MAX_SIZE> empty_front_servos;
+  std::array<smov_board_msgs::msg::Servo, SERVO_MAX_SIZE> empty_back_servos;
 
   // Pushing the initial servos to the array.
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
@@ -132,9 +132,9 @@ void RobotNodeHandle::set_up_topics() {
   RCLCPP_INFO(this->get_logger(), "Set up states subscribers.");
 
   // Setting up the servo config client.
-  front_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
+  front_servo_config_client = this->create_client<smov_board_msgs::srv::ServosConfig>("front_config_servos");
   if (!use_single_board)
-    back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
+    back_servo_config_client = this->create_client<smov_board_msgs::srv::ServosConfig>("back_config_servos");
 
   front_stop_servos_client = this->create_client<std_srvs::srv::Empty>("front_stop_servos");
   if (!use_single_board) back_stop_servos_client = this->create_client<std_srvs::srv::Empty>("back_stop_servos");
@@ -146,16 +146,16 @@ void RobotNodeHandle::set_up_topics() {
 
   RCLCPP_INFO(this->get_logger(), "Set up /end_state subscriber.");
 
-  front_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_proportional", 100);
+  front_prop_pub = this->create_publisher<smov_board_msgs::msg::ServoArray>("front_servos_proportional", 100);
   if (!use_single_board)
-    back_prop_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_proportional", 100);
+    back_prop_pub = this->create_publisher<smov_board_msgs::msg::ServoArray>("back_servos_proportional", 100);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional_handler publisher.");
 
   // Setting up the absolute publishers.
-  front_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("front_servos_absolute", 100);
+  front_abs_pub = this->create_publisher<smov_board_msgs::msg::ServoArray>("front_servos_absolute", 100);
   if (!use_single_board)
-    back_abs_pub = this->create_publisher<board_msgs::msg::ServoArray>("back_servos_absolute", 100);
+    back_abs_pub = this->create_publisher<smov_board_msgs::msg::ServoArray>("back_servos_absolute", 100);
 
   // Setting up the monitor publisher.
   monitor_pub = this->create_publisher<smov_monitor_msgs::msg::DisplayText>("data_display", 1);
@@ -164,11 +164,11 @@ void RobotNodeHandle::set_up_topics() {
 }
 
 void RobotNodeHandle::config_servos() {
-  board_msgs::msg::ServoConfig front_config[SERVO_MAX_SIZE * 2];
-  board_msgs::msg::ServoConfig back_config[SERVO_MAX_SIZE];
+  smov_board_msgs::msg::ServoConfig front_config[SERVO_MAX_SIZE * 2];
+  smov_board_msgs::msg::ServoConfig back_config[SERVO_MAX_SIZE];
 
-  auto front_request = std::make_shared<board_msgs::srv::ServosConfig::Request>();
-  auto back_request = std::make_shared<board_msgs::srv::ServosConfig::Request>();
+  auto front_request = std::make_shared<smov_board_msgs::srv::ServosConfig::Request>();
+  auto back_request = std::make_shared<smov_board_msgs::srv::ServosConfig::Request>();
 
   for (int h = 0; h < SERVO_MAX_SIZE; h++) {
     front_config[h].servo = static_cast<int16_t>(robot->front_servos_data[h][0] + 1);

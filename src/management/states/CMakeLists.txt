@@ -6,7 +6,7 @@ if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif ()
 
 find_package(ament_cmake REQUIRED)
-find_package(board_msgs REQUIRED)
+find_package(smov_board_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -19,7 +19,7 @@ set(dependencies
         rclcpp
         std_srvs
         std_msgs
-        board_msgs
+        smov_board_msgs
         smov_states_msgs
         smov_monitor_msgs
 )
