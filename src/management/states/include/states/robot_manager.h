@@ -34,17 +34,17 @@ class RobotManager {
   // Setting up the servos to their corresponding port.
   void set_up_servos();
 
-  void stop_servos();
+  // Static until we implement the function
+  static void stop_servos();
 
   // We push all the servos into the arrays to be published.
-  void update_servos_arrays();
+  // Static until we implement the function
+  static void update_servos_arrays();
 
   std::vector<std::vector<long int>> front_servos_data;
   std::vector<std::vector<long int>> back_servos_data;
 
   std::string state = "None";
-
-  double pulse_for_angle = 0;
 
   std::array<std::string, 12> servo_name = {"AVCG", "AVCD", "AVBG",
                                             "AVBD", "AVJG", "AVJD",

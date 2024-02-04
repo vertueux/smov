@@ -1,4 +1,3 @@
-#include <ctime>
 #include <iostream>
 #include <memory>
 
@@ -172,23 +171,23 @@ void RobotNodeHandle::config_servos() {
   auto back_request = std::make_shared<board_msgs::srv::ServosConfig::Request>();
 
   for (int h = 0; h < SERVO_MAX_SIZE; h++) {
-    front_config[h].servo = int(robot->front_servos_data[h][0] + 1);
-    front_config[h].direction = int(robot->front_servos_data[h][3]);
-    front_config[h].center = int(robot->front_servos_data[h][1]);
-    front_config[h].range = int(robot->front_servos_data[h][2]);
+    front_config[h].servo = static_cast<int16_t>(robot->front_servos_data[h][0] + 1);
+    front_config[h].direction = static_cast<int16_t>(robot->front_servos_data[h][3]);
+    front_config[h].center = static_cast<int16_t>(robot->front_servos_data[h][1]);
+    front_config[h].range = static_cast<int16_t>(robot->front_servos_data[h][2]);
     front_request->servos.push_back(front_config[h]);
 
     if (use_single_board) {
-      front_config[h + SERVO_MAX_SIZE].range = int(robot->back_servos_data[h][2]);
-      front_config[h + SERVO_MAX_SIZE].direction = int(robot->back_servos_data[h][3]);
-      front_config[h + SERVO_MAX_SIZE].center = int(robot->back_servos_data[h][1]);
-      front_config[h + SERVO_MAX_SIZE].servo = int(robot->back_servos_data[h][0] + 1);
+      front_config[h + SERVO_MAX_SIZE].range = static_cast<int16_t>(robot->back_servos_data[h][2]);
+      front_config[h + SERVO_MAX_SIZE].direction = static_cast<int16_t>(robot->back_servos_data[h][3]);
+      front_config[h + SERVO_MAX_SIZE].center = static_cast<int16_t>(robot->back_servos_data[h][1]);
+      front_config[h + SERVO_MAX_SIZE].servo = static_cast<int16_t>(robot->back_servos_data[h][0] + 1);
       front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]);
     } else {
-      back_config[h].range = int(robot->back_servos_data[h][2]);
-      back_config[h].direction = int(robot->back_servos_data[h][3]);
-      back_config[h].center = int(robot->back_servos_data[h][1]);
-      back_config[h].servo = int(robot->back_servos_data[h][0] + 1);
+      back_config[h].range = static_cast<int16_t>(robot->back_servos_data[h][2]);
+      back_config[h].direction = static_cast<int16_t>(robot->back_servos_data[h][3]);
+      back_config[h].center = static_cast<int16_t>(robot->back_servos_data[h][1]);
+      back_config[h].servo = static_cast<int16_t>(robot->back_servos_data[h][0] + 1);
       back_request->servos.push_back(back_config[h]);
     }
   }
@@ -274,7 +273,7 @@ void RobotNodeHandle::late_callback() {
 
 
   // Making sure we are on the desired state.
-  up_display.data = std::string("Current state: ") + robot->state.c_str();
+  up_display.data = std::string("Current state: ") + robot->state;
 
   // Publishing to the panel.
   monitor_pub->publish(up_display);

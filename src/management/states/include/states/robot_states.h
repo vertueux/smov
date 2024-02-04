@@ -102,7 +102,7 @@ enum RobotParts {
   int main(int argc, char **argv)\
   {\
     rclcpp::init(argc, argv);\
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Remember to press 'escape' to succesfully exit the program.");\
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Remember to press 'escape' to successfully exit the program.");\
     std::thread exit_thread(quick_timer_callback);\
     rclcpp::spin(std::make_shared<StateNode>());\
     state.on_quit();\
@@ -163,7 +163,7 @@ enum RobotParts {
     _argc = argc;\
     _argv = argv;\
     rclcpp::init(argc, argv);\
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Remember to press 'escape' to succesfully exit the program.");\
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Remember to press 'escape' to successfully exit the program.");\
     std::thread exit_thread(quick_timer_callback);\
     rclcpp::spin(std::make_shared<StateNode>());\
     state.on_quit();\
