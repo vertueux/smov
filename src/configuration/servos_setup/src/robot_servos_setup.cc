@@ -1,4 +1,3 @@
-#include <ctime>
 #include <iostream>
 #include <memory>
 
@@ -9,7 +8,7 @@ using namespace std::chrono_literals;
 namespace smov {
 
 ServosSetup::ServosSetup()
- : Node("smov_states") {   
+    : Node("smov_states") {
 
   // Declaring the different parameters.
   declare_parameters();
@@ -28,8 +27,9 @@ void ServosSetup::declare_parameters() {
   std::vector<long int> default_value(5, 0);
 
   // Declaring all default parameters first.
-  for (size_t j = 0; j < servo_name.size(); j++) 
-    this->declare_parameter(servo_name[j], default_value);
+  for (const auto &j : servo_name) {
+    this->declare_parameter(j, default_value);
+  }
 
   // Declaring the board option.
   this->declare_parameter("use_single_board", false);
@@ -47,7 +47,8 @@ void ServosSetup::declare_parameters() {
 void ServosSetup::set_up_topics() {
   // Setting up the servo config client.
   front_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("front_config_servos");
-  if (!use_single_board) back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
+  if (!use_single_board)
+    back_servo_config_client = this->create_client<board_msgs::srv::ServosConfig>("back_config_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos publisher.");
 }
@@ -60,24 +61,24 @@ void ServosSetup::config_servos() {
   auto back_request = std::make_shared<board_msgs::srv::ServosConfig::Request>();
 
   for (int h = 0; h < SERVO_MAX_SIZE; h++) {
-    front_config[h].servo = int(front_servos_data[h][0] + 1);
-    front_config[h].direction = int(front_servos_data[h][3]);
-    front_config[h].center = int(front_servos_data[h][1]);
-    front_config[h].range = int(front_servos_data[h][2]);
-    front_request->servos.push_back(front_config[h]); 
+    front_config[h].servo = static_cast<short>(front_servos_data[h][0] + 1);
+    front_config[h].direction = static_cast<short>(front_servos_data[h][3]);
+    front_config[h].center = static_cast<short>(front_servos_data[h][1]);
+    front_config[h].range = static_cast<short>(front_servos_data[h][2]);
+    front_request->servos.push_back(front_config[h]);
 
     if (use_single_board) {
-      front_config[h + SERVO_MAX_SIZE].range = int(back_servos_data[h][2]);
-      front_config[h + SERVO_MAX_SIZE].direction = int(back_servos_data[h][3]);
-      front_config[h + SERVO_MAX_SIZE].center = int(back_servos_data[h][1]);
-      front_config[h + SERVO_MAX_SIZE].servo = int(back_servos_data[h][0] + 1);
-      front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]); 
+      front_config[h + SERVO_MAX_SIZE].range = static_cast<short>(back_servos_data[h][2]);
+      front_config[h + SERVO_MAX_SIZE].direction = static_cast<short>(back_servos_data[h][3]);
+      front_config[h + SERVO_MAX_SIZE].center = static_cast<short>(back_servos_data[h][1]);
+      front_config[h + SERVO_MAX_SIZE].servo = static_cast<short>(back_servos_data[h][0] + 1);
+      front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]);
     } else {
-      back_config[h].range = int(back_servos_data[h][2]);
-      back_config[h].direction = int(back_servos_data[h][3]);
-      back_config[h].center = int(back_servos_data[h][1]);
-      back_config[h].servo = int(back_servos_data[h][0] + 1);
-      back_request->servos.push_back(back_config[h]); 
+      back_config[h].range = static_cast<short>(back_servos_data[h][2]);
+      back_config[h].direction = static_cast<short>(back_servos_data[h][3]);
+      back_config[h].center = static_cast<short>(back_servos_data[h][1]);
+      back_config[h].servo = static_cast<short>(back_servos_data[h][0] + 1);
+      back_request->servos.push_back(back_config[h]);
     }
   }
 
@@ -87,7 +88,7 @@ void ServosSetup::config_servos() {
       return;
     }
     RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
-  } 
+  }
   if (!use_single_board) {
     while (!back_servo_config_client->wait_for_service(1s)) {
       if (!rclcpp::ok()) {
@@ -105,7 +106,7 @@ void ServosSetup::config_servos() {
 
 } // namespace smov
 
-int main(int argc, char * argv[]) {
+int main(int argc, char *argv[]) {
   rclcpp::init(argc, argv);
   rclcpp::spin(std::make_shared<smov::ServosSetup>());
   rclcpp::shutdown();
