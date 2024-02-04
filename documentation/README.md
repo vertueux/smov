@@ -2,4 +2,4 @@
 
 ## Getting Started
 
-The documentation is not done yet.
+Take a look at [QUICK_START.md](https://github.com/vertueux/smov/blob/prototype/documentation/QUICK_START.md) in order to get started.
