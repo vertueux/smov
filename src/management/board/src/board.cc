@@ -17,11 +17,12 @@
 #include "board_handler.h"
 
 int main(int argc, char **argv) {
+
   int io_device = 0;
   rclcpp::init(argc, argv);
 
   auto board_handler = std::make_shared<smov::BoardHandler>("smov_board");
-  
+
   rclcpp::Service<board_msgs::srv::ServosConfig>::SharedPtr config_srv;
   rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr abs_sub;
   rclcpp::Subscription<board_msgs::msg::ServoArray>::SharedPtr rel_sub;
