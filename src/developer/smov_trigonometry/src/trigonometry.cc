@@ -3,7 +3,7 @@
 namespace smov {
 
 float TrigonometryState::convert_rad_to_deg(float rad) {
-  return (rad * (180.0f / M_PI));
+  return static_cast<float>((rad * (180.0f / M_PI)));
 }
 
 void TrigonometryState::move_servo_to_ang(MicroController mc, int servo, float angle) {
@@ -12,9 +12,9 @@ void TrigonometryState::move_servo_to_ang(MicroController mc, int servo, float a
 
   if (angle > data[relative_servo][1] || angle < -(data[relative_servo][1] - (2 * data[relative_servo][0]))) {
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Angle out of range, must be between [%f, %f].",
-    -(data[relative_servo][1] - (2 * data[relative_servo][0])), data[relative_servo][1]);
+                -(data[relative_servo][1] - (2 * data[relative_servo][0])), data[relative_servo][1]);
     return;
-  } 
+  }
 
   float result = (angle - data[relative_servo][0]) / (data[relative_servo][1] - data[relative_servo][0]);
 

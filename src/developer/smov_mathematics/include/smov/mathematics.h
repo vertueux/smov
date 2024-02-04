@@ -14,19 +14,19 @@ struct Vector3 {
  public:
   Vector3();
   Vector3(float _x, float _y, float _z);
-  Vector3(float xyz);
-  
+  explicit Vector3(float xyz);
+
   float x, y, z;
-  
+
   // Make the Vector3 Values to Zero.
   static Vector3 zero();
-  
+
   // Make the Vector3 Values to One.
   static Vector3 one();
 
   // Shorthand for writing Vector3(0, 0, -1).    
   static Vector3 back();
-  
+
   // Shorthand for writing Vector3(0, -1, 0).    
   static Vector3 down();
 

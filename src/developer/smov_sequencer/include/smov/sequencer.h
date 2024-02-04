@@ -29,11 +29,11 @@ class SequencerState {
  public:
   STATE_LIBRARY_CLASS(SequencerState)
 
-  void execute_muscles_sequence(RobotMuscles group, std::vector<float> values, int cooldown);
-  void execute_sequence(MicroController mc, int servo, std::vector<float> values, int cooldown);
-  void execute_sequence(MicroController mc, std::array<int, 2> servos, std::vector<float> values, int cooldown);
+  void execute_muscles_sequence(RobotMuscles group, const std::vector<float>& values, int cool_down);
+  void execute_sequence(MicroController mc, int servo, const std::vector<float>& values, int cool_down);
+  void execute_sequence(MicroController mc, std::array<int, 2> servos, const std::vector<float>& values, int cool_down);
   void execute_group_sequence(MicroController mc, ServoOrder sequence, std::array<float, 3> values, int timeout);
-  void execute_global_sequence(MicroController mc, std::vector<float> values, int cooldown);
+  void execute_global_sequence(MicroController mc, std::vector<float> values, int cool_down);
 };
 
 } // namespace smov
