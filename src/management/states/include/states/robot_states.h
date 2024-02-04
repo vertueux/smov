@@ -34,7 +34,7 @@ enum RobotParts {
                           void on_loop();\
                           void on_quit();\
                           void set_name() {front_servos.state_name = name; back_servos.state_name = name; end_state.state_name = name;}\
-                          void delay(int time) {struct timespec ts; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
+                          void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
                           public: void end_program() {end_state_publisher->publish(end_state);}\
                           states_msgs::msg::StatesServos front_servos;\
                           states_msgs::msg::StatesServos back_servos;\
@@ -45,7 +45,7 @@ enum RobotParts {
 
 #define STATE_LIBRARY_CLASS(name) states_msgs::msg::StatesServos* front_servos;\
                                   states_msgs::msg::StatesServos* back_servos;\
-                                  void delay(int time) {struct timespec ts; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
+                                  void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
                                   rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* front_state_publisher;\
                                   rclcpp::Publisher<states_msgs::msg::StatesServos>::SharedPtr* back_state_publisher;\
                                   name(states_msgs::msg::StatesServos* f_servos, states_msgs::msg::StatesServos* b_servos,\
