@@ -156,4 +156,33 @@ doing the following.
 
 ```bash
 pip install setuptools==58.2.0
+``` 
+
+## Building the project
+To build the project is straight forward and we provide a simple convenience script to streamline the process.
+Make sure you are in the root directory of the smov repo.
+
+First run the following:
+```bash
+source /opt/ros/humble/setup.bash
+chmod +x ./scripts/build.sh
+./scripts/build.sh
 ```
+
+## Developing the project
+
+For developers activley working on the project you will want to generate a compile_commands.txt:
+```bash
+source /opt/ros/humble/setup.bash
+chmod +x ./scripts/build.sh
+./scripts/build.sh devall
+```
+
+To compile individual packages you can run the following. This will also build with verbose logging enabled.
+```bash
+./scripts/build.sh <package_name>
+```
+
+## To run the project
+
+Right now there is no fully operation launch file to see basic usage please check the following [README.md](src/management/board/README.md)

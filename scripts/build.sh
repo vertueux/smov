@@ -22,5 +22,5 @@ if [ $1 = "devall" ]; then
 else
   # Build without any special flags
   echo "INFO: Building smov package $1"
-  colcon build --packages-select $1
+  colcon build --packages-select $1 --event-handlers console_cohesion+ --cmake-args -DCMAKE_VERBOSE_MAKEFILE=ON 
 fi
