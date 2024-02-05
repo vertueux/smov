@@ -1,8 +1,8 @@
-# The Configuration package
+# The Calibration package
 
 > **Note**: Changes applied to all servos will also be applied to the other microcontroller when you switch microcontrollers.
 
-The Configuration package lets you control servos via a command-line interface, with various choices available by entering hexadecimal numbers. It facilitates calibration of servo motors on the robot. 
+The Calibration package lets you control servos via a command-line interface, with various choices available by entering hexadecimal numbers. It facilitates calibration of servo motors on the robot. 
 
 Here are the different choices presented to you by default: 
 ```bash

@@ -1,4 +1,4 @@
-> The utilities sub-directory
+> The Utilities sub-directory
 
 ## Overview
 

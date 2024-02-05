@@ -1,4 +1,4 @@
-> The messages sub-directory
+> The Messages sub-directory
 
 ## Overview
 
