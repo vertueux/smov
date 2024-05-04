@@ -8,7 +8,7 @@
   </p>
 </h1>
 
-SMOV is the robot I was and still working on. It is a quadruped dog robot which would never have never existed without seeing ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). It's main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
+SMOV is the robot I was and still working on. It is a quadruped dog robot which would have never existed without seeing ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). Its main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
 
 https://github.com/vertueux/smov/assets/81981323/b2234707-8f5c-4f4c-adbb-8d1c0cae671e
 
@@ -61,7 +61,7 @@ void TemplateState::on_start() {
 }
 
 void TemplateState::on_loop() {
-  // This will called every 500ms (But you 
+  // This will is every 500ms (But you 
   // can change the timeout at DECLARE_STATE_NODE_CLASS).
 }
 
