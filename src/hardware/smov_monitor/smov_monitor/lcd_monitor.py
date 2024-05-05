@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from monitor_msgs.msg import DisplayText
+from smov_monitor_msgs.msg import DisplayText
 from time import *
 import smbus
 
