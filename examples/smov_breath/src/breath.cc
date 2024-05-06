@@ -6,12 +6,12 @@ void BreathState::on_start() {
 }
 
 void BreathState::on_loop() {
-  for (int i = 8; i < 25; i++) {
+  for (int i = 8; i < 20; i++) {
     trig.set_legs_distance_to(i); 
     delay(50);
   }
 
-  for (int i = 25; i > 8; i--) {
+  for (int i = 20; i > 8; i--) {
     trig.set_legs_distance_to(i); 
     delay(50);
   }

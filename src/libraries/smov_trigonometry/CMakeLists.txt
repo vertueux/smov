@@ -9,7 +9,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(smov_states REQUIRED)
 find_package(smov_states_msgs REQUIRED)
-find_package(smov_mathematics REQUIRED)
 
 include_directories(include)
 
@@ -17,10 +16,9 @@ set(dependencies
         rclcpp
         smov_states
         smov_states_msgs
-        smov_mathematics
 )
 
-add_library(smov_trigonometry_lib SHARED src/trigonometry.cc)
+add_library(smov_trigonometry_lib SHARED src/trigonometry.cc mathematics.cc)
 ament_target_dependencies(smov_trigonometry_lib ${dependencies})
 
 install(TARGETS smov_trigonometry_lib

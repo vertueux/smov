@@ -37,10 +37,6 @@ class RobotManager {
   // Static until we implement the function
   static void stop_servos();
 
-  // We push all the servos into the arrays to be published.
-  // Static until we implement the function
-  static void update_servos_arrays();
-
   std::vector<std::vector<long int>> front_servos_data;
   std::vector<std::vector<long int>> back_servos_data;
 
