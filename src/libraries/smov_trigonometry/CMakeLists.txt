@@ -18,7 +18,7 @@ set(dependencies
         smov_states_msgs
 )
 
-add_library(smov_trigonometry_lib SHARED src/trigonometry.cc mathematics.cc)
+add_library(smov_trigonometry_lib SHARED src/trigonometry.cc src/mathematics.cc)
 ament_target_dependencies(smov_trigonometry_lib ${dependencies})
 
 install(TARGETS smov_trigonometry_lib
