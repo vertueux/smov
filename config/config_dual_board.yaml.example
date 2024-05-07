@@ -3,16 +3,21 @@ smov_states:
     # It is important to change the back servos ports if you use a single board.
     use_single_board: false
 
-    #     Port, Center, Range,   Direction, Default value on Start (Proportional)
-    AVCG: [0,   315,    220,     -1,        0]
-    AVCD: [15,  315,    220,     1,         0]
-    AVBG: [1,   315,    440,     1,         0]
-    AVBD: [14,  300,    440,     -1,        0]
-    AVJG: [2,   315,    440,     -1,        1]
-    AVJD: [13,  340,    390,     1,         1]
-    ARCG: [15,  315,    220,     1,         0]
-    ARCD: [0,   315,    220,     -1,        0] 
-    ARBG: [14,  315,    440,     1,         0]
-    ARBD: [1,   335,    440,     -1,        0]
-    ARJG: [13,  315,    400,     -1,        1]
-    ARJD: [2,   315 ,   340,     1,         1]
+    #     Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Min angle, Max angle
+    AVCG: [0,   315,    220,     -1,        0,                                     0,                     10,         120]
+    AVCD: [15,  315,    220,     1,         0,                                     0,                     10,         120]
+
+    AVBG: [1,   315,    440,     1,         0,                                     55,                    10,         145]
+    AVBD: [14,  300,    440,     -1,        0,                                     55,                    10,         145]
+
+    AVJG: [2,   315,    440,     -1,        1,                                     70,                    10,         150]
+    AVJD: [13,  340,    390,     1,         1,                                     70,                    10,         150]
+
+    ARCG: [15,  315,    220,     1,         0,                                     0,                     10,         120]
+    ARCD: [0,   315,    220,     -1,        0,                                     0,                     10,         120]
+
+    ARBG: [14,  315,    440,     1,         0,                                     55,                    10,         145]
+    ARBD: [1,   335,    440,     -1,        0,                                     55,                    10,         145]
+
+    ARJG: [13,  315,    400,     -1,        1,                                     70,                    10,         150]
+    ARJD: [2,   315 ,   340,     1,         1,                                     70,                    10,         150]

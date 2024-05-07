@@ -65,9 +65,22 @@ void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
   }
 
+  // IMPORTANT CHANGE: We now changed the value to only be angles (which are then converted into proportional values).
   if (msg->state_name == robot->state) {
-    for (int i = 0; i < SERVO_MAX_SIZE; i++)
-      robot->front_prop_array.servos[i].value = msg->value[i];
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) {
+      if (msg->value[i] < robot->front_servos_data[i][6]) {
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+      } else if (msg->value[i] > robot->front_servos_data[i][7]) {
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+      } else {
+        float numerical_value = (msg->value[i] - robot->front_servos_data[i][5]) / (robot->front_servos_data[i][7] - robot->front_servos_data[i][7]);
+        robot->front_prop_array.servos[i].value = numerical_value;
+      }
+    }
     front_prop_pub->publish(robot->front_prop_array);
   }
 }
@@ -80,16 +93,30 @@ void RobotNodeHandle::back_topic_callback(smov_states_msgs::msg::StatesServos::S
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
   }
 
-  if (msg->state_name == robot->state) {
-    if (use_single_board) {
-      for (int i = 0; i < SERVO_MAX_SIZE; i++)
-        robot->single_back_array.servos[i].value = msg->value[i];
-      front_prop_pub->publish(robot->single_back_array);
-    } else {
-      for (int i = 0; i < SERVO_MAX_SIZE; i++)
-        robot->back_prop_array.servos[i].value = msg->value[i];
-      back_prop_pub->publish(robot->back_prop_array);
+  if (msg->state_name == robot->state) { 
+    for (int i = 0; i < SERVO_MAX_SIZE; i++) {
+      if (msg->value[i] < robot->back_servos_data[i][6]) {
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+      } else if (msg->value[i] > robot->back_servos_data[i][7]) {
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+      } else {
+        float numerical_value = (msg->value[i] - robot->back_servos_data[i][5]) / (robot->back_servos_data[i][7] - robot->back_servos_data[i][7]);
+        if (use_single_board) {
+          robot->single_back_array.servos[i].value = numerical_value;
+        } else {
+          robot->back_prop_array.servos[i].value = numerical_value;
+        }
+      }
     }
+  }
+  if (use_single_board) {
+    front_prop_pub->publish(robot->single_back_array);
+  } else {
+    back_prop_pub->publish(robot->back_prop_array);
   }
 }
 
@@ -103,7 +130,7 @@ void RobotNodeHandle::end_state_callback(smov_states_msgs::msg::EndState::Shared
 }
 
 void RobotNodeHandle::declare_parameters() {
-  std::vector<long int> default_value(5, 0);
+  std::vector<long int> default_value(8, 0); // 8: number of elements in the .yaml array.
 
   // Declaring all default parameters first.
   for (size_t j = 0; j < robot->servo_name.size(); j++)
@@ -116,7 +143,7 @@ void RobotNodeHandle::declare_parameters() {
   use_single_board = this->get_parameter("use_single_board").as_bool();
 
   // We initialize the arrays with their default values.
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) { // 5 is the number of data in a single array (in ~/parameters.yaml).
+  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
     robot->front_servos_data.push_back(this->get_parameter(robot->servo_name[i]).as_integer_array());
     robot->back_servos_data.push_back(this->get_parameter(robot->servo_name[i + SERVO_MAX_SIZE]).as_integer_array());
   }
@@ -178,10 +205,10 @@ void RobotNodeHandle::config_servos() {
     front_request->servos.push_back(front_config[h]);
 
     if (use_single_board) {
-      front_config[h + SERVO_MAX_SIZE].range = static_cast<int16_t>(robot->back_servos_data[h][2]);
+      front_config[h + SERVO_MAX_SIZE].servo = static_cast<int16_t>(robot->back_servos_data[h][0] + 1);
       front_config[h + SERVO_MAX_SIZE].direction = static_cast<int16_t>(robot->back_servos_data[h][3]);
       front_config[h + SERVO_MAX_SIZE].center = static_cast<int16_t>(robot->back_servos_data[h][1]);
-      front_config[h + SERVO_MAX_SIZE].servo = static_cast<int16_t>(robot->back_servos_data[h][0] + 1);
+      front_config[h + SERVO_MAX_SIZE].range = static_cast<int16_t>(robot->back_servos_data[h][2]);
       front_request->servos.push_back(front_config[h + SERVO_MAX_SIZE]);
     } else {
       back_config[h].range = static_cast<int16_t>(robot->back_servos_data[h][2]);
