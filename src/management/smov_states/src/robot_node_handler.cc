@@ -68,16 +68,18 @@ void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::
   // IMPORTANT CHANGE: We now changed the value to only be angles (which are then converted into proportional values).
   if (msg->state_name == robot->state) {
     for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-      if (msg->value[i] < robot->front_servos_data[i][6]) {
+      if (msg->value[i] < (2 * robot->front_servos_data[i][5]) - robot->front_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)";
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-      } else if (msg->value[i] > robot->front_servos_data[i][7]) {
+      } else if (msg->value[i] > robot->front_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)";
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
       } else {
-        float numerical_value = (msg->value[i] - robot->front_servos_data[i][5]) / (robot->front_servos_data[i][7] - robot->front_servos_data[i][7]);
+
+        // As the numerical value is between [-1,1], we use the center (0) and the maximum (1) to convert the angles into numerical values.
+        float numerical_value = (msg->value[i] - robot->front_servos_data[i][5]) / (robot->front_servos_data[i][6] - robot->front_servos_data[i][5]);
         robot->front_prop_array.servos[i].value = numerical_value;
       }
     }
@@ -95,16 +97,16 @@ void RobotNodeHandle::back_topic_callback(smov_states_msgs::msg::StatesServos::S
 
   if (msg->state_name == robot->state) { 
     for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-      if (msg->value[i] < robot->back_servos_data[i][6]) {
+      if (msg->value[i] < (2 * robot->back_servos_data[i][5]) - robot->back_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)";
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-      } else if (msg->value[i] > robot->back_servos_data[i][7]) {
+      } else if (msg->value[i] > robot->back_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)";
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
       } else {
-        float numerical_value = (msg->value[i] - robot->back_servos_data[i][5]) / (robot->back_servos_data[i][7] - robot->back_servos_data[i][7]);
+        float numerical_value = (msg->value[i] - robot->back_servos_data[i][5]) / (robot->back_servos_data[i][6] - robot->back_servos_data[i][5]);
         if (use_single_board) {
           robot->single_back_array.servos[i].value = numerical_value;
         } else {
