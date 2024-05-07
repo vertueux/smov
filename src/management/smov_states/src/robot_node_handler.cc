@@ -70,11 +70,11 @@ void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::
     for (int i = 0; i < SERVO_MAX_SIZE; i++) {
       if (msg->value[i] < (2 * robot->front_servos_data[i][5]) - robot->front_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
       } else if (msg->value[i] > robot->front_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
       } else {
 
@@ -99,11 +99,11 @@ void RobotNodeHandle::back_topic_callback(smov_states_msgs::msg::StatesServos::S
     for (int i = 0; i < SERVO_MAX_SIZE; i++) {
       if (msg->value[i] < (2 * robot->back_servos_data[i][5]) - robot->back_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
       } else if (msg->value[i] > robot->back_servos_data[i][6]) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)";
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)");
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
       } else {
         float numerical_value = (msg->value[i] - robot->back_servos_data[i][5]) / (robot->back_servos_data[i][6] - robot->back_servos_data[i][5]);
