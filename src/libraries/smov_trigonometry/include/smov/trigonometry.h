@@ -25,15 +25,13 @@ class TrigonometryState {
                     float _l1, float _l2, float _leg_width, std::array<std::array<float, 2>, 12> _data)
       : front_servos(f_servos), back_servos(b_servos),
         front_state_publisher(f_pub), back_state_publisher(b_pub),
-        l1(_l1), l2(_l2), leg_width(_leg_width), data(_data) {}
+        l1(_l1), l2(_l2), leg_width(_leg_width) {}
 
   static float convert_rad_to_deg(float rad);
-  void move_servo_to_ang(MicroController mc, int servo, float angle);
   Vector3 set_leg_to(Vector3 xyz);
   void set_legs_distance_to(float value);
 
   float l1 = 14, l2 = 14, leg_width = 2.5f;
-  std::array<std::array<float, 2>, 12> data;
 };
 
 } // namespace smov
