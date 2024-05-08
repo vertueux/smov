@@ -42,10 +42,10 @@ void TemplateState::on_start() {
 
   delay(2000); // Delay of 2 seconds (2000ms).
 
-  // Putting all the servos to their center. (Min: -1.0, Max: 1.0).
+  // Putting all the servos to the angle 60°.
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    front_servos.value[i] = 0.0f; 
-    back_servos.value[i] = 0.0f;
+    front_servos.value[i] = 60.0f; 
+    back_servos.value[i] = 60.0f;
   }
 
   // Then publishing to the States package to apply them 
