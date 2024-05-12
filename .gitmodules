@@ -1,6 +1,0 @@
-[submodule "submodules/i2c_pwm_board"]
-	path = submodules/i2c_pwm_board
-	url = https://github.com/vertueux/i2c_pwm_board
-[submodule "submodules/xmlrpcpp"]
-	path = submodules/xmlrpcpp
-	url = https://github.com/vertueux/xmlrpcpp
