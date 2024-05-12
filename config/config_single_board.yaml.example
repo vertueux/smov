@@ -1,23 +1,28 @@
 smov_states:  
   ros__parameters:
-    # It is important to change the back servos ports if you use a single board.
+    # It is important to change the back servos ports if you're using a single board.
     use_single_board: true
 
-    #     Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Max angle
-    AVCG: [0,   315,    220,     -1,        0,                                     0,                     120]
-    AVCD: [15,  315,    220,     1,         0,                                     0,                     120]
+    # The values are in centimeters.
+    upper_leg_length: 14
+    lower_leg_length: 14
+    hip_body_distance: 4
 
-    AVBG: [1,   315,    440,     1,         0,                                     55,                    145]
-    AVBD: [14,  300,    440,     -1,        0,                                     55,                    145]
+    #                      Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Max angle
+    FRONT_BODY_LEFT:       [0,   315,    220,     -1,        0,                                     0,                     120]
+    FRONT_BODY_RIGHT:      [15,  315,    220,     1,         0,                                     0,                     120]
+
+    FRONT_UPPER_LEG_LEFT:  [1,   315,    440,     1,         0,                                     55,                    145]
+    FRONT_UPPER_LEG_RIGHT: [14,  300,    440,     -1,        0,                                     55,                    145]
     
-    AVJG: [2,   315,    440,     -1,        1,                                     70,                    150]
-    AVJD: [13,  340,    390,     1,         1,                                     70,                    150]
+    FRONT_LOWER_LEG_LEFT:  [2,   315,    440,     -1,        1,                                     70,                    150]
+    FRONT_LOWER_LEG_RIGHT: [13,  340,    390,     1,         1,                                     70,                    150]
 
-    ARCG: [7,   315,    220,     1,         0,                                     0,                     120]
-    ARCD: [8,   315,    220,     -1,        0,                                     0,                     120]
+    BACK_BODY_LEFT:        [7,   315,    220,     1,         0,                                     0,                     120]
+    BACK_BODY_RIGHT:       [8,   315,    220,     -1,        0,                                     0,                     120]
 
-    ARBG: [6,   315,    440,     1,         0,                                     55,                    145]
-    ARBD: [9,   335,    440,     -1,        0,                                     55,                    145]
+    BACK_UPPER_LEG_LEFT:   [6,   315,    440,     1,         0,                                     55,                    145]
+    BACK_UPPER_LEG_RIGHT:  [9,   335,    440,     -1,        0,                                     55,                    145]
     
-    ARJG: [5,    315,    400,     -1,       1,                                     70,                    150]
-    ARJD: [10,   315 ,   340,     1,        1,                                     70,                    150]
+    BACK_LOWER_LEG_LEFT:   [5,   315,    400,     -1,        1,                                     70,                    150]
+    BACK_LOWER_LEG_RIGHT:  [10,  315,    340,     1,         1,                                     70,                    150]
