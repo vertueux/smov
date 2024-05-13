@@ -4,9 +4,9 @@ smov_states:
     use_single_board: true
 
     # The values are in centimeters.
-    upper_leg_length: 14
-    lower_leg_length: 14
-    hip_body_distance: 4
+    upper_leg_length: 14.0
+    lower_leg_length: 14.0
+    hip_body_distance: 4.0
 
     #                      Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Max angle
     FRONT_BODY_LEFT:       [0,   315,    220,     -1,        0,                                     0,                     120]
