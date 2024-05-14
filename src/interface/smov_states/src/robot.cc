@@ -25,7 +25,7 @@ RobotNodeHandle::RobotNodeHandle() : Node("smov_states") {
   declare_parameters();
 
   // Locking the servos on start.
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Attempt to lock the servos at their initial value.");
+  RCLCPP_INFO(this->get_logger(), "Attempt to lock the servos at their initial value.");
 
   // Default configuration.
   set_up_servos();
@@ -53,22 +53,22 @@ RobotNodeHandle::RobotNodeHandle() : Node("smov_states") {
 void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg) {
   if (robot->state == "None") {
     robot->state = msg->state_name.c_str();
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Detecting a new state: %s", robot->state.c_str());
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
+    RCLCPP_INFO(this->get_logger(), "===========================================");
+    RCLCPP_INFO(this->get_logger(), "Detecting a new state: %s", robot->state.c_str());
+    RCLCPP_INFO(this->get_logger(), "===========================================");
   }
 
   // IMPORTANT CHANGE: We now changed the value to only be angles (which are then converted into proportional values).
   if (msg->state_name == robot->state) {
     for (int i = 0; i < SERVO_MAX_SIZE; i++) {
       if (msg->value[i] < (2 * robot->front_servos_data[i][5]) - robot->front_servos_data[i][6]) {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "Angle out of range (minimum)");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
       } else if (msg->value[i] > robot->front_servos_data[i][6]) {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "Angle out of range (maximum)");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
       } else {
 
         // As the numerical value is between [-1,1], we use the center (0) and the maximum (1) to convert the angles into numerical values.
@@ -83,21 +83,21 @@ void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::
 void RobotNodeHandle::back_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg) {
   if (robot->state == "None") {
     robot->state = msg->state_name.c_str();
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Detecting a new state: %s", robot->state.c_str());
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
+    RCLCPP_INFO(this->get_logger(), "===========================================");
+    RCLCPP_INFO(this->get_logger(), "Detecting a new state: %s", robot->state.c_str());
+    RCLCPP_INFO(this->get_logger(), "===========================================");
   }
 
   if (msg->state_name == robot->state) { 
     for (int i = 0; i < SERVO_MAX_SIZE; i++) {
       if (msg->value[i] < (2 * robot->back_servos_data[i][5]) - robot->back_servos_data[i][6]) {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (minimum)");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "Angle out of range (minimum)");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
       } else if (msg->value[i] > robot->back_servos_data[i][6]) {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Angle out of range (maximum)");
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
+        RCLCPP_ERROR(this->get_logger(), "Angle out of range (maximum)");
+        RCLCPP_ERROR(this->get_logger(), "===========================================");
       } else {
         float numerical_value = (msg->value[i] - robot->back_servos_data[i][5]) / (robot->back_servos_data[i][6] - robot->back_servos_data[i][5]);
         if (robot->use_single_board) {
@@ -117,9 +117,9 @@ void RobotNodeHandle::back_topic_callback(smov_states_msgs::msg::StatesServos::S
 
 void RobotNodeHandle::end_state_callback(smov_states_msgs::msg::EndState::SharedPtr msg) {
   if (msg->state_name == robot->state) {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "State has shutdown: %s", msg->state_name.c_str());
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "===========================================");
+    RCLCPP_INFO(this->get_logger(), "===========================================");
+    RCLCPP_INFO(this->get_logger(), "State has shutdown: %s", msg->state_name.c_str());
+    RCLCPP_INFO(this->get_logger(), "===========================================");
     robot->state = "None";
   }
 }
@@ -288,34 +288,25 @@ void RobotNodeHandle::stop_servos() {
 
 void RobotNodeHandle::late_callback() {
   for (int b = 0; b < SERVO_MAX_SIZE; b++) {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Front Servo Array Servo %d [value=%f].",
+    RCLCPP_INFO(this->get_logger(), "Front Servo Array Servo %d [value=%f].",
                 robot->front_prop_array.servos[b].servo, robot->front_prop_array.servos[b].value);
     if (b == SERVO_MAX_SIZE - 1) {
-      RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
-                  "-------------------------------------------");
+      RCLCPP_INFO(this->get_logger(), "-------------------------------------------");
       for (int a = 0; a < SERVO_MAX_SIZE; a++) {
         if (robot->use_single_board) {
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Back Servo Array Servo %d [value=%f].",
+          RCLCPP_INFO(this->get_logger(), "Back Servo Array Servo %d [value=%f].",
                       robot->single_back_array.servos[a].servo, robot->single_back_array.servos[a].value);
         } else {
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Back Servo Array Servo %d [value=%f].",
+          RCLCPP_INFO(this->get_logger(), "Back Servo Array Servo %d [value=%f].",
                       robot->back_prop_array.servos[a].servo, robot->back_prop_array.servos[a].value);
         }
         if (a == SERVO_MAX_SIZE - 1) {
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
-                      "-------------------------------------------");
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Current State: %s", robot->state.c_str());
-          RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
-                      "-------------------------------------------");
+          RCLCPP_INFO(this->get_logger(), "-------------------------------------------");
+          RCLCPP_INFO(this->get_logger(), "Current State: %s", robot->state.c_str());
+          RCLCPP_INFO(this->get_logger(), "-------------------------------------------");
         }
       }
     }
-  }
-
-  // For now, we are basically nesting loops, cool right...
-  for (int i = 0; i < SERVO_MAX_SIZE; i++) {
-    robot->front_servos_data[i] = this->get_parameter(robot->servo_name[i]).as_integer_array();
-    robot->back_servos_data[i] = this->get_parameter(robot->servo_name[i + SERVO_MAX_SIZE]).as_integer_array();
   }
 
   // Making sure we are on the desired state.

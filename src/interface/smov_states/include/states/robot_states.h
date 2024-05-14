@@ -79,7 +79,7 @@ namespace smov {
     while (rclcpp::ok()) {\
       int c = getchar();\
       if (c == 27) {\
-        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Quitting.");\
+        RCLCPP_INFO(rclcpp::get_logger(node_name), "Quitting.");\
         state.end_program();\
         rclcpp::shutdown();\
       }\
@@ -88,7 +88,7 @@ namespace smov {
   int main(int argc, char **argv)\
   {\
     rclcpp::init(argc, argv);\
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Remember to press 'escape' to successfully exit the program.");\
+    RCLCPP_INFO(rclcpp::get_logger(node_name), "Remember to press 'escape' to successfully exit the program.");\
     std::thread exit_thread(quick_timer_callback);\
     rclcpp::spin(std::make_shared<StateNode>());\
     state.on_quit();\
@@ -138,7 +138,7 @@ namespace smov {
     while (rclcpp::ok()) {\
       int c = getchar();\
       if (c == 27) {\
-        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Quitting.");\
+        RCLCPP_INFO(rclcpp::get_logger(node_name), "Quitting.");\
         end_program();\
         rclcpp::shutdown();\
       }\
@@ -149,7 +149,7 @@ namespace smov {
     _argc = argc;\
     _argv = argv;\
     rclcpp::init(argc, argv);\
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Remember to press 'escape' to successfully exit the program.");\
+    RCLCPP_INFO(rclcpp::get_logger(node_name), "Remember to press 'escape' to successfully exit the program.");\
     std::thread exit_thread(quick_timer_callback);\
     rclcpp::spin(std::make_shared<StateNode>());\
     state.on_quit();\
