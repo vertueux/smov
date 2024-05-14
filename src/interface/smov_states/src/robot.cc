@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include <rclcpp/rclcpp.hpp>
 
 #include <states/robot.h>
@@ -47,7 +49,7 @@ RobotNodeHandle::RobotNodeHandle() : Node("smov_states") {
     back_prop_pub->publish(robot->back_prop_array);
 
   // Calling the loops with some timeouts.
-  late_timer = this->create_wall_timer(std::chrono::seconds(1), std::bind(&RobotNodeHandle::late_callback, this));
+  late_timer = this->create_wall_timer(std::chrono::seconds(1), std::bind(&RobotNodeHandle::output_values, this));
 }
 
 void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg) {
@@ -286,7 +288,10 @@ void RobotNodeHandle::stop_servos() {
   if (!robot->use_single_board) auto b_result = back_stop_servos_client->async_send_request(req);
 }
 
-void RobotNodeHandle::late_callback() {
+void RobotNodeHandle::output_values() {
+  // Clear the terminal.
+  RCLCPP_INFO(this->get_logger(), "\033[2J\033[;H");
+
   for (int b = 0; b < SERVO_MAX_SIZE; b++) {
     RCLCPP_INFO(this->get_logger(), "Front Servo Array Servo %d [value=%f].",
                 robot->front_prop_array.servos[b].servo, robot->front_prop_array.servos[b].value);
@@ -308,6 +313,7 @@ void RobotNodeHandle::late_callback() {
       }
     }
   }
+
 
   // Making sure we are on the desired state.
   robot->up_display.data = std::string("Current state: ") + robot->state;
