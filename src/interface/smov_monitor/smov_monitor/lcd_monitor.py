@@ -9,37 +9,37 @@ class I2CDevice:
       self.addr = addr
       self.bus = smbus.SMBus(port)
 
-# Write a single command
+# Write a single command.
    def write_cmd(self, cmd):
       self.bus.write_byte(self.addr, cmd)
       sleep(0.0001)
 
-# Write a command and argument
+# Write a command and argument.
    def write_cmd_arg(self, cmd, data):
       self.bus.write_byte_data(self.addr, cmd, data)
       sleep(0.0001)
 
-# Write a block of data
+# Write a block of data.
    def write_block_data(self, cmd, data):
       self.bus.write_block_data(self.addr, cmd, data)
       sleep(0.0001)
 
-# Read a single byte
+# Read a single byte.
    def read(self):
       return self.bus.read_byte(self.addr)
 
-# Read
+# Read.
    def read_data(self, cmd):
       return self.bus.read_byte_data(self.addr, cmd)
 
-# Read a block of data
+# Read a block of data.
    def read_block_data(self, cmd):
       return self.bus.read_block_data(self.addr, cmd)
 
-# LCD Address
+# LCD Address.
 ADDRESS = 0x27
 
-# commands
+# Commands
 LCD_CLEARDISPLAY = 0x01
 LCD_RETURNHOME = 0x02
 LCD_ENTRYMODESET = 0x04
@@ -49,13 +49,13 @@ LCD_FUNCTIONSET = 0x20
 LCD_SETCGRAMADDR = 0x40
 LCD_SETDDRAMADDR = 0x80
 
-# flags for display entry mode
+# Flags for display entry mode.
 LCD_ENTRYRIGHT = 0x00
 LCD_ENTRYLEFT = 0x02
 LCD_ENTRYSHIFTINCREMENT = 0x01
 LCD_ENTRYSHIFTDECREMENT = 0x00
 
-# flags for display on/off control
+# Flags for display ON/OFF control.
 LCD_DISPLAYON = 0x04
 LCD_DISPLAYOFF = 0x00
 LCD_CURSORON = 0x02
@@ -63,13 +63,13 @@ LCD_CURSOROFF = 0x00
 LCD_BLINKON = 0x01
 LCD_BLINKOFF = 0x00
 
-# flags for display/cursor shift
+# Flags for display/cursor shift.
 LCD_DISPLAYMOVE = 0x08
 LCD_CURSORMOVE = 0x00
 LCD_MOVERIGHT = 0x04
 LCD_MOVELEFT = 0x00
 
-# flags for function set
+# Flags for function set.
 LCD_8BITMODE = 0x10
 LCD_4BITMODE = 0x00
 LCD_2LINE = 0x08
@@ -77,16 +77,16 @@ LCD_1LINE = 0x00
 LCD_5x10DOTS = 0x04
 LCD_5x8DOTS = 0x00
 
-# flags for backlight control
+# Flags for backlight control.
 LCD_BACKLIGHT = 0x08
 LCD_NOBACKLIGHT = 0x00
 
-En = 0b00000100 # Enable bit
-Rw = 0b00000010 # Read/Write bit
-Rs = 0b00000001 # Register select bit
+En = 0b00000100 # Enable bit.
+Rw = 0b00000010 # Read/Write bit.
+Rs = 0b00000001 # Register select bit.
 
 class LCD:
-   #initializes objects and lcd
+   # Initializes objects and LCD.
    def __init__(self):
       self.lcd_device = I2CDevice(ADDRESS)
 
@@ -103,7 +103,7 @@ class LCD:
       print('Set up the display control & configuration.')
       sleep(0.2)
 
-   # clocks EN to latch command
+   # Clocks EN to latch command.
    def lcd_strobe(self, data):
       self.lcd_device.write_cmd(data | En | LCD_BACKLIGHT)
       sleep(.0005)
@@ -114,12 +114,12 @@ class LCD:
       self.lcd_device.write_cmd(data | LCD_BACKLIGHT)
       self.lcd_strobe(data)
 
-   # write a command to lcd
+   # Write a command to lcd.
    def lcd_write(self, cmd, mode=0):
       self.lcd_write_four_bits(mode | (cmd & 0xF0))
       self.lcd_write_four_bits(mode | ((cmd << 4) & 0xF0))
 
-   # put string function
+   # Put string function.
    def lcd_display_string(self, string, line):
       if line == 1:
          self.lcd_write(0x80)
@@ -133,7 +133,7 @@ class LCD:
       for char in string:
          self.lcd_write(ord(char), Rs)
 
-   # clear lcd and set to home
+   # Clear lcd and set to home.
    def lcd_clear(self):
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_RETURNHOME)
@@ -166,7 +166,6 @@ def main(args=None):
     
     monitor_node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
