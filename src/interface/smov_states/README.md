@@ -13,11 +13,11 @@ First of all, the program will set all servos to their predefined value.
 In order to run the package with your parameters, you just need to paste:
 
 ```bash
-ros2 run smov_states manager --ros-args --params-file config/config_dual_board.yaml.example
+ros2 run smov_states manager --ros-args --params-file config/states_dual_board.yaml.example
 ```
 
-or
+Or
 
 ```bash
-ros2 run smov_states manager --ros-args --params-file config/config_single_board.yaml.example
+ros2 run smov_states manager --ros-args --params-file config/states_single_board.yaml.example
 ```
