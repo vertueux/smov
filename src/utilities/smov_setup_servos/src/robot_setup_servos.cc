@@ -78,10 +78,10 @@ void ServosSetup::config_servos() {
 
   while (!front_servo_config_client->wait_for_service(std::chrono::seconds(1))) {
     if (!rclcpp::ok()) {
-      RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
+      RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the Front Stop Servos service. Exiting.");
       return;
     }
-    RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
+    RCLCPP_INFO(this->get_logger(), "Front Stop Servos service not available, waiting again...");
   }
   if (!use_single_board) {
     while (!back_servo_config_client->wait_for_service(std::chrono::seconds(1))) {
@@ -89,7 +89,7 @@ void ServosSetup::config_servos() {
         RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
         return;
       }
-      RCLCPP_INFO(this->get_logger(), "Service not available, waiting again...");
+      RCLCPP_INFO(this->get_logger(), "Back Stop Servos service not available, waiting again...");
     }
   }
   auto f_result = front_servo_config_client->async_send_request(front_request);

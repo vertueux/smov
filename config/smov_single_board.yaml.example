@@ -1,5 +1,6 @@
 smov_setup_servos:  
   ros__parameters:
+    # It is important to change the back servos ports if you're using a single board.
     use_single_board: true
 
     #                      Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Max angle
@@ -20,3 +21,12 @@ smov_setup_servos:
     
     BACK_LOWER_LEG_LEFT:   [5,   315,    400,     -1,        1,                                     70,                    150]
     BACK_LOWER_LEG_RIGHT:  [10,  315,    340,     1,         1,                                     70,                    150]
+
+
+smov_states:  
+  ros__parameters:
+    # The values are in centimeters.
+    upper_leg_length: 14.0
+    lower_leg_length: 14.0
+    hip_body_distance: 4.0
+    
