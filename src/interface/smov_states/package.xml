@@ -15,6 +15,9 @@
 
     <build_depend>rclcpp</build_depend>
 
+    <exec_depend>i2c_pwm_board</exec_depend>
+    <exec_depend>smov_servos_setup</exec_depend>
+
     <test_depend>ament_lint_auto</test_depend>
     <test_depend>ament_lint_common</test_depend>
 

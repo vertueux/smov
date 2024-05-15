@@ -9,9 +9,14 @@ def generate_launch_description():
             arguments=['1'],
         ),
         Node(
+            package='smov_setup_servos',
+            executable='node',
+            parameters=["config/smov_single_board.yaml.example"]
+        ),
+        Node(
             package='smov_states',
             executable='manager',
-            parameters=["config/states_single_board.yaml.example"]
+            parameters=["config/smov_single_board.yaml.example"]
         ),
         Node(
             package='smov_monitor',

@@ -47,13 +47,6 @@ struct RobotData {
   // Used to publish on the LCD panel.
   smov_monitor_msgs::msg::DisplayText up_display;
 
-  std::array<std::string, 12> servo_name = {
-    "FRONT_BODY_LEFT",       "FRONT_BODY_RIGHT",     "FRONT_UPPER_LEG_LEFT",
-    "FRONT_UPPER_LEG_RIGHT", "FRONT_LOWER_LEG_LEFT", "FRONT_LOWER_LEG_RIGHT",
-    "BACK_BODY_LEFT",        "BACK_BODY_RIGHT",      "BACK_UPPER_LEG_LEFT",
-    "BACK_UPPER_LEG_RIGHT",  "BACK_LOWER_LEG_LEFT",  "BACK_LOWER_LEG_RIGHT"
-  };
-
  private:
   static RobotData *instance;
   RobotData();
@@ -70,7 +63,6 @@ class RobotNodeHandle : public rclcpp::Node {
   void declare_parameters();
   void set_up_servos();
   void set_up_topics();
-  void config_servos();
   void output_values();
   void front_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg);
   void back_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg);
@@ -87,9 +79,6 @@ class RobotNodeHandle : public rclcpp::Node {
   rclcpp::Subscription<smov_states_msgs::msg::StatesServos>::SharedPtr back_states_sub;
 
   rclcpp::Subscription<smov_states_msgs::msg::EndState>::SharedPtr end_state_sub;
-
-  rclcpp::Client<i2c_pwm_board_msgs::srv::ServosConfig>::SharedPtr front_servo_config_client;
-  rclcpp::Client<i2c_pwm_board_msgs::srv::ServosConfig>::SharedPtr back_servo_config_client;
 
   rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
   rclcpp::Client<std_srvs::srv::Empty>::SharedPtr back_stop_servos_client;
