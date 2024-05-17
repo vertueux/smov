@@ -28,9 +28,11 @@ SMOV is a 4 legged open source robot. It is built on a modular architecture that
 
 For those who already have a robot built (such as the Spot Micro), don't worry, the SMOV has been designed to integrate with the model, and doesn't currently require you to modify or create a new one.
 
+The SMOV project can be seen as a starter point to get into the Spot Micro environment. This project is also some form of layer that lets developers build on top of it, as most of the packages only care about controlling the board, LCD and servos, leaving an API for letting the user do what he wants with his robot (motion, etc...).
+
 ## What makes SMOV different?
 
-SMOV is designed to be easily extensible. It is centralized in a single executable, the States package. This package, while running, will listen for any message sent by a third-party package and apply them to the real robot. In other words, this modular architecture facilitates robot control, and makes it easier to perform any application. 
+SMOV is designed to be easily extensible. It is centralized in a single executable, the States package. This package, while running, will listen for any message sent by a third-party package and apply them to the real robot. In other words, this modular architecture facilitates robot control, and makes it easier to perform any application.
 
 This is achieved by some sort of API similar to the Arduino's one, but specific to robot control. Here's an example taken directly from [the robot state template](https://github.com/vertueux/smov_state):
 
