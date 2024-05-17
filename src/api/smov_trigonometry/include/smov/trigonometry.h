@@ -8,7 +8,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <smov_lib/smov_library.h>
+#include <smov/library.h>
 #include <smov_states_msgs/msg/states_servos.hpp>
 
 #include <smov/mathematics.h>

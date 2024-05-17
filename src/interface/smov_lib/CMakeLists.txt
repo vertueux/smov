@@ -22,7 +22,7 @@ set(dependencies
         smov_states_msgs
 )
 
-add_library(smov_lib SHARED src/smov_executable.cc src/smov_library.cc)
+add_library(smov_lib SHARED src/executable.cc src/library.cc)
 ament_target_dependencies(smov_lib ${dependencies})
 
 install(TARGETS smov_lib

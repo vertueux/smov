@@ -7,7 +7,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <smov_lib/smov_executable.h>
+#include <smov/executable.h>
 
 #include <smov/trigonometry.h>
 

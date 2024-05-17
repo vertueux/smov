@@ -1,5 +1,5 @@
-#ifndef SMOV_EXECUTABLE_H_
-#define SMOV_EXECUTABLE_H_
+#ifndef EXECUTABLE_H_
+#define EXECUTABLE_H_
 
 #include <ctime>
 #include <unistd.h>
@@ -109,4 +109,4 @@ namespace smov {
 
 } // namespace smov
 
-#endif // SMOV_EXECUTABLE_H_
+#endif // EXECUTABLE_H_

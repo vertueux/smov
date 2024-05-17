@@ -1,5 +1,5 @@
-#ifndef SMOV_LIBRARY_H_
-#define SMOV_LIBRARY_H_
+#ifndef LIBRARY_H_
+#define LIBRARY_H_
 
 #include <ctime>
 #include <unistd.h>
@@ -28,4 +28,4 @@ namespace smov {
 
 }
 
-#endif // SMOV_LIBRARY_H_
+#endif // LIBRARY_H_
