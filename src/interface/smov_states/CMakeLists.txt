@@ -24,7 +24,7 @@ set(dependencies
         smov_monitor_msgs
 )
 
-add_library(states_lib SHARED src/robot.cc src/robot_states.cc src/robot_main.cc)
+add_library(states_lib SHARED src/robot.cc src/robot_main.cc)
 ament_target_dependencies(states_lib ${dependencies})
 
 add_executable(manager src/robot_main.cc)
@@ -41,8 +41,6 @@ install(DIRECTORY include/
         DESTINATION include/
 )
 
-ament_export_include_directories(include)
-ament_export_libraries(states_lib)
 ament_export_dependencies(${dependencies})
 
 ament_package()

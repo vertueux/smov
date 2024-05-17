@@ -3,7 +3,7 @@
 <package format="3">
     <name>smov_states</name>
     <version>0.1.0</version>
-    <description>Primary motions on the SMOV robot.</description>
+    <description>States controller on the SMOV robot.</description>
     <maintainer email="contact.vertueux@gmail.com">Virtuous</maintainer>
     <license>GPL-3.0</license>
 

@@ -12,7 +12,7 @@ find_package(std_msgs REQUIRED)
 
 include_directories(include)
 
-add_executable(node src/robot_calibration_node.cc src/robot_calibration.cc)
+add_executable(node src/main.cc)
 
 ament_target_dependencies(node rclcpp std_msgs i2c_pwm_board_msgs)
 
