@@ -1,0 +1,30 @@
+smov_setup_servos:
+  ros__parameters:
+    # It is important to change the back servos ports if you're using a single board.
+    use_single_board: false
+
+    #                      Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Max angle
+    FRONT_BODY_LEFT:       [0,   315,    220,     -1,        0,                                     0,                     120]
+    FRONT_BODY_RIGHT:      [15,  315,    220,     1,         0,                                     0,                     120]
+
+    FRONT_UPPER_LEG_LEFT:  [1,   315,    440,     1,         0,                                     55,                    145]
+    FRONT_UPPER_LEG_RIGHT: [14,  300,    440,     -1,        0,                                     55,                    145]
+
+    FRONT_LOWER_LEG_LEFT:  [2,   315,    440,     -1,        1,                                     70,                    150]
+    FRONT_LOWER_LEG_RIGHT: [13,  340,    390,     1,         1,                                     70,                    150]
+
+    BACK_BODY_LEFT:        [15,  315,    220,     1,         0,                                     0,                     120]
+    BACK_BODY_RIGHT:       [0,   315,    220,     -1,        0,                                     0,                     120]
+
+    BACK_UPPER_LEG_LEFT:   [14,  315,    440,     1,         0,                                     55,                    145]
+    BACK_UPPER_LEG_RIGHT:  [1,   335,    440,     -1,        0,                                     55,                    145]
+
+    BACK_LOWER_LEG_LEFT:   [13,  315,    400,     -1,        1,                                     70,                    150]
+    BACK_LOWER_LEG_RIGHT:  [2,   315 ,   340,     1,         1,                                     70,                    150]
+
+smov_states:  
+  ros__parameters:
+    # The values are in centimeters.
+    upper_leg_length: 14.0
+    lower_leg_length: 14.0
+    hip_body_distance: 4.0
