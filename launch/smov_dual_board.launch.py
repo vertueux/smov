@@ -22,9 +22,5 @@ def generate_launch_description():
             package='smov_states',
             executable='manager',
             parameters=["config/smov_single_board.yaml.example"]
-        ),
-        Node(
-            package='smov_monitor',
-            executable='node',
         )
     ])

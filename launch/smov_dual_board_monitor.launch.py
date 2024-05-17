@@ -14,8 +14,17 @@ def generate_launch_description():
             parameters=["config/smov_single_board.yaml.example"]
         ),
         Node(
+            package='i2c_pwm_board',
+            executable='controller',
+            arguments=['4'], # Can be changed to 2, etc...
+        ),
+        Node(
             package='smov_states',
             executable='manager',
             parameters=["config/smov_single_board.yaml.example"]
+        ),
+        Node(
+            package='smov_monitor',
+            executable='node',
         )
     ])
