@@ -24,7 +24,7 @@ https://github.com/vertueux/smov/assets/81981323/b2234707-8f5c-4f4c-adbb-8d1c0ca
 
 ## Overview
 
-SMOV is a 4 legged open source robot. It is built on a modular architecture that facilitates third-party control and application execution according to your needs. You don't have to reprogram the whole robot to adapt it to your needs. Just create a simple executable using the SMOV's simple C++ programming interface.
+SMOV is a 4 legged open source robot. It is built on a modular architecture that facilitates third-party control and application execution according to your needs. You don't have to reprogram the whole robot to adapt it to your needs. Just create a simple executable using SMOV's simple C++ programming interface.
 
 For those who already have a robot built (such as the Spot Micro), don't worry, the SMOV has been designed to integrate with the model, and doesn't currently require you to modify or create a new one.
 
@@ -94,11 +94,11 @@ But it should also be able to run on a ESP32.
 
 ## How can I get quickly started with my robot?
 
-To get started quickly and configure your robot, take a look at [QUICK_START.md](documentation/QUICK_START.md).
+To get started quickly and configure your robot, take a look at [QUICK_START.md](doc/QUICK_START.md).
 
 ## Where is the documentation?
 
-Don't worry, I am currently working on the documentation, so you'll know how to adapt your robot to work with SMOV, and how to create the robot. But right now, for an overview and simple documentation on how to configure the robot, take a look at [README.md](documentation/README.md).
+Don't worry, I am currently working on the documentation, so you'll know how to adapt your robot to work with SMOV, and how to create the robot. But right now, for an overview and simple documentation on how to configure the robot, take a look at [QUICK_START.md](doc/QUICK_START.md).
 
 
 ## How can I contribute?
