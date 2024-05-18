@@ -6,7 +6,7 @@ float TrigonometryState::convert_rad_to_deg(float rad) {
   return static_cast<float>((rad * (180.0f / M_PI)));
 }
 
-void TrigonometryState::set_leg_to(int leg_number, Vector3 xyz) {
+void TrigonometryState::set_leg_to(int leg_group_number, Vector3 xyz) {
   // float c = sqrt(pow(xyz.z, 2.0) + pow(xyz.y, 2.0));
   // float d = sqrt(pow(c, 2.0) - pow(hip_body_distance, 2.0))
   // Simplified:
@@ -25,19 +25,20 @@ void TrigonometryState::set_leg_to(int leg_number, Vector3 xyz) {
 
   float theta = atan(xyz.x / d) + asin(((*lower_leg_length) * sin(phi))/ g);
 
-  if (leg_number == 1) {
+  // From front-left to back-right.
+  if (leg_group_number == 1) {
     front_servos->value[0] = omega;
     front_servos->value[1] = theta;
     front_servos->value[2] = phi;
-  } else if (leg_number == 2) {
+  } else if (leg_group_number == 2) {
     front_servos->value[3] = omega;
     front_servos->value[4] = theta;
     front_servos->value[5] = phi;
-  } else if (leg_number == 2) {
+  } else if (leg_group_number == 3) {
     back_servos->value[0] = omega;
     back_servos->value[1] = theta;
     back_servos->value[2] = phi;
-  } else if (leg_number == 2) {
+  } else if (leg_group_number == 4) {
     back_servos->value[3] = omega;
     back_servos->value[4] = theta;
     back_servos->value[5] = phi;

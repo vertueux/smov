@@ -28,7 +28,7 @@ class TrigonometryState {
         upper_leg_length(_upper_leg_length), lower_leg_length(_lower_leg_length), leg_width(_leg_width), hip_body_distance(_hip_body_distance) {}
 
   static float convert_rad_to_deg(float rad);
-  void set_leg_to(int leg_number, Vector3 xyz);
+  void set_leg_to(int leg_group_number, Vector3 xyz);
   void set_legs_distance_to(float value);
 
   double *upper_leg_length, *lower_leg_length, *leg_width, *hip_body_distance;
