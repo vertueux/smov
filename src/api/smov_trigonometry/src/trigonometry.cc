@@ -8,22 +8,22 @@ float TrigonometryState::convert_rad_to_deg(float rad) {
 
 void TrigonometryState::set_leg_to(int leg_number, Vector3 xyz) {
   // float c = sqrt(pow(xyz.z, 2.0) + pow(xyz.y, 2.0));
-  // float d = sqrt(pow(c, 2.0) - pow(shoulder_width, 2.0))
+  // float d = sqrt(pow(c, 2.0) - pow(hip_body_distance, 2.0))
   // Simplified:
-  float d = sqrt(pow(xyz.z, 2.0) + pow(xyz.y, 2.0) - pow(shoulder_width, 2.0));
+  float d = sqrt(pow(xyz.z, 2.0) + pow(xyz.y, 2.0) - pow((*hip_body_distance), 2.0));
   
   // Calculating the angle.
   // float a = atan(xyz.z / xyz.y);
-  // float b = atan(d / shoulder_width);
+  // float b = atan(d / hip_body_distance);
   // Simplified: 
-  float omega = atan(xyz.z / xyz.y) + atan(d / shoulder_width);
+  float omega = atan(xyz.z / xyz.y) + atan(d / (*hip_body_distance));
 
   float g = sqrt(pow(d, 2.0) + pow(xyz.x, 2.0));
 
   // Al-Kashi's theorem.
-  float phi = acos((pow(g, 2.0) - pow(l1, 2.0) - pow(l2, 2.0)) / (-2 * l1 * l2));
+  float phi = acos((pow(g, 2.0) - pow((*upper_leg_length), 2.0) - pow((*lower_leg_length), 2.0)) / (-2 * (*upper_leg_length) * (*lower_leg_length)));
 
-  float theta = atan(xyz.x / d) + asin((l2 * sin(phi))/ g);
+  float theta = atan(xyz.x / d) + asin(((*lower_leg_length) * sin(phi))/ g);
 
   if (leg_number == 1) {
     front_servos->value[0] = omega;
@@ -49,11 +49,11 @@ void TrigonometryState::set_leg_to(int leg_number, Vector3 xyz) {
 }
 
 void TrigonometryState::set_legs_distance_to(float value) {
-  // l1: A, l2: B, value: C.
+  // upper_leg_length: A, lower_leg_length: B, value: C.
   // We don't actually need angle A, in any case the triangle has to add up to 180°.
-  //float a = acos((pow(l2, 2.0) + pow(value, 2.0) - pow(a, 2.0)) / 2 * l2 * value);
-  float b = acos((pow(l1, 2.0) + pow(value + leg_width, 2.0) - pow(l2, 2.0)) / (2 * (l1) * (value + leg_width)));
-  float c = acos((pow(l1, 2.0) + pow(l2, 2.0) - pow(value + leg_width, 2.0)) / (2 * (l1) * (l2)));
+  //float a = acos((pow(lower_leg_length, 2.0) + pow(value, 2.0) - pow(a, 2.0)) / 2 * lower_leg_length * value);
+  float b = acos((pow((*upper_leg_length), 2.0) + pow(value + (*leg_width), 2.0) - pow((*lower_leg_length), 2.0)) / (2 * ((*upper_leg_length)) * (value + (*leg_width))));
+  float c = acos((pow((*upper_leg_length), 2.0) + pow((*lower_leg_length), 2.0) - pow(value + (*leg_width), 2.0)) / (2 * ((*upper_leg_length)) * (*lower_leg_length)));
   float theta = M_PI - c;
 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Beta angle is=%f", b);

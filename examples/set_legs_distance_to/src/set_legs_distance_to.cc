@@ -13,7 +13,6 @@ void LegsDistanceState::on_start() {
       desired_distance = conv;
   } else {
     RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "No distance specified, defaulting to 10cm.");
-    desired_distance = 10;
   }
 
 	trig.set_legs_distance_to(desired_distance); // In centimeters.

@@ -19,8 +19,9 @@ char **_argv;
 class LegsDistanceState {
  public:
   STATE_CLASS(LegsDistanceState)
+  double leg_width = 2.5;
           
-  TrigonometryState trig = TrigonometryState(&front_servos, &back_servos, &front_state_publisher, &back_state_publisher, 14, 14, 2.5f, 4);
+  TrigonometryState trig = TrigonometryState(&front_servos, &back_servos, &front_state_publisher, &back_state_publisher, &upper_leg_length, &lower_leg_length, &leg_width, &hip_body_distance);
   int desired_distance = 10;
 };
 

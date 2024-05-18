@@ -22,6 +22,9 @@ namespace smov {
                           void set_name() {front_servos.state_name = #name; back_servos.state_name = #name; end_state.state_name = #name;}\
                           void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
                           public: void end_program() {end_state_publisher->publish(end_state);}\
+                          double upper_leg_length = 0.0;\
+                          double lower_leg_length = 0.0;\
+                          double hip_body_distance = 0.0;\
                           smov_states_msgs::msg::StatesServos front_servos;\
                           smov_states_msgs::msg::StatesServos back_servos;\
                           smov_states_msgs::msg::EndState end_state;\
@@ -37,6 +40,18 @@ namespace smov {
    public:\
     StateNode()\
     : Node(node_name), count(0) {\
+      auto parameters_client = std::make_shared<rclcpp::SyncParametersClient>(this, "smov_states");\
+      while (!parameters_client->wait_for_service(std::chrono::seconds(1))) {\
+        if (!rclcpp::ok()) {\
+          RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the SMOV States service. Exiting.");\
+          rclcpp::shutdown();\
+        }\
+        RCLCPP_INFO(this->get_logger(), "SMOV States service not available, waiting again...");\
+      }\
+      auto parameters = parameters_client->get_parameters({"upper_leg_length", "lower_leg_length", "hip_body_distance"});\
+      state.upper_leg_length = parameters[0].as_double();\
+      state.lower_leg_length = parameters[1].as_double();\
+      state.hip_body_distance = parameters[2].as_double();\
       state.set_name();\
       init_reader(0);\
       state.front_state_publisher =\
