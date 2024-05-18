@@ -16,6 +16,11 @@ def generate_launch_description():
         Node(
             package='smov_states',
             executable='manager',
-            parameters=["config/smov_single_board.yaml.example"]
+            parameters=["config/smov_single_board.yaml.example"],
+            prefix="bash -c 'sleep 2.0; $0 $@'"
+        ),
+        Node(
+            package='smov_monitor',
+            executable='node',
         )
     ])
