@@ -21,10 +21,11 @@ namespace smov {
                           void on_quit();\
                           void set_name() {front_servos.state_name = #name; back_servos.state_name = #name; end_state.state_name = #name;}\
                           void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
-                          public: void end_program() {end_state_publisher->publish(end_state);}\
+                          public: void end_program() {on_quit(); end_state_publisher->publish(end_state); tcsetattr(STDIN_FILENO, TCSANOW, &old_chars); rclcpp::shutdown();}\
                           double upper_leg_length = 0.0;\
                           double lower_leg_length = 0.0;\
                           double hip_body_distance = 0.0;\
+                          struct termios old_chars, new_chars;\
                           smov_states_msgs::msg::StatesServos front_servos;\
                           smov_states_msgs::msg::StatesServos back_servos;\
                           smov_states_msgs::msg::EndState end_state;\
@@ -35,7 +36,6 @@ namespace smov {
 #define CREATE_NODE_CLASS(node_name, state_class, timeout)\
   using namespace std::chrono_literals;\
   state_class state;\
-  struct termios old_chars, new_chars;\
   class StateNode : public rclcpp::Node{\
    public:\
     StateNode()\
@@ -44,16 +44,17 @@ namespace smov {
       while (!parameters_client->wait_for_service(std::chrono::seconds(1))) {\
         if (!rclcpp::ok()) {\
           RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the SMOV States service. Exiting.");\
-          rclcpp::shutdown();\
+          return;\
         }\
         RCLCPP_INFO(this->get_logger(), "SMOV States service not available, waiting again...");\
       }\
+      init_reader(0);\
+      RCLCPP_INFO(rclcpp::get_logger(node_name), "Press 'escape' to succesfully exit the program.");\
       auto parameters = parameters_client->get_parameters({"upper_leg_length", "lower_leg_length", "hip_body_distance"});\
       state.upper_leg_length = parameters[0].as_double();\
       state.lower_leg_length = parameters[1].as_double();\
       state.hip_body_distance = parameters[2].as_double();\
       state.set_name();\
-      init_reader(0);\
       state.front_state_publisher =\
         this->create_publisher<smov_states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
       state.back_state_publisher =\
@@ -69,11 +70,11 @@ namespace smov {
     }\
     void init_reader(int echo) {\
       fcntl(0, F_SETFL, O_NONBLOCK);\
-      tcgetattr(0, &old_chars);\
-      new_chars = old_chars;\
-      new_chars.c_lflag &= ~ICANON;\
-      new_chars.c_lflag &= echo ? ECHO : ~ECHO;\
-      tcsetattr(0, TCSANOW, &new_chars);\
+      tcgetattr(0, &state.old_chars);\
+      state.new_chars = state.old_chars;\
+      state.new_chars.c_lflag &= ~ICANON;\
+      state.new_chars.c_lflag &= echo ? ECHO : ~ECHO;\
+      tcsetattr(0, TCSANOW, &state.new_chars);\
     }\
     size_t count;\
     rclcpp::TimerBase::SharedPtr timer;\
@@ -85,7 +86,6 @@ namespace smov {
       if (c == 27) {\
         RCLCPP_INFO(rclcpp::get_logger(node_name), "Quitting.");\
         state.end_program();\
-        rclcpp::shutdown();\
       }\
     }\
   }\
@@ -95,12 +95,10 @@ namespace smov {
   int main(int argc, char **argv)\
   {\
     rclcpp::init(argc, argv);\
-    RCLCPP_INFO(rclcpp::get_logger(node_name), "Remember to press 'escape' to successfully exit the program.");\
     std::thread exit_thread(quick_timer_callback);\
     rclcpp::spin(std::make_shared<StateNode>());\
-    state.on_quit();\
     exit_thread.join();\
-    tcsetattr(STDIN_FILENO, TCSANOW, &old_chars);\
+    tcsetattr(STDIN_FILENO, TCSANOW, &state.old_chars);\
     rclcpp::shutdown();\
     return 0;\
   }\
@@ -112,12 +110,10 @@ namespace smov {
     _argc = argc;\
     _argv = argv;\
     rclcpp::init(argc, argv);\
-    RCLCPP_INFO(rclcpp::get_logger(node_name), "Remember to press 'escape' to successfully exit the program.");\
     std::thread exit_thread(quick_timer_callback);\
     rclcpp::spin(std::make_shared<StateNode>());\
-    state.on_quit();\
     exit_thread.join();\
-    tcsetattr(STDIN_FILENO, TCSANOW, &old_chars);\
+    tcsetattr(STDIN_FILENO, TCSANOW, &state.old_chars);\
     rclcpp::shutdown();\
     return 0;\
   }\
