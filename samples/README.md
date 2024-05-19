@@ -2,4 +2,4 @@
 
 ## Overview
 
-This dossier contains some samples, examples and practical uses of the SMOV API.
+This directory contains some samples, examples and practical uses of the SMOV API.
