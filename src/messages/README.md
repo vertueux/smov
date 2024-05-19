@@ -2,7 +2,7 @@
 
 ## Overview
 
-The scripts subdirectory contains all the `.msg` and `.srv` communications files.
+The messages sub-directory contains all `.msg` and `.srv` communication files.
 
 A brief presentation of the subdirectories:
 
