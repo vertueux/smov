@@ -149,7 +149,7 @@ class MonitorNode(Node):
             self.listener_callback,
             10)
         self.subscription  
-        lcd.lcd_display_string("What's up world?", 1)
+        lcd.lcd_display_string("", 1)
 
     def listener_callback(self, msg):
         lcd.lcd_write(LCD_CLEARDISPLAY)
