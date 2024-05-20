@@ -40,9 +40,9 @@ void ServosSetup::declare_parameters() {
 
 void ServosSetup::set_up_topics() {
   // Setting up the servo config client.
-  front_servo_config_client = this->create_client<i2c_pwm_board_msgs::srv::ServosConfig>("front_config_servos");
+  front_servo_config_client = this->create_client<i2c_pwm_board_msgs::srv::ServosConfig>("main_config_servos");
   if (!use_single_board)
-    back_servo_config_client = this->create_client<i2c_pwm_board_msgs::srv::ServosConfig>("back_config_servos");
+    back_servo_config_client = this->create_client<i2c_pwm_board_msgs::srv::ServosConfig>("secondary_config_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /config_servos_handler publisher.");
 }

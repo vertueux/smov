@@ -20,7 +20,7 @@
 #include "smov_states_msgs/msg/end_state.hpp"
 #include "smov_monitor_msgs/msg/display_text.hpp"
 
-#define UNUSED(expr) do { (void)(expr); } while (0);
+#define UNUSED(expr) do { (void)(expr); } while (0)
 
 namespace smov {
 
@@ -83,8 +83,6 @@ class RobotNodeHandle : public rclcpp::Node {
 
   rclcpp::Publisher<i2c_pwm_board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
   rclcpp::Publisher<i2c_pwm_board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
-
-  rclcpp::Publisher<smov_monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
 };
 
 

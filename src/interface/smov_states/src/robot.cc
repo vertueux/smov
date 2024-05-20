@@ -22,9 +22,10 @@ double RobotData::upper_leg_length = 14.0;
 double RobotData::lower_leg_length = 14.0;
 double RobotData::hip_body_distance = 4.0;
 
-// Public client used in the signit_handler() static function.
+// Public clients & publisher used in the signit_handler() static function.
 rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
 rclcpp::Client<std_srvs::srv::Empty>::SharedPtr back_stop_servos_client;
+rclcpp::Publisher<smov_monitor_msgs::msg::DisplayText>::SharedPtr monitor_pub;
 
 // Creating the base robot with all the necessary data & publishers.
 RobotData *robot = RobotData::Instance();
@@ -211,15 +212,15 @@ void RobotNodeHandle::set_up_topics() {
 
   RCLCPP_INFO(this->get_logger(), "Set up /end_state subscribers.");
 
-  front_prop_pub = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("front_servos_proportional", 100);
+  front_prop_pub = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("main_servos_proportional", 100);
   if (!robot->use_single_board)
-    back_prop_pub = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("back_servos_proportional", 100);
+    back_prop_pub = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("secondary_servos_proportional", 100);
 
   RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional_handler publishers.");
 
-  front_stop_servos_client = this->create_client<std_srvs::srv::Empty>("front_stop_servos");
+  front_stop_servos_client = this->create_client<std_srvs::srv::Empty>("main_stop_servos");
   if (!robot->use_single_board)
-    back_stop_servos_client = this->create_client<std_srvs::srv::Empty>("back_stop_servos");
+    back_stop_servos_client = this->create_client<std_srvs::srv::Empty>("secondary_stop_servos");
 
   RCLCPP_INFO(this->get_logger(), "Set up /stop_servos clients.");
 
@@ -256,7 +257,7 @@ void RobotNodeHandle::output_values() {
   }
 
   // Making sure we are on the desired state.
-  robot->up_display.data = std::string("Current state: ") + robot->state;
+  robot->up_display.data = std::string("State: ") + robot->state;
 
   // Publishing to the panel.
   monitor_pub->publish(robot->up_display);
@@ -290,10 +291,16 @@ void RobotNodeHandle::stop_servos() {
 
 
 void RobotNodeHandle::sigint_handler(int signum) {
-  UNUSED(signum)
+  UNUSED(signum);
 
   // Stopping the servos.
   stop_servos();
+
+  // Setting the LCD to default config.
+  robot->up_display.data = "";
+
+  // Publishing to the panel.
+  monitor_pub->publish(robot->up_display);
 
   // Shutting down rclcpp.
   rclcpp::shutdown();

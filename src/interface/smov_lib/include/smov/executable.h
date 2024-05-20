@@ -12,7 +12,7 @@
 #include "smov_states_msgs/msg/states_servos.hpp"
 #include "smov_states_msgs/msg/end_state.hpp"
 
-#define UNUSED(expr) do { (void)(expr); } while (0);
+#define UNUSED(expr) do { (void)(expr); } while (0)
 
 namespace smov {
 
@@ -67,7 +67,7 @@ namespace smov {
       state.on_loop();\
     }\
     static void sigint_handler(int signum) {\
-      UNUSED(signum)\
+      UNUSED(signum);\
       state.end_program();\
     }\
     size_t count;\
