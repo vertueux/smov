@@ -4,9 +4,6 @@
 #include <ctime>
 #include <unistd.h>
 #include <cstdlib>
-#include <fcntl.h>
-#include <termios.h>
-#include <thread>
 
 #include <rclcpp/rclcpp.hpp>
 
@@ -15,7 +12,7 @@
 #include "smov_states_msgs/msg/states_servos.hpp"
 #include "smov_states_msgs/msg/end_state.hpp"
 
-#define UNUSED(expr) do { (void)(expr); } while (0)
+#define UNUSED(expr) do { (void)(expr); } while (0);
 
 namespace smov {
 
@@ -54,7 +51,7 @@ namespace smov {
       state.upper_leg_length = parameters[0].as_double();\
       state.lower_leg_length = parameters[1].as_double();\
       state.hip_body_distance = parameters[2].as_double();\
-      signal(SIGINT, sigintHandler);\
+      signal(SIGINT, sigint_handler);\
       state.set_name();\
       state.front_state_publisher =\
         this->create_publisher<smov_states_msgs::msg::StatesServos>("front_proportional_servos", 50);\
@@ -69,8 +66,8 @@ namespace smov {
     void timer_callback() {\
       state.on_loop();\
     }\
-    static void sigintHandler(int signum) {\
-      UNUSED(signum);\
+    static void sigint_handler(int signum) {\
+      UNUSED(signum)\
       state.end_program();\
     }\
     size_t count;\

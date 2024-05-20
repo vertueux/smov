@@ -22,9 +22,19 @@ double RobotData::upper_leg_length = 14.0;
 double RobotData::lower_leg_length = 14.0;
 double RobotData::hip_body_distance = 4.0;
 
+// Public client used in the signit_handler() static function.
+rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
+rclcpp::Client<std_srvs::srv::Empty>::SharedPtr back_stop_servos_client;
+
+// Creating the base robot with all the necessary data & publishers.
+RobotData *robot = RobotData::Instance();
+
 RobotNodeHandle::RobotNodeHandle() : Node("smov_states") {
   // Declaring the different parameters.
   declare_parameters();
+
+  // Creating the new SIGNIT handler.
+  signal(SIGINT, sigint_handler);
 
   // Locking the servos on start.
   RCLCPP_INFO(this->get_logger(), "Attempt to lock the servos at their initial value.");
@@ -199,40 +209,24 @@ void RobotNodeHandle::set_up_topics() {
   end_state_sub = this->create_subscription<smov_states_msgs::msg::EndState>(
       "end_state", 1, std::bind(&RobotNodeHandle::end_state_callback, this, std::placeholders::_1));
 
-  RCLCPP_INFO(this->get_logger(), "Set up /end_state subscriber.");
+  RCLCPP_INFO(this->get_logger(), "Set up /end_state subscribers.");
 
   front_prop_pub = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("front_servos_proportional", 100);
   if (!robot->use_single_board)
     back_prop_pub = this->create_publisher<i2c_pwm_board_msgs::msg::ServoArray>("back_servos_proportional", 100);
 
-  RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional_handler publisher.");
+  RCLCPP_INFO(this->get_logger(), "Set up /servos_proportional_handler publishers.");
+
+  front_stop_servos_client = this->create_client<std_srvs::srv::Empty>("front_stop_servos");
+  if (!robot->use_single_board)
+    back_stop_servos_client = this->create_client<std_srvs::srv::Empty>("back_stop_servos");
+
+  RCLCPP_INFO(this->get_logger(), "Set up /stop_servos clients.");
 
   // Setting up the monitor publisher.
   monitor_pub = this->create_publisher<smov_monitor_msgs::msg::DisplayText>("data_display", 1);
 
   RCLCPP_INFO(this->get_logger(), "Set up /data_display publisher.");
-}
-
-void RobotNodeHandle::stop_servos() {
-  auto req = std::make_shared<std_srvs::srv::Empty::Request>();
-
-  while (!front_stop_servos_client->wait_for_service(std::chrono::seconds(1))) {
-    if (!rclcpp::ok()) {
-      RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the Front Stop Servos service. Exiting.");
-      return;
-    }
-    RCLCPP_INFO(this->get_logger(), "Front Stop Servos service not available, waiting again...");
-  }
-  while (!back_stop_servos_client->wait_for_service(std::chrono::seconds(1))) {
-    if (!rclcpp::ok()) {
-      RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the Back Stop Servos service. Exiting.");
-      return;
-    }
-    RCLCPP_INFO(this->get_logger(), "Back Stop Servos service not available, waiting again...");
-  }
-
-  auto f_result = front_stop_servos_client->async_send_request(req);
-  if (!robot->use_single_board) auto b_result = back_stop_servos_client->async_send_request(req);
 }
 
 void RobotNodeHandle::output_values() {
@@ -261,12 +255,51 @@ void RobotNodeHandle::output_values() {
     }
   }
 
-
   // Making sure we are on the desired state.
   robot->up_display.data = std::string("Current state: ") + robot->state;
 
   // Publishing to the panel.
   monitor_pub->publish(robot->up_display);
+}
+
+void RobotNodeHandle::stop_servos() {
+  auto req = std::make_shared<std_srvs::srv::Empty::Request>();
+
+  while (!front_stop_servos_client->wait_for_service(std::chrono::seconds(1))) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(rclcpp::get_logger("smov_states"), "Interrupted while waiting for the service. Exiting.");
+      return;
+    }
+    RCLCPP_INFO(rclcpp::get_logger("smov_states"), "Front Stop Servos service not available, waiting again...");
+  }
+  auto f_result = front_stop_servos_client->async_send_request(req);
+
+  if (!robot->use_single_board) {
+    while (!back_stop_servos_client->wait_for_service(std::chrono::seconds(1))) {
+      if (!rclcpp::ok()) {
+        RCLCPP_ERROR(rclcpp::get_logger("smov_states"), "Interrupted while waiting for the service. Exiting.");
+        return;
+      }
+      RCLCPP_INFO(rclcpp::get_logger("smov_states"), "Back Stop Servos service not available, waiting again...");
+    }
+    auto b_result = back_stop_servos_client->async_send_request(req);
+  }
+  
+  RCLCPP_INFO(rclcpp::get_logger("smov_states"), "Sent a request to stop all servos.");
+}
+
+
+void RobotNodeHandle::sigint_handler(int signum) {
+  UNUSED(signum)
+
+  // Stopping the servos.
+  stop_servos();
+
+  // Shutting down rclcpp.
+  rclcpp::shutdown();
+
+  // Abort the program to prevent showing rclcpp exceptions.
+  abort();
 }
 
 } // namespace smov

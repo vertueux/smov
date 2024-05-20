@@ -20,6 +20,8 @@
 #include "smov_states_msgs/msg/end_state.hpp"
 #include "smov_monitor_msgs/msg/display_text.hpp"
 
+#define UNUSED(expr) do { (void)(expr); } while (0);
+
 namespace smov {
 
 struct RobotData {
@@ -57,9 +59,6 @@ class RobotNodeHandle : public rclcpp::Node {
  public:
   RobotNodeHandle();
 
-  // Creating the base robot with all the necessary data & publishers.
-  RobotData *robot = RobotData::Instance();
-
   void declare_parameters();
   void set_up_servos();
   void set_up_topics();
@@ -67,7 +66,9 @@ class RobotNodeHandle : public rclcpp::Node {
   void front_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg);
   void back_topic_callback(smov_states_msgs::msg::StatesServos::SharedPtr msg);
   void end_state_callback(smov_states_msgs::msg::EndState::SharedPtr msg);
-  void stop_servos();
+  static void stop_servos();
+
+  static void sigint_handler(int signum);
 
   // Used for non-necessary fast operations
   rclcpp::TimerBase::SharedPtr late_timer;
@@ -79,9 +80,6 @@ class RobotNodeHandle : public rclcpp::Node {
   rclcpp::Subscription<smov_states_msgs::msg::StatesServos>::SharedPtr back_states_sub;
 
   rclcpp::Subscription<smov_states_msgs::msg::EndState>::SharedPtr end_state_sub;
-
-  rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
-  rclcpp::Client<std_srvs::srv::Empty>::SharedPtr back_stop_servos_client;
 
   rclcpp::Publisher<i2c_pwm_board_msgs::msg::ServoArray>::SharedPtr front_prop_pub;
   rclcpp::Publisher<i2c_pwm_board_msgs::msg::ServoArray>::SharedPtr back_prop_pub;
