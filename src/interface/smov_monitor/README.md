@@ -2,6 +2,8 @@
 
 > **Note**: It requires 'smbus' to be installed.
 
+This package lets you control an LCD monitor using standard messages.
+
 ## Installation
 
 You need to have ROS2 installed and theses packages provided by the default desktop installation below: 
@@ -15,7 +17,7 @@ To install the SMBus Python library, just run:
 pip3 install smbus
 ```
 
-## To run it
+## Run it
 
 To launch the project and the executable after compilation, you'll need to enter this command on a terminal:
 
