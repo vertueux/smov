@@ -1,4 +1,4 @@
-# The SMOV Project 
+# The SMOV Project
 
 ![SMOV Discord](https://img.shields.io/badge/Discord-server?style=social&logo=discord&label=SMOV&link=https%3A%2F%2Fdiscord.gg%2F4m2SgCmWMr)
 
@@ -10,7 +10,6 @@ The SMOV project can be seen as a starting point for entering the Spot Micro env
 
 https://github.com/vertueux/smov/assets/81981323/6fc0fd70-c529-4db6-8a65-2f87200d1d53
 
-
 ## Features
 
 Control of the robot is centralised in a single executable, the States package. This package, when running, listens to any message sent by a third-party package and applies it to the actual robot. In other words, this modular architecture makes it easy to control the robot and run any application.
@@ -18,7 +17,7 @@ Control of the robot is centralised in a single executable, the States package. 
 The user can easily create another package, use the minimal API to control the servos through another executable, and choose what he wants his robot to do, without having to worry about numerical values, LCD control, etc...
 You can create your own package to control the robot according to your needs. You might even be able to publish it and share it with your colleagues and other four-legged robot creators.
 
-You can take a look at the [example](#example) and [demos](https://github.com/vertueux/smov_demos) to get a better idea.
+You can take a look at [the example](#example) and [demos](https://github.com/vertueux/smov_demos) to get a better idea.
 
 ## Documentation
 
@@ -102,4 +101,5 @@ This project has adopted a Code of Conduct adapted from the [Contributor Covenan
   * [Click here](https://github.com/vertueux/smov_demos)
 * SMOV State Template repository:
   * [Click here](https://github.com/vertueux/smov_state)
-
+* SpotMicroAI's website:
+  * [Click here](https://spotmicroai.readthedocs.io/)
