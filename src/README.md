@@ -1,6 +1,4 @@
-> The Source Code sub-directory
-
-## Overview
+# The Source Code sub-directory
 
 This folder contains all the source code for the SMOV robot.
 

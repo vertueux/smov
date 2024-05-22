@@ -1,6 +1,4 @@
-> The Interface sub-directory
-
-## Overview
+# The Interface sub-directory
 
 The Interface subdirectory contains all the packages providing some form of interface, either with another component or with an API.
 

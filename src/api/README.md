@@ -1,6 +1,4 @@
-> The API sub-directory
-
-## Overview
+# The API sub-directory
 
 The API sub-directory contains the basic libraries that can be used through state packages.
 

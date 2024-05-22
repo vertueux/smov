@@ -1,7 +1,4 @@
-> The Config sub-directory
-
-## Overview
-
+# The Config sub-directory
 This subdirectory is where the main config files are stored. It is designed for each user to enter their own settings and initial values for servos and other devices.
 
 A brief description of the sub-directory & files:

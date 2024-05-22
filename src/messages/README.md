@@ -1,6 +1,4 @@
-> The Messages sub-directory
-
-## Overview
+# The Messages sub-directory
 
 The messages sub-directory contains all `.msg` and `.srv` communication files.
 
