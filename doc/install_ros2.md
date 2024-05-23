@@ -1,5 +1,5 @@
 
-# Installing ROS2
+# Install ROS2
 
 Here's a tutorial showing how to install ROS2 Humble from the command line on a machine running Ubuntu, from the [official site](https://docs.ros.org/en/humble/Installation.html).
 If you'd rather install the Foxy version, you can do so by clicking [here](https://docs.ros.org/en/foxy/Installation.html).

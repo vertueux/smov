@@ -1,6 +1,6 @@
 # The Documentation sub-directory
 
-Here are the steps you need to follow to install and configure the SMOV executables:
+Here are the steps you need to follow to install and configure the SMOV executables on your robot's motherboard:
 
 1. [Build a Spot Micro](doc/build_a_spot_micro.md)
 2. [Install ROS2](doc/install_ros2.md)
