@@ -5,7 +5,7 @@ from time import *
 import smbus
 
 class I2CDevice:
-   def __init__(self, addr, port=3):
+   def __init__(self, addr, port=3): # We chose port = 3 by default.
       self.addr = addr
       self.bus = smbus.SMBus(port)
 
