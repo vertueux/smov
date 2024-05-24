@@ -83,7 +83,7 @@ sudo dtoverlay i2c-gpio bus=2 i2c_gpio_sda=23 i2c_gpio_scl=24
 ## Configuring the LCD I²C Port (Optional)
 
 To configure the LCD, you'll need to set up a new I²C port, in the same way as for configuring the second microcontroller input.
-After selecting the SDA, SCL port & bus to be configured, enter this command, modifying it as required, Here's an example (I personally chosed bus 3):
+After selecting the SDA, SCL port & bus to be configured, enter this command and modify it as required. Here's an example (I personally chosed bus 3):
 
 ```bash
 sudo dtoverlay i2c-gpio bus=3 i2c_gpio_sda=10 i2c_gpio_scl=9 

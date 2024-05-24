@@ -8,6 +8,6 @@ Here are the steps you need to follow to install and configure the SMOV executab
 3. [Install libraries](install_libraries.md)
 4. [Configure ports (optional)](configure_ports.md)
 5. [Calibrate servos](calibrate_servos.md)
-6. [Test demos](test_demos.md)
-7. [Create your own State package (optional)](create_your_own_state_package.md)
-
+6. [Build the project](build_the_project.md)
+7. [Test demos](test_demos.md)
+8. [Create your own State package (optional)](create_your_own_state_package.md)
