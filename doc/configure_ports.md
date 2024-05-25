@@ -99,4 +99,4 @@ doing the following.
 pip install setuptools==58.2.0
 ```
 
-**Next step**: [Calibrate servos](build_the_project.md)
+**Next step**: [Build the project](build_the_project.md)

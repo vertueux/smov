@@ -103,5 +103,5 @@ This project has adopted a Code of Conduct adapted from the [Contributor Covenan
   * [Click here](https://github.com/vertueux/smov_demos)
 * SMOV State Template repository:
   * [Click here](https://github.com/vertueux/smov_state)
-* SpotMicroAI's website:
+* Spot Micro AI's website:
   * [Click here](https://spotmicroai.readthedocs.io/)

@@ -1,3 +1,106 @@
-# Build the project
+# Calibrate servos
 
-**Next step**: [Calibrate servos](test_demos.md)
+Once you've built the project in the previous tutorial, you need to make sure you've built the `i2c_pwm_board` and `i2c_pwm_board_calibration` packages, which are essential for calibrating your servos quickly and efficiently.
+First of all, you need to have two terminals open. 
+
+## On the first terminal
+
+Create `my_config.yaml` file in the `config/` directory.
+
+```bash
+cd config/
+nano my_config.yaml
+```
+
+Take the `config/smov_single_board.yaml.example` example from the `config/` directory as your base (copy and paste this base into your `my_config.yaml` file).
+
+```yaml
+smov_setup_servos:  
+  ros__parameters:
+    # It is important to change the back servos ports if you're using a single board.
+    use_single_board: true
+
+    #                      Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Max angle
+    FRONT_BODY_LEFT:       [0,   315,    220,     -1,        0,                                     0,                     70]
+    FRONT_BODY_RIGHT:      [15,  315,    220,     1,         0,                                     0,                     70]
+
+    FRONT_UPPER_LEG_LEFT:  [1,   315,    440,     1,         0,                                     55,                    145]
+    FRONT_UPPER_LEG_RIGHT: [14,  300,    440,     -1,        0,                                     55,                    145]
+    
+    FRONT_LOWER_LEG_LEFT:  [2,   315,    440,     -1,        1,                                     70,                    150]
+    FRONT_LOWER_LEG_RIGHT: [13,  340,    390,     1,         1,                                     70,                    150]
+
+    BACK_BODY_LEFT:        [7,   315,    220,     1,         0,                                     0,                     70]
+    BACK_BODY_RIGHT:       [8,   315,    220,     -1,        0,                                     0,                     70]
+
+    BACK_UPPER_LEG_LEFT:   [6,   315,    440,     1,         0,                                     55,                    145]
+    BACK_UPPER_LEG_RIGHT:  [9,   335,    440,     -1,        0,                                     55,                    145]
+    
+    BACK_LOWER_LEG_LEFT:   [5,   315,    400,     -1,        1,                                     70,                    150]
+    BACK_LOWER_LEG_RIGHT:  [10,  315,    340,     1,         1,                                     70,                    150]
+
+
+smov_states:  
+  ros__parameters:
+    # The values are in centimeters.
+    upper_leg_length: 14.0
+    lower_leg_length: 14.0
+    hip_body_distance: 4.0
+    
+```
+
+Remember the port number of the servo you wish to manipulate.
+
+Depending on which part of the robot the servo belongs to.
+
+![PCA9685](../assets/images/pca9685.jpg)
+
+You can therefore modify the first column of each line by modifying the port according to the part of the robot that the servo represents.
+
+Be sure to be inside the project directory, source the ROS2 packages, then run the `i2c_pwm_board` executable.
+
+```bash
+cd ~/smov
+source install/setup.bash
+ros2 run i2c_pwm_board controller 1 # 1: your desired bus (change it when using two boards or another bus).
+```
+
+If everything works, the program should tell you that it has been able to open `/i2c-n/` successfully (*n* being the number of your bus).
+
+## On the second terminal
+
+Do you remember the port you designated for your servo? Depending on the servo you want to modify, you can choose the servo when the `i2c_pwm_board_calibration` program asks you to, knowing that `servo = port + 1`. So if you want to choose the servo at port 0, you will choose servo number 1.
+
+To launch the `i2c_pwm_board_calibration` package, run the following command (while `i2c_pwm_board` is running on the other terminal):
+
+```bash
+cd ~/smov
+source install/setup.bash
+ros2 run i2c_pwm_board_calibration node
+```
+
+### Find the numerical values of the centre and critical values
+
+First of all, you choose the board you want to manipulate (the one your servos are stored on). If you are only using one microcontroller, specify board=1). Remember, main board (RPi default)=1, otherwise you can choose another number (to control the second board).
+Then, you indicate the servo you want to manipulate using the method I indicated above. Finally, you choose your sensitivity.
+
+After that, you can manipulate your arrows keys (up/down) to modify the value of your server, which will allow you to find its centre and its critical values (which will therefore allow you to establish a range).
+
+### Find the right direction for your servo
+
+Finding the direction is very simple. If, when you set larger numerical values (with `i2c_pwm_board_calibration`), the robot leg holding towards the "servo rises up", you know that the direction is 1. Otherwise, you know that you need to set a -1 direction for the leg to rise with larger values.
+Normally, the direction values are standard and should be either all inverted for your robot, or none inverted, in relation to `smov_single_board.yaml.example`, but even so, it depends on how you've set up your robot.
+
+### The meaning of "Default value on Start (Proportional)"
+
+The States package of the basic SMOV uses the `/servos_proportional` topic of the `i2c_pwm_board` to establish a simple system for the protected conversion of values ranging from -1 to 1 (I=[-1;1]) into numerical values. You can therefore choose a base value for your servo ranging from -1 to 1 when you start the States package. Remember that if you set the value to 1 then the servo will be at its highest possible maximum value, if you set the value to -1 it will be at its other extreme value opposite to 1, and if you set the value to 0 then the servo will be at the centre point you defined earlier.
+
+Personally, I've chosen to make the lowest servos on the robot have a value of 1, so that the robot can lie flat.
+
+### Centered angle & Max angle
+
+### Measures
+
+
+
+**Next step**: [Test demos](test_demos.md)
