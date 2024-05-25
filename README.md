@@ -31,8 +31,8 @@ The documentation is divided into several sections:
 * [Install ROS2](doc/install_ros2.md)
 * [Install libraries](doc/install_libraries.md)
 * [Configure ports](doc/configure_ports.md)
-* [Calibrate servos](doc/calibrate_servos.md)
 * [Build the project](doc/build_the_project.md)
+* [Calibrate servos](doc/calibrate_servos.md)
 * [Test demos](doc/test_demos.md)
 * [Create your own State package](doc/create_your_own_state_package.md)
 
