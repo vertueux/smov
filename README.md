@@ -27,12 +27,12 @@ Check out [doc/README.md](doc/README.md) for a quick overview.
 
 The documentation is divided into several sections:
 
-* [Build a Spot Micro](doc/build_a_spot_micro.md)
 * [Install ROS2](doc/install_ros2.md)
 * [Install libraries](doc/install_libraries.md)
 * [Configure ports](doc/configure_ports.md)
 * [Build the project](doc/build_the_project.md)
 * [Calibrate servos](doc/calibrate_servos.md)
+* [Build a Spot Micro](doc/build_a_spot_micro.md)
 * [Test demos](doc/test_demos.md)
 * [Create your own State package](doc/create_your_own_state_package.md)
 
@@ -93,7 +93,6 @@ To be able to contribute, you need to take a look at [CONTRIBUTING.md](CONTRIBUT
 ## Code of Conduct
 
 This project has adopted a Code of Conduct adapted from the [Contributor Covenant](https://www.contributor-covenant.org) to maintain cohesion. Please read the [full text](CODE_OF_CONDUCT.md) so that you can understand what actions will and will not be tolerated.
-
 
 ## Links and References
 

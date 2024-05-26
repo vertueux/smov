@@ -3,6 +3,7 @@
 If you have installed ROS2 & colcon (being one of the tools to be installed), and cloned the project, simply navigate to the project directory and type the command `colcon build`:
 
 ```bash
+source /opt/ros/humble/setup.bash
 cd ~/smov
 colcon build
 ```
