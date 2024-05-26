@@ -17,7 +17,6 @@ namespace smov {
 
 #define STATE_LIBRARY_CLASS(name) smov_states_msgs::msg::StatesServos* front_servos;\
                                   smov_states_msgs::msg::StatesServos* back_servos;\
-                                  void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
                                   rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr* front_state_publisher;\
                                   rclcpp::Publisher<smov_states_msgs::msg::StatesServos>::SharedPtr* back_state_publisher;\
                                   name(smov_states_msgs::msg::StatesServos* f_servos, smov_states_msgs::msg::StatesServos* b_servos,\

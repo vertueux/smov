@@ -20,7 +20,6 @@ namespace smov {
                           void on_loop();\
                           void on_quit();\
                           void set_name() {front_servos.state_name = #name; back_servos.state_name = #name; end_state.state_name = #name;}\
-                          void delay(int time) {struct timespec ts = {0,0}; ts.tv_sec = time / 1000; ts.tv_nsec = (time % 1000) * 1000000; nanosleep(&ts, NULL);}\
                           public: void end_program() {on_quit(); end_state_publisher->publish(end_state); RCLCPP_INFO(rclcpp::get_logger(#name), "Quitting."); rclcpp::shutdown(); abort();}\
                           double upper_leg_length = 0.0;\
                           double lower_leg_length = 0.0;\

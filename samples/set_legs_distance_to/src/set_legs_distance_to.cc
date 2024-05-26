@@ -1,6 +1,4 @@
 #include "set_legs_distance_to.h"
-
-namespace smov {
   
 void LegsDistanceState::on_start() {
   char *p;
@@ -27,7 +25,5 @@ void LegsDistanceState::on_loop() {
 void LegsDistanceState::on_quit() {
 }
 
-}
-
 // This macro creates the node and the main() input, which spins the node.
-DECLARE_STATE_NODE_CLASS_GET_ARGS("set_legs_distance_to", smov::LegsDistanceState, 500ms, smov::_argc, smov::_argv)
+DECLARE_STATE_NODE_CLASS_GET_ARGS("set_legs_distance_to", LegsDistanceState, 500ms, _argc, _argv)
