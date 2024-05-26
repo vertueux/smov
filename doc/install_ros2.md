@@ -1,4 +1,3 @@
-
 # Install ROS2
 
 Here's a tutorial showing how to install ROS2 Humble from the command line on a machine running Ubuntu, from the [official site](https://docs.ros.org/en/humble/Installation.html).

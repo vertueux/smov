@@ -1,4 +1,3 @@
-
 # Test demos
 
 To make sure you've installed and configured everything correctly, you can see how to run everything normally, and try out a basic demo of a State package (the `set_legs_distance_to` package).

@@ -1,4 +1,3 @@
-
 # Create your own State package
 
 Source the installation files from the project directory.
@@ -24,5 +23,48 @@ git clone https://github.com/vertueux/smov_state
 ```
 
 You can now modify the package as you wish, by renaming it and adding new features.
+
+## Run it properly
+
+Here is the general method to run your State package properly with the SMOV States package.
+
+### On the first terminal
+
+Navigate to the project directory, source the installation files, then launch one of the launch files.
+
+```bash
+source /opt/ros/humble/setup.bash
+cd ~/smov
+source install/setup.bash
+```
+
+* If you are using only one microcontroller:
+
+```bash
+ros2 launch launch/smov_single_board.launch.py
+```
+
+* If you are using two microcontrollers:
+
+```bash
+ros2 launch launch/smov_dual_board.launch.py
+```
+
+### On the second terminal
+
+Source the installation files from the project directory.
+
+```bash
+source /opt/ros/humble/setup.bash
+source smov/install/setup.bash
+```
+
+Navigate to your workspace directory, source the installation files (after building it with the command `colcon build`), then run your package package.
+
+```bash
+cd state_workspace/
+source install/setup.bash
+ros2 run [state_name] state 
+```
 
 **Next step**: Have fun with your robot.
