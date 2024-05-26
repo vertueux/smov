@@ -53,10 +53,11 @@ This package is designed and tested to be compatible with ROS2 Humble and ROS2 F
 Here's a simple example showing how the minimal API work, inspired by the [State template](https://github.com/vertueux/smov_state):
 
 ```cpp
+#include <smov/base.h>
 #include <template/template.h>
 
 void State::on_start() {
-  delay(2000); // Delay of 2 seconds (2000ms).
+  smov::delay(2000); // Delay of 2 seconds (2000ms).
 
   // Set all servos to 60° angle.
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
@@ -80,7 +81,6 @@ void State::on_quit() {}
 // This macro creates the node and the main() input, which spins the node.
 DECLARE_STATE_NODE_CLASS("template_state", State, 500ms)
 ```
-
 
 ## Contributing
 
