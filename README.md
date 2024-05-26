@@ -72,7 +72,7 @@ void State::on_start() {
   // You can end the program manually.
   end_program();
 }
-// This will is every 500ms (But you can change the timeout at DECLARE_STATE_NODE_CLASS).
+// This is called every 500ms (But you can change the timeout at DECLARE_STATE_NODE_CLASS).
 void State::on_loop() {}
 
 // This is called when the program gets shutdown.
