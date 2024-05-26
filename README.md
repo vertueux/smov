@@ -1,113 +1,106 @@
-<h1 align="center">
-  <p align="center">
-    The SMOV Project
-  </p>
-  <p align="center">
-    <a href="https://github.com/vertueux/smov/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-GPL%203.0.2-blue"/></a>
-    <a href="https://discord.gg/4m2SgCmWMr"><img src="https://img.shields.io/badge/Join%20the%20Discord%20server%20for%20help%20&%20questions-Click%20here-informational"/></a>
-  </p>
-</h1>
+# The SMOV Project
 
-SMOV is the robot I was and still working on. It is a quadruped dog robot which would have never existed without seeing ["Spot" from Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). Its main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
-
-https://github.com/vertueux/smov/assets/81981323/b2234707-8f5c-4f4c-adbb-8d1c0cae671e
-
-## Table of Contents
-
-* [Overview](#overview)
-* [What makes SMOV different?](#what-makes-smov-different)
-* [Supported Platforms](#supported-platforms)
-* [How can I get quickly started with my robot?](#how-can-i-get-quickly-started-with-my-robot)
-* [Where is the documentation?](#where-is-the-documentation)
-* [How can I contribute?](#how-can-i-contribute)
-* [Links and References](#links-and-references)
+![SMOV Discord](https://img.shields.io/badge/Discord-server?style=social&logo=discord&label=SMOV&link=https%3A%2F%2Fdiscord.gg%2F4m2SgCmWMr)
 
 ## Overview
 
-SMOV is a 4 legged open source robot. It is built on a modular architecture that facilitates third-party control and application execution according to your needs. You don't have to reprogram the whole robot to adapt it to your needs. Just create a simple executable using SMOV's simple C++ programming interface.
+This repository is where the base code for a 4 legged robot dog is publicly stored. To access other repositories related to the project, take a look at the [links & references](#links-and-references). SMOV is a quadruped dog robot which would have never existed without seeing ["Spot" by Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). Its main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
 
-For those who already have a robot built (such as the Spot Micro), don't worry, the SMOV has been designed to integrate with the model, and doesn't currently require you to modify or create a new one.
+The SMOV project can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving an API to allow the user to do what they want with their robot (motion, etc...).
 
-The SMOV project can be seen as a starter point to get into the Spot Micro environment. This project is also some form of layer that lets developers build on top of it, as most of the packages only care about controlling the board, LCD and servos, leaving an API for letting the user do what he wants with his robot (motion, etc...).
+https://github.com/vertueux/smov/assets/81981323/6fc0fd70-c529-4db6-8a65-2f87200d1d53
 
-## What makes SMOV different?
+## Features
 
-SMOV is designed to be easily extensible. It is centralized in a single executable, the States package. This package, while running, will listen for any message sent by a third-party package and apply them to the real robot. In other words, this modular architecture facilitates robot control, and makes it easier to perform any application.
+Control of the robot is centralised in a single executable, the States package. This package, when running, listens to any message sent by a third-party package and applies it to the actual robot. In other words, this modular architecture makes it easy to control the robot and run any application.
 
-This is achieved by some sort of API similar to the Arduino's one, but specific to robot control. Here's an example taken directly from [the robot state template](https://github.com/vertueux/smov_state):
+The user can easily create another package, use the minimal API to control the servos through another executable, and choose what he wants his robot to do, without having to worry about numerical values, LCD control, etc...
+You can create your own package to control the robot according to your needs. You might even be able to publish it and share it with your colleagues and other four-legged robot creators.
+
+You can take a look at [the example](#example) and [demos](https://github.com/vertueux/smov_demos) to get a better idea.
+
+## Documentation
+
+You can find the SMOV documentation in the [doc/](doc/) subdirectory.
+
+Check out [doc/README.md](doc/README.md) for a quick overview.
+
+The documentation is divided into several sections:
+
+* [Install ROS2](doc/install_ros2.md)
+* [Install libraries](doc/install_libraries.md)
+* [Configure ports](doc/configure_ports.md)
+* [Build the project](doc/build_the_project.md)
+* [Calibrate servos](doc/calibrate_servos.md)
+* [Build a Spot Micro](doc/build_a_spot_micro.md)
+* [Test demos](doc/test_demos.md)
+* [Create your own State package](doc/create_your_own_state_package.md)
+
+
+## Compatibility
+
+This package is designed and tested to be compatible with ROS2 Humble and ROS2 Foxy running on a [Raspberry Pi](https://www.raspberrypi.com/). However, the project should be able to run on any platform that ROS2 supports.
+> **Note**: x86_64 systems may not be supported as this project has been designed to run on a Raspberry Pi.
+
+| Platform | Hardware                                                                                                                                                                                                | Software                                                       | Notes                                                                                                                                                                                                                                                                                                                                                       |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Raspberry Pi   | Pi 3 Model B+<br/> Pi 4 Model B<br/> | [Ubuntu 22.04 LTS](https://ubuntu.com/download/raspberry-pi)<br/> [Ubuntu 20.04 LTS](https://ubuntu.com/download/raspberry-pi) | For the time being, the project is only being tested on the Raspberry Pi 3 Model B+ and the Raspberry Pi 4 Model B, but it should be possible to run it on other Raspberry Pis. |
+
+## Example
+
+Here's a simple example showing how the minimal API work, inspired by the [State template](https://github.com/vertueux/smov_state):
 
 ```cpp
 #include <template/template.h>
 
-namespace smov {
-
-void TemplateState::on_start() {
-  // This will be called when the node starts running.
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "What's up world ?");
-
+void State::on_start() {
   delay(2000); // Delay of 2 seconds (2000ms).
 
-  // Putting all the servos to the angle 60°.
+  // Set all servos to 60° angle.
   for (int i = 0; i < SERVO_MAX_SIZE; i++) {
     front_servos.value[i] = 60.0f; 
     back_servos.value[i] = 60.0f;
   }
 
-  // Then publishing to the States package to apply them 
-  // to the real robot.
+  // Then publishing to the States package to apply them to the real robot.
   front_state_publisher->publish(front_servos);
   back_state_publisher->publish(back_servos);
 
-  // If your program consists just of a function 
-  // not requiring any loop, on can directly end 
-  // the program by using this function:
-  // end_program();
+  // You can end the program manually.
   end_program();
 }
+// This will is every 500ms (But you can change the timeout at DECLARE_STATE_NODE_CLASS).
+void State::on_loop() {}
 
-void TemplateState::on_loop() {
-  // This will is every 500ms (But you 
-  // can change the timeout at DECLARE_STATE_NODE_CLASS).
-}
-
-void TemplateState::on_quit() {
-  // This is called when the program gets shutdown.
-}
-
-}
+// This is called when the program gets shutdown.
+void State::on_quit() {}
 
 // This macro creates the node and the main() input, which spins the node.
-DECLARE_STATE_NODE_CLASS("smov_template_state", smov::TemplateState, 500ms)
+DECLARE_STATE_NODE_CLASS("template_state", State, 500ms)
 ```
 
-So you can create your own package to control the robot according to your needs. You might even be able to publish it and share it with your colleagues and other four-legged robot creators.
 
-## Supported Platforms
+## Contributing
 
-This package is designed and tested to be compatible with ROS2 Humble and ROS2 Foxy running on a [Raspberry Pi](https://www.raspberrypi.com/) with other tools like servos & micro-controllers. 
-But it should also be able to run on a ESP32.
-> **Note**: x86_64 system may not be supported as this projet is using a Raspberry Pi (except for simulation and other tools).
+There are many ways in which you can participate in this project, for example:
 
-| Platform | Hardware                                                                                                                                                                                                | Software                                                       | Notes                                                                                                                                                                                                                                                                                                                                                       |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Raspberry Pi   | Pi 3 Model B+<br/> Pi 4 Model B<br/> | [Ubuntu 22.04 LTS](https://ubuntu.com/download/raspberry-pi)<br/> [Ubuntu 20.04 LTS](https://ubuntu.com/download/raspberry-pi) | For now, the project is currently being only tested on the Raspberry Pi 3 Model B+, but should possibly (and surely) be available on other Raspberry Pi.  |
-
-## How can I get quickly started with my robot?
-
-To get started quickly and configure your robot, take a look at [QUICK_START.md](doc/QUICK_START.md).
-
-## Where is the documentation?
-
-Don't worry, I am currently working on the documentation, so you'll know how to adapt your robot to work with SMOV, and how to create the robot. But right now, for an overview and simple documentation on how to configure the robot, take a look at [QUICK_START.md](doc/QUICK_START.md).
-
-
-## How can I contribute?
+* Submit bugs and feature requests
+* Review source code changes
+* Review the [documentation](doc/README.md) and make pull requests for anything from typos to additional and new content
 
 To be able to contribute, you need to take a look at [CONTRIBUTING.md](CONTRIBUTING.md) to find out the conditions.
 
+## Code of Conduct
+
+This project has adopted a Code of Conduct adapted from the [Contributor Covenant](https://www.contributor-covenant.org) to maintain cohesion. Please read the [full text](CODE_OF_CONDUCT.md) so that you can understand what actions will and will not be tolerated.
+
 ## Links and References
 
-* The I2C PWM Board repository: 
+* The I²C PWM Board repository:
   * [Click here](https://github.com/vertueux/i2c_pwm_board)
-* My (deprecated) quadruped kinematics repository: 
-  * [Click here](https://github.com/vertueux/quadruped_kinematics)
+* SMOV Demos repository:
+  * [Click here](https://github.com/vertueux/smov_demos)
+* SMOV State Template repository:
+  * [Click here](https://github.com/vertueux/smov_state)
+* Spot Micro AI's website:
+  * [Click here](https://spotmicroai.readthedocs.io/)

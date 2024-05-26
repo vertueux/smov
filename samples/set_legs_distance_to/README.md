@@ -1,6 +1,17 @@
+# The "Set Legs Distance To" package
+
 > **Note** : You need to configure the `std::array` `data` with your own values in order to make it work properly.
 
 ## Run it
-This is where you are supposed to show the required commands in order to launch the node : 
+
+You can choose the distance you wish to put between your two legs:
+
 ```bash
-ros2 run set_legs_distance_to state # Plus your desired number in centimeters (In example: 14, for 14 cm). 
+ros2 run set_legs_distance_to state [distance]
+```
+
+For example,
+
+```bash
+ros2 run set_legs_distance_to state 14 # in centimeters.
+```
