@@ -8,6 +8,8 @@ This repository is where the base code for a 4 legged robot dog is publicly stor
 
 The SMOV project can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving an API to allow the user to do what they want with their robot (motion, etc...).
 
+Join the [Discord server](https://discord.com/invite/4m2SgCmWMr) to stay tuned.
+
 https://github.com/vertueux/smov/assets/81981323/6fc0fd70-c529-4db6-8a65-2f87200d1d53
 
 ## Features
