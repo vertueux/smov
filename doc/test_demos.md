@@ -3,6 +3,8 @@
 
 To make sure you've installed and configured everything correctly, you can see how to run everything normally, and try out a basic demo of a State package (the `set_legs_distance_to` package).
 
+> **Note**: If you want to try out other demos, you can clone them from [this repository](https://github.com/vertueux/smov_demos).
+
 ## On the first terminal
 
 Navigate to the project directory, source the installation files, then launch one of the launch files.
