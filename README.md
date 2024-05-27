@@ -6,7 +6,7 @@
 
 This repository is where the base code for a 4 legged robot dog is publicly stored. To access other repositories related to the project, take a look at the [links & references](#links-and-references). SMOV is a quadruped dog robot which would have never existed without seeing ["Spot" by Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). Its main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
 
-The SMOV project can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving an API to allow the user to do what they want with their robot (motion, etc...).
+The SMOV project can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving a small SDK to allow the user to do what they want with their robot (motion, etc...).
 
 Join the [Discord server](https://discord.com/invite/4m2SgCmWMr) to stay tuned.
 
@@ -16,7 +16,7 @@ https://github.com/vertueux/smov/assets/81981323/6fc0fd70-c529-4db6-8a65-2f87200
 
 Control of the robot is centralised in a single executable, the States package. This package, when running, listens to any message sent by a third-party package and applies it to the actual robot. In other words, this modular architecture makes it easy to control the robot and run any application.
 
-The user can easily create another package, use the minimal API to control the servos through another executable, and choose what he wants his robot to do, without having to worry about numerical values, LCD control, etc...
+The user can easily create another package, use the minimal SDK to control the servos through another executable, and choose what he wants his robot to do, without having to worry about numerical values, LCD control, etc...
 You can create your own package to control the robot according to your needs. You might even be able to publish it and share it with your colleagues and other four-legged robot creators.
 
 You can take a look at [the example](#example) and [demos](https://github.com/vertueux/smov_demos) to get a better idea.
@@ -38,7 +38,6 @@ The documentation is divided into several sections:
 * [Test demos](doc/test_demos.md)
 * [Create your own State package](doc/create_your_own_state_package.md)
 
-
 ## Compatibility
 
 This package is designed and tested to be compatible with ROS2 Humble and ROS2 Foxy running on a [Raspberry Pi](https://www.raspberrypi.com/). However, the project should be able to run on any platform that ROS2 supports.
@@ -50,7 +49,7 @@ This package is designed and tested to be compatible with ROS2 Humble and ROS2 F
 
 ## Example
 
-Here's a simple example showing how the minimal API work, inspired by the [State template](https://github.com/vertueux/smov_state):
+Here's a simple example showing how the minimal SDK work, inspired by the [State template](https://github.com/vertueux/smov_state):
 
 ```cpp
 #include <smov/base.h>
