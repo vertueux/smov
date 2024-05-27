@@ -1,6 +1,6 @@
-# The SDK sub-directory
+# The Software Development Kit sub-directory
 
-The SDK sub-directory contains the basic libraries that can be used through state packages.
+The Software development kit sub-directory contains the basic libraries that can be used through state packages.
 
 This subdirectory currently contains one package:
 
