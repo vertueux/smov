@@ -28,25 +28,27 @@ void TrigonometryState::set_leg_to(int leg_group_number, Vector3 xyz) {
   // From front-left to back-right.
   if (leg_group_number == 1) {
     front_servos->value[0] = omega;
-    front_servos->value[1] = theta;
-    front_servos->value[2] = phi;
+    front_servos->value[2] = theta;
+    front_servos->value[4] = phi;
+    (*front_state_publisher)->publish(*front_servos);
   } else if (leg_group_number == 2) {
-    front_servos->value[3] = omega;
-    front_servos->value[4] = theta;
+    front_servos->value[1] = omega;
+    front_servos->value[3] = theta;
     front_servos->value[5] = phi;
+    (*front_state_publisher)->publish(*front_servos);
   } else if (leg_group_number == 3) {
     back_servos->value[0] = omega;
-    back_servos->value[1] = theta;
-    back_servos->value[2] = phi;
+    back_servos->value[2] = theta;
+    back_servos->value[4] = phi;
+    (*back_state_publisher)->publish(*back_servos);
   } else if (leg_group_number == 4) {
-    back_servos->value[3] = omega;
-    back_servos->value[4] = theta;
+    back_servos->value[1] = omega;
+    back_servos->value[2] = theta;
     back_servos->value[5] = phi;
+    (*back_state_publisher)->publish(*back_servos);
+  } else {
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Unknown leg group number.");
   }
-
-  // Publishing the values.
-  (*front_state_publisher)->publish(*front_servos);
-  (*back_state_publisher)->publish(*back_servos);
 }
 
 void TrigonometryState::set_legs_distance_to(float value) {
