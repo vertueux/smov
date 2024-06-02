@@ -80,7 +80,6 @@ void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::
         RCLCPP_ERROR(this->get_logger(), "Angle out of range (maximum): Servo %d", i);
         RCLCPP_ERROR(this->get_logger(), "===========================================");
       } else {
-
         // As the numerical value is between [-1,1], we use the center (0) and the maximum (1) to convert the angles into numerical values.
         float numerical_value = (msg->value[i] - robot->front_servos_data[i][5]) / (robot->front_servos_data[i][6] - robot->front_servos_data[i][5]);
         robot->front_prop_array.servos[i].value = numerical_value;

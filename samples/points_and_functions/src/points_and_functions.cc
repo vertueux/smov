@@ -31,40 +31,41 @@ void PointsAndFunctionsState::on_start() {
 
 void PointsAndFunctionsState::on_loop() {
   // This will called every 10ms.
+  float sensibility = 10.0f;
   int c = getchar();
   switch (c) {
     case KEY_UP:
-      coord.x += (1.0/90.0);
+      coord.x += (1.0 / sensibility);
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[2J\033[;H");
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates: (%f, %f, %f)", coord.x, coord.y, coord.z);
       trig.set_leg_to(1, coord);
       break;
     case KEY_DOWN:
-      coord.x -= (1.0/90.0);
+      coord.x -= (1.0 / sensibility);
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[2J\033[;H");
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates: (%f, %f, %f)", coord.x, coord.y, coord.z);
       trig.set_leg_to(1, coord);
       break;
     case KEY_RIGHT:
-      coord.z += (1.0/90.0);
+      coord.z += (1.0 / sensibility); 
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[2J\033[;H");
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates: (%f, %f, %f)", coord.x, coord.y, coord.z);
       trig.set_leg_to(1, coord);
       break;
     case KEY_LEFT:
-      coord.z -= (1.0/90.0);
+      coord.z -= (1.0 / sensibility);
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[2J\033[;H");
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates: (%f, %f, %f)", coord.x, coord.y, coord.z);
       trig.set_leg_to(1, coord);
       break;
     case 'e':
-      coord.y += (1.0/90.0);
+      coord.y += (1.0 / sensibility);
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[2J\033[;H");
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates: (%f, %f, %f)", coord.x, coord.y, coord.z);
       trig.set_leg_to(1, coord);
       break;
     case 'c':
-      coord.y -= (1.0/90.0);
+      coord.y -= (1.0 / sensibility);
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[2J\033[;H");
       RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates: (%f, %f, %f)", coord.x, coord.y, coord.z);
       trig.set_leg_to(1, coord);
