@@ -9,19 +9,15 @@ void PointsAndFunctionsState::on_start() {
 
   smov::TrigonometryState trig = smov::TrigonometryState(&front_servos, &back_servos, &front_state_publisher, &back_state_publisher, &upper_leg_length, &lower_leg_length, &leg_width, &hip_body_distance);
 
-  for (int i = 0; i < 6; i++) {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Value 1: %f", front_servos.value[i]);
-  }
-
-  front_servos.value[1] = 0.0f;
+  front_servos.value[1] = 90.0f;
   front_servos.value[3] = 55.0f;
-  front_servos.value[5] = 150.0f;
+  front_servos.value[5] = 30.0f; // (val - base) / (max - base) = -1
 
-  smov::Vector3 coord(0, 10, 10);
+  smov::Vector3 coord(0, 12, 12);
   trig.set_leg_to(1, coord);
 
   for (int i = 0; i < 6; i++) {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Value 2: %f", front_servos.value[i]);
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Values: %f", front_servos.value[i]);
   }
 }
 
