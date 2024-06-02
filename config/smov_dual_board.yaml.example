@@ -20,7 +20,7 @@ smov_setup_servos:
     BACK_UPPER_LEG_RIGHT:  [1,   335,    440,     -1,        0,                                     55,                    170]
 
     BACK_LOWER_LEG_LEFT:   [13,  315,    400,     1,         -1,                                    110,                   190]
-    BACK_LOWER_LEG_RIGHT:  [2,   315 ,   340,     -1,        -1,                                    110,                   190]
+    BACK_LOWER_LEG_RIGHT:  [2,   315,    340,     -1,        -1,                                    110,                   190]
 
 smov_states:  
   ros__parameters:

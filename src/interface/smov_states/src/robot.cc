@@ -73,11 +73,11 @@ void RobotNodeHandle::front_topic_callback(smov_states_msgs::msg::StatesServos::
     for (int i = 0; i < SERVO_MAX_SIZE; i++) {
       if (msg->value[i] < (2 * robot->front_servos_data[i][5]) - robot->front_servos_data[i][6]) {
         RCLCPP_ERROR(this->get_logger(), "===========================================");
-        RCLCPP_ERROR(this->get_logger(), "Angle out of range (minimum)");
+        RCLCPP_ERROR(this->get_logger(), "Angle out of range (minimum): Servo %d", i);
         RCLCPP_ERROR(this->get_logger(), "===========================================");
       } else if (msg->value[i] > robot->front_servos_data[i][6]) {
         RCLCPP_ERROR(this->get_logger(), "===========================================");
-        RCLCPP_ERROR(this->get_logger(), "Angle out of range (maximum)");
+        RCLCPP_ERROR(this->get_logger(), "Angle out of range (maximum): Servo %d", i);
         RCLCPP_ERROR(this->get_logger(), "===========================================");
       } else {
 
