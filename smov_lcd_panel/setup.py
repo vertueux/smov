@@ -22,7 +22,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'node = src.lcd_panel:main'
+            'node = smov_lcd_panel.lcd_panel:main'
         ],
     },
 )
