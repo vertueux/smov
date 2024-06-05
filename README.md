@@ -1,4 +1,4 @@
-# The SMOV Project
+# smov
 
 ![SMOV Discord](https://img.shields.io/badge/Discord-server?style=social&logo=discord&label=SMOV&link=https%3A%2F%2Fdiscord.gg%2F4m2SgCmWMr)
 
@@ -6,7 +6,7 @@
 
 This repository is where the base code for a 4 legged robot dog is publicly stored. To access other repositories related to the project, take a look at the [links & references](#links-and-references). SMOV is a quadruped dog robot which would have never existed without seeing ["Spot" by Boston Dynamics](https://www.bostondynamics.com/products/spot#:~:text=Spot%20is%20an%20agile%20mobile,Automate). Its main objective is to have similar capabilities to this one, but costing much less, being more modular & extensible, and having a source code accessible to all.
 
-The SMOV project can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving a small SDK to allow the user to do what they want with their robot (motion, etc...).
+SMOV can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving a small SDK to allow the user to do what they want with their robot (motion, etc...).
 
 Join the [Discord server](https://discord.com/invite/4m2SgCmWMr) to stay tuned.
 

@@ -1,6 +1,4 @@
-> Thanks for proposing a pull request!
-
-## Pull Request Details
+# Pull Request Details
 
 Describe what you accomplished in this pull request (for example, what happens before the change, and after the change)
 
@@ -9,6 +7,7 @@ Describe what you accomplished in this pull request (for example, what happens b
 Test Plan: **Add your test plan here**
 
 <!-- Please check off the appropriate boxes with [x] before submitting your pull request -->
-### Required before submitting a Pull Request:
+## Required before submitting a Pull Request:
+
 - [ ] I reviewed [CONTRIBUTING.md](https://github.com/vertueux/smov/blob/prototype/CONTRIBUTING.md)
 - [ ] I tested my changes with a robot
