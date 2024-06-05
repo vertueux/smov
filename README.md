@@ -1,6 +1,6 @@
 # smov ![SMOV Discord](https://img.shields.io/badge/Discord-server?style=social&logo=discord&label=SMOV&link=https%3A%2F%2Fdiscord.gg%2F4m2SgCmWMr)
 
-ROS2 packages for a 4 legged robot dog. To access other repositories related to the project, take a look at the [links & references](#links-and-references).
+ROS2 packages for a 4 legged robot dog.
 
 https://github.com/vertueux/smov/assets/81981323/6fc0fd70-c529-4db6-8a65-2f87200d1d53
 

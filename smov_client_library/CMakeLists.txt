@@ -7,16 +7,20 @@ endif ()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(smov_msgs REQUIRED)
 
 include_directories(include)
 
 set(dependencies
   rclcpp
+  std_srvs
+  std_msgs
   smov_msgs
 )
 
-add_library(smov_lib SHARED)
+add_library(smov_lib SHARED src/base.cc src/executable.cc src/library.cc src/mathematics.cc src/trigonometry.cc)
 ament_target_dependencies(smov_lib ${dependencies})
 
 install(TARGETS smov_lib
