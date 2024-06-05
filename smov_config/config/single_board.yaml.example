@@ -1,7 +1,11 @@
-smov_setup_servos:  
+smov_config:  
   ros__parameters:
     # It is important to change the back servos ports if you're using a single board.
     use_single_board: true
+
+    # If use_single_board: false, then the second line is useless.
+    front_board_i2c_bus: 1
+    back_board_i2c_bus: 4 
 
     #                      Port, Center, Range,   Direction, Default value on Start (Proportional), Base (centered) angle, Max angle (The highest angle possible relative to the trigonometry package)
     FRONT_BODY_LEFT:       [0,   315,    220,     -1,        0,                                     90,                    130]
@@ -28,7 +32,3 @@ smov_states:
     upper_leg_length: 14.0
     lower_leg_length: 14.0
     hip_body_distance: 4.0
-
-    # If use_single_board: false, then the second line is useless.
-    front_board_i2c_bus: 1
-    back_board_i2c_bus: 4 

@@ -14,15 +14,19 @@ include_directories(include)
 
 add_executable(servos src/configure_servos.cc)
 
-ament_target_dependencies(node rclcpp std_msgs i2c_pwm_board_msgs)
+ament_target_dependencies(servos rclcpp std_msgs i2c_pwm_board_msgs)
 
 install(TARGETS
-  node 
+  servos 
   DESTINATION lib/${PROJECT_NAME}
 )
 
 install(DIRECTORY include/
   DESTINATION include/
+)
+
+install(DIRECTORY config/
+  DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()

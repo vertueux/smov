@@ -2,7 +2,7 @@
 
 namespace smov {
 
-ConfigServos::ConfigServos() : Node("smov_config_servos") {
+ConfigServos::ConfigServos() : Node("smov_config") {
   // Declaring the different parameters.
   declare_parameters();
 
@@ -11,9 +11,6 @@ ConfigServos::ConfigServos() : Node("smov_config_servos") {
 
   // Configuring the proportional servos with their defined values.
   config_servos();
-
-  // Then exiting the program.
-  rclcpp::shutdown();
 }
 
 void ConfigServos::declare_parameters() {
@@ -26,12 +23,14 @@ void ConfigServos::declare_parameters() {
   // Declaring the default values.
   this->declare_parameter("use_single_board", use_single_board);
   this->declare_parameter("front_board_i2c_bus", front_board_i2c_bus);
-  this->declare_parameter("back_board_i2c_bus", back_board_i2c_bus);
+  if (!use_single_board) {
+    this->declare_parameter("back_board_i2c_bus", back_board_i2c_bus);
+    back_board_i2c_bus = this->get_parameter("back_board_i2c_bus").as_int();
+  }
 
   // Getting the new parameters from the user.
   use_single_board = this->get_parameter("use_single_board").as_bool();
   front_board_i2c_bus = this->get_parameter("front_board_i2c_bus").as_int();
-  if (!use_single_board) back_board_i2c_bus = this->get_parameter("back_board_i2c_bus").as_int();
 
   // We initialize the arrays with their default values.
   for (int i = 0; i < 6; i++) {
@@ -46,13 +45,13 @@ void ConfigServos::set_up_topics() {
   if (!use_single_board)
     back_servo_config_client = this->create_client<i2c_pwm_board_msgs::srv::ServosConfig>("config_servos_" + std::to_string(back_board_i2c_bus));
 
-  RCLCPP_INFO(this->get_logger(), "Set up /config_servos_handler publishers.");
+  RCLCPP_INFO(this->get_logger(), "Set up /config_servos_%d and /config_servos_%d publishers.", front_board_i2c_bus, back_board_i2c_bus);
 }
 
 void ConfigServos::config_servos() {
   if (use_single_board) {
     auto front_request = std::make_shared<i2c_pwm_board_msgs::srv::ServosConfig::Request>();
-    i2c_pwm_board_msgs::msg::ServoConfig front_config[6 * 2];
+    i2c_pwm_board_msgs::msg::ServoConfig front_config[12];
     for (int h = 0; h < 6; h++) {
       front_config[h].servo = static_cast<short>(front_servos_data[h][0] + 1);
       front_config[h].direction = static_cast<short>(front_servos_data[h][3]);
@@ -71,8 +70,8 @@ void ConfigServos::config_servos() {
         return;
       }
       RCLCPP_INFO(this->get_logger(), "Front Config Servos service not available, waiting again...");
-      auto f_result = front_servo_config_client->async_send_request(front_request);
     }
+    auto f_result = front_servo_config_client->async_send_request(front_request);
   } else {
     auto front_request = std::make_shared<i2c_pwm_board_msgs::srv::ServosConfig::Request>();
     auto back_request = std::make_shared<i2c_pwm_board_msgs::srv::ServosConfig::Request>();
@@ -90,6 +89,14 @@ void ConfigServos::config_servos() {
       front_request->servos.push_back(front_config[h]);
       back_request->servos.push_back(back_config[h]);
     }
+    while (!front_servo_config_client->wait_for_service(std::chrono::seconds(1))) {
+      if (!rclcpp::ok()) {
+        RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the Front Config Servos service. Exiting.");
+        return;
+      }
+      RCLCPP_INFO(this->get_logger(), "Front Config Servos service not available, waiting again...");
+    }
+    auto f_result = front_servo_config_client->async_send_request(front_request);
     while (!back_servo_config_client->wait_for_service(std::chrono::seconds(1))) {
       if (!rclcpp::ok()) {
         RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the Back Config Servos service. Exiting.");
