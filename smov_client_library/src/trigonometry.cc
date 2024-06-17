@@ -43,7 +43,7 @@ void TrigonometryState::set_leg_to(int leg_group_number, Vector3 xyz) {
     (*back_state_publisher)->publish(*back_servos);
   } else if (leg_group_number == 4) {
     back_servos->value[1] = convert_rad_to_deg(omega);
-    back_servos->value[2] = convert_rad_to_deg(theta);
+    back_servos->value[3] = convert_rad_to_deg(theta);
     back_servos->value[5] = convert_rad_to_deg(phi);
     (*back_state_publisher)->publish(*back_servos);
   } else {
