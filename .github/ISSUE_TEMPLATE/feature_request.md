@@ -28,6 +28,7 @@ Please provide a code sample, as well as any additional details, to help me trac
 **Note:** Remember to format your code for readability:
 
 ```cpp
-// INSERT YOUR CODE HERE
+// Insert your code here.
 
-const char* example = "Example code"
+const char* example = "Example code";
+```
