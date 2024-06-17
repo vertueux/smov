@@ -19,4 +19,9 @@ struct Vector3 {
   float x, y, z;
 };
 
+struct Functions {
+ public:
+  static float lerp(float a, float b, float t);
+};
+
 } // namespace smov

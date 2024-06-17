@@ -12,8 +12,6 @@
 #include "smov_msgs/msg/states_servos.hpp"
 #include "smov_msgs/msg/end_state.hpp"
 
-namespace smov {
-
 #define STATE_LIBRARY_CLASS(name) smov_msgs::msg::StatesServos* front_servos;\
                                   smov_msgs::msg::StatesServos* back_servos;\
                                   rclcpp::Publisher<smov_msgs::msg::StatesServos>::SharedPtr* front_state_publisher;\
@@ -22,6 +20,4 @@ namespace smov {
                                    rclcpp::Publisher<smov_msgs::msg::StatesServos>::SharedPtr* f_pub,\
                                    rclcpp::Publisher<smov_msgs::msg::StatesServos>::SharedPtr* b_pub)\
                                    : front_servos(f_servos), back_servos(b_servos),\
-                                   front_state_publisher(f_pub), back_state_publisher(b_pub) { }\
-
-}
+                                   front_state_publisher(f_pub), back_state_publisher(b_pub) { }

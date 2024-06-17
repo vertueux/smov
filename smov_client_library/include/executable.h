@@ -13,8 +13,6 @@
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
-namespace smov {
-
 #define STATE_CLASS(name) void on_start();\
                           void on_loop();\
                           void on_quit();\
@@ -91,6 +89,4 @@ namespace smov {
     rclcpp::init(argc, argv);\
     rclcpp::spin(std::make_shared<StateNode>());\
     return 0;\
-  }\
-
-} // namespace smov
+  }

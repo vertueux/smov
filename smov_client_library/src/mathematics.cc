@@ -24,4 +24,8 @@ Vector3::Vector3(float xyz) {
   z = xyz;
 }
 
+float Functions::lerp(float a, float b, float t) {
+  return a + t * (b - a);
+}
+
 }
