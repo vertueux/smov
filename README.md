@@ -19,20 +19,20 @@ You can take a look at [the example](#example) and [demos](https://github.com/ve
 
 ## Documentation
 
-You can find the SMOV documentation in the [doc/](doc/) subdirectory.
+You can find the SMOV documentation in the [documentation/](documentation/) subdirectory.
 
-Check out [doc/README.md](doc/README.md) for a quick overview.
+Check out [documentation/README.md](documentation/README.md) for a quick overview.
 
 The documentation is divided into several sections:
 
-* [Install ROS2](doc/install_ros2.md)
-* [Install libraries](doc/install_libraries.md)
-* [Configure ports](doc/configure_ports.md)
-* [Build the project](doc/build_the_project.md)
-* [Calibrate servos](doc/calibrate_servos.md)
-* [Build a Spot Micro](doc/build_a_spot_micro.md)
-* [Test demos](doc/test_demos.md)
-* [Create your own State package](doc/create_your_own_state_package.md)
+* [Install ROS2](documentation/install_ros2.md)
+* [Install libraries](documentation/install_libraries.md)
+* [Configure ports](documentation/configure_ports.md)
+* [Build the project](documentation/build_the_project.md)
+* [Calibrate servos](documentation/calibrate_servos.md)
+* [Build a Spot Micro](documentation/build_a_spot_micro.md)
+* [Test demos](documentation/test_demos.md)
+* [Create your own State package](documentation/create_your_own_state_package.md)
 
 ## Compatibility
 
@@ -83,7 +83,7 @@ There are many ways in which you can participate in this project, for example:
 
 * Submit bugs and feature requests
 * Review source code changes
-* Review the [documentation](doc/README.md) and make pull requests for anything from typos to additional and new content
+* Review the [documentation](documentation/README.md) and make pull requests for anything from typos to additional and new content
 
 To be able to contribute, you need to take a look at [CONTRIBUTING.md](CONTRIBUTING.md) to find out the conditions.
 

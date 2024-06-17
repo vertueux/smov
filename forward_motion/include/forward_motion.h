@@ -13,6 +13,7 @@ class ForwardMotion {
 
   // Mathematical function. f(x) = -sqrt(25 - ((x / 2) - 5)^2) + 20.
   float curved(float x);
+  float curved_gap(float x);
 
   void stabilize_legs();
   void output_coordinates();
