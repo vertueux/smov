@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <cstdlib>
 
-#include "base.h"
+#include "smov/base.h"
 
 namespace smov {
 

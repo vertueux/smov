@@ -4,8 +4,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "executable.h"
-#include "trigonometry.h"
+#include "smov/executable.h"
+#include "smov/trigonometry.h"
 
 class ForwardMotion {
  public:

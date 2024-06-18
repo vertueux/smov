@@ -2,7 +2,7 @@
 #include <thread>
 #include <unistd.h>
 
-#include "mathematics.h"
+#include "smov/mathematics.h"
 
 namespace smov {
 

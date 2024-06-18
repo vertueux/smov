@@ -1,4 +1,4 @@
-#include "trigonometry.h"
+#include "smov/trigonometry.h"
 
 namespace smov {
 
