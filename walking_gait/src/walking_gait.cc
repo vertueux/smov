@@ -1,4 +1,4 @@
-#include "forward_motion.h"
+#include "walking_gait.h"
 
 float ForwardMotion::curved(float x, float gap) {
   // Gap should always be equal to 0 if servos have been centered perfectly.
@@ -118,4 +118,4 @@ void ForwardMotion::on_quit() {
     
 }
 
-DECLARE_STATE_NODE_CLASS("forward_motion", ForwardMotion, 50ms)
+DECLARE_STATE_NODE_CLASS("walking_gait", ForwardMotion, 50ms)

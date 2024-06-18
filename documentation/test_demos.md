@@ -1,6 +1,6 @@
 # Test demos
 
-To make sure you've installed and configured everything correctly, you can see how to run everything normally, and try out a basic demo of a State package (the `forward_motion` package).
+To make sure you've installed and configured everything correctly, you can see how to run everything normally, and try out a basic demo of a State package (the `walking_gait` package).
 
 > **Note**: If you want to try out other demos, you can clone them from [this repository](https://github.com/vertueux/smov_demos).
 
@@ -30,7 +30,7 @@ You should see that your servos are at the initial values you defined earlier in
 
 ## On the second terminal
 
-Navigate to the project directory, source the installation files, then run the `forward_motion` package.
+Navigate to the project directory, source the installation files, then run the `walking_gait` package.
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -41,7 +41,7 @@ source install/setup.bash
 You can therefore choose try a basic simulation of motion.
 
 ```bash
-ros2 run forward_motion state
+ros2 run walking_gait state
 ```
 
 **Next step**: [Create your own State package](create_your_own_state_package.md)
