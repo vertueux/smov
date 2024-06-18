@@ -11,10 +11,8 @@ class ForwardMotion {
  public:
   STATE_CLASS(ForwardMotion)
 
-  // Mathematical function. f(x) = -sqrt(25 - ((x / 2) - 5)^2) + 20.
-  float curved(float x);
-  float curved_gap(float x);
-
+  // Mathematical function. f(x) = -sqrt(25 - ((x / 2) - 2)^2) + 23.
+  float curved(float x, float gap);
   void stabilize_legs();
   void output_coordinates();
 

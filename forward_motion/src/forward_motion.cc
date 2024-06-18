@@ -1,28 +1,25 @@
 #include "forward_motion.h"
 
-float ForwardMotion::curved(float x) {
-  return -sqrt(25.0f - pow(((x / 2) - 2.0f), 2)) + 23.0f;
-}
-
-float ForwardMotion::curved_gap(float x) {
-  return -sqrt(25.0f - pow(((x / 2) - 2.0f), 2)) + 23.0f;
+float ForwardMotion::curved(float x, float gap) {
+  // Gap should always be equal to 0 if servos have been centered perfectly.
+  return -sqrt(25.0f - pow((2 * x - 2.0f), 2)) + 23.0f + gap;
 }
 
 void ForwardMotion::stabilize_legs() {
-  coord1.x = 14;
+  coord1.x = 3.5f;
   coord1.y = 23;
   coord1.z = 5;
 
-  coord2.x = 14;
+  coord2.x = 3.5f;
   coord2.y = 23;
   coord2.z = 5;
 
-  coord3.x = 14;
-  coord3.y = 23;
+  coord3.x = 3.5f;
+  coord3.y = 24;
   coord3.z = 5;
 
-  coord4.x = 14;
-  coord4.y = 23;
+  coord4.x = 3.5f;
+  coord4.y = 24;
   coord4.z = 5;
 
   trig.set_leg_to(1, coord1);
@@ -30,7 +27,7 @@ void ForwardMotion::stabilize_legs() {
   trig.set_leg_to(3, coord3);
   trig.set_leg_to(4, coord4);
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Set default position to (14, 23, 10)");
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Set default position to (3.5, 23-24, 5)");
 }
 
 void ForwardMotion::output_coordinates() {
@@ -53,65 +50,65 @@ void ForwardMotion::on_loop() {
   output_coordinates();
 
   if (!leg1_motion_done) {
-    if (coord1.x > -5.9f) {
-      coord1.x = smov::Functions::lerp(coord1.x, -6.0f, 0.3f);
-      coord1.y = curved(coord1.x);
+    if (coord1.x > -1.45f) {
+      coord1.x = smov::Functions::lerp(coord1.x, -1.5f, 0.15f);
+      coord1.y = curved(coord1.x, 0.0f);
       trig.set_leg_to(1, coord1);
     } else {
       leg1_motion_done = true;
       leg2_motion_done = false;
     }
   } else {
-    if (coord1.x < 13.9f) {
-      coord1.x = smov::Functions::lerp(coord1.x, 14.0f, 0.3f);
+    if (coord1.x < 3.45f) {
+      coord1.x = smov::Functions::lerp(coord1.x, 3.5f, 0.15f);
       trig.set_leg_to(1, coord1);
     }
   }
 
   if (!leg4_motion_done) {
-    if (coord4.x > -5.9f) {
-      coord4.x = smov::Functions::lerp(coord4.x, -6.0f, 0.3f);
-      coord4.y = curved_gap(coord4.x);
+    if (coord4.x > -1.45f) {
+      coord4.x = smov::Functions::lerp(coord4.x, -1.5f, 0.15f);
+      coord4.y = curved(coord4.x, 1.0f);
       trig.set_leg_to(4, coord4);
     } else {
       leg4_motion_done = true;
       leg3_motion_done = false;
     }
   } else {
-    if (coord4.x < 13.9f) {
-      coord4.x = smov::Functions::lerp(coord4.x, 14.0f, 0.3f);
+    if (coord4.x < 3.45f) {
+      coord4.x = smov::Functions::lerp(coord4.x, 3.5f, 0.15f);
       trig.set_leg_to(4, coord4);
     }
   }
 
   if (!leg2_motion_done) {
-    if (coord2.x > -5.9f) {
-      coord2.x = smov::Functions::lerp(coord2.x, -6.0f, 0.3f);
-      coord2.y = curved(coord2.x);
+    if (coord2.x > -1.45f) {
+      coord2.x = smov::Functions::lerp(coord2.x, -1.5f, 0.15f);
+      coord2.y = curved(coord2.x, 0.0f);
       trig.set_leg_to(2, coord2);
     } else {
       leg2_motion_done = true;
       leg1_motion_done = false;
     }
   } else {
-    if (coord2.x < 13.9f) {
-      coord2.x = smov::Functions::lerp(coord2.x, 14.0f, 0.3f);
+    if (coord2.x < 3.45f) {
+      coord2.x = smov::Functions::lerp(coord2.x, 3.5f, 0.15f);
       trig.set_leg_to(2, coord2);
     }
   }
 
   if (!leg3_motion_done) {
-    if (coord3.x > -5.9f) {
-      coord3.x = smov::Functions::lerp(coord3.x, -6.0f, 0.3f);
-      coord3.y = curved_gap(coord3.x);
+    if (coord3.x > -1.45f) {
+      coord3.x = smov::Functions::lerp(coord3.x, -1.5f, 0.15f);
+      coord3.y = curved(coord3.x, 1.0f);
       trig.set_leg_to(3, coord3);
     } else {
       leg3_motion_done = true;
       leg4_motion_done = false;
     }
   } else {
-    if (coord3.x < 13.9f) {
-      coord3.x = smov::Functions::lerp(coord3.x, 14.0f, 0.3f);
+    if (coord3.x < 3.45f) {
+      coord3.x = smov::Functions::lerp(coord3.x, 3.5f, 0.15f);
       trig.set_leg_to(3, coord3);
     }
   }
