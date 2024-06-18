@@ -7,13 +7,13 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(smov_client_library REQUIRED)
+find_package(libsmov REQUIRED)
 
 include_directories(include)
 
 set (dependencies 
   rclcpp 
-  smov_client_library
+  libsmov
 )
 
 # You might want to edit this in case of a library or just an executable. 
