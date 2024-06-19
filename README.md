@@ -27,6 +27,7 @@ Check out [documentation/README.md](documentation/README.md) for a quick overvie
 
 The documentation is divided into several sections:
 
+* [Collect all the things](documentation/collect_all_the_things.md)
 * [Install ROS2](documentation/install_ros2.md)
 * [Install libraries](documentation/install_libraries.md)
 * [Configure ports](documentation/configure_ports.md)
