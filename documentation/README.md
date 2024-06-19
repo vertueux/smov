@@ -1,4 +1,4 @@
-# The Documentation sub-directory
+# Documentation
 
 To install and configure the SMOV, I recommend that you control the robot remotely from your computer, using [SSH](https://en.wikipedia.org/wiki/Secure_Shell) or other remote services.
 Here are the steps you need to follow to install and configure the SMOV executables on your robot's motherboard:
