@@ -2,7 +2,9 @@
 
 ROS2 packages for a 4 legged robot dog.
 
-https://github.com/vertueux/smov/assets/81981323/6fc0fd70-c529-4db6-8a65-2f87200d1d53
+https://github.com/vertueux/smov/assets/81981323/9e9184a8-8cf1-4641-b4cf-b3974deffc12
+
+https://github.com/vertueux/smov/assets/81981323/371bef62-9ba6-4427-93e0-36eb1fe8c588
 
 SMOV can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving a small SDK to allow the user to do what they want with their robot (motion, etc...).
 
