@@ -1,7 +1,8 @@
 #include "walking_gait.h"
 
 float ForwardMotion::curved(float x, float gap) {
-  // Gap should always be equal to 0 if servos have been centered perfectly.
+  // Gap should always be equal to 0 if servos have been centered perfectly
+  // (You may want to add a gap if your servos have not been centered correctly).
   return -sqrt(25.0f - pow((2 * x - 2.0f), 2)) + 23.0f + gap;
 }
 
@@ -15,11 +16,11 @@ void ForwardMotion::stabilize_legs() {
   coord2.z = 5;
 
   coord3.x = 3.5f;
-  coord3.y = 24;
+  coord3.y = 23;
   coord3.z = 5;
 
   coord4.x = 3.5f;
-  coord4.y = 24;
+  coord4.y = 23;
   coord4.z = 5;
 
   trig.set_leg_to(1, coord1);
