@@ -101,7 +101,7 @@ void ForwardMotion::on_loop() {
   if (!leg3_motion_done) {
     if (coord3.x > -1.45f) {
       coord3.x = smov::Functions::lerp(coord3.x, -1.5f, 0.15f);
-      coord3.y = curved(coord3.x, 3.5f);
+      coord3.y = curved(coord3.x, 3.0f);
       trig.set_leg_to(3, coord3);
     } else {
       leg3_motion_done = true;
