@@ -28,4 +28,15 @@ float Functions::lerp(float a, float b, float t) {
   return a + t * (b - a);
 }
 
+float Functions::linear_progression(float a, float b, float t) {
+  if (!(a > (b - t) && a < (b + t))) {
+    if (a > b) {
+      a = a - t;
+    } else {
+      a = a + t;
+    }
+  }
+  return a;
+}
+
 }

@@ -52,7 +52,7 @@ void ForwardMotion::on_loop() {
 
   if (!leg1_motion_done) {
     if (coord1.x > -1.45f) {
-      coord1.x = smov::Functions::lerp(coord1.x, -1.5f, 0.15f);
+      coord1.x = smov::Functions::linear_progression(coord1.x, -1.5f, 0.15f);
       coord1.y = curved(coord1.x, 0.0f);
       trig.set_leg_to(1, coord1);
     } else {
@@ -61,14 +61,14 @@ void ForwardMotion::on_loop() {
     }
   } else {
     if (coord1.x < 3.45f) {
-      coord1.x = smov::Functions::lerp(coord1.x, 3.5f, 0.15f);
+      coord1.x = smov::Functions::linear_progression(coord1.x, 3.5f, 0.15f);
       trig.set_leg_to(1, coord1);
     }
   }
 
   if (!leg4_motion_done) {
     if (coord4.x > -1.45f) {
-      coord4.x = smov::Functions::lerp(coord4.x, -1.5f, 0.15f);
+      coord4.x = smov::Functions::linear_progression(coord4.x, -1.5f, 0.15f);
       coord4.y = curved(coord4.x, 3.0f);
       trig.set_leg_to(4, coord4);
     } else {
@@ -77,14 +77,14 @@ void ForwardMotion::on_loop() {
     }
   } else {
     if (coord4.x < 3.45f) {
-      coord4.x = smov::Functions::lerp(coord4.x, 3.5f, 0.15f);
+      coord4.x = smov::Functions::linear_progression(coord4.x, 3.5f, 0.15f);
       trig.set_leg_to(4, coord4);
     }
   }
 
   if (!leg2_motion_done) {
     if (coord2.x > -1.45f) {
-      coord2.x = smov::Functions::lerp(coord2.x, -1.5f, 0.15f);
+      coord2.x = smov::Functions::linear_progression(coord2.x, -1.5f, 0.15f);
       coord2.y = curved(coord2.x, 0.0f);
       trig.set_leg_to(2, coord2);
     } else {
@@ -93,14 +93,14 @@ void ForwardMotion::on_loop() {
     }
   } else {
     if (coord2.x < 3.45f) {
-      coord2.x = smov::Functions::lerp(coord2.x, 3.5f, 0.15f);
+      coord2.x = smov::Functions::linear_progression(coord2.x, 3.5f, 0.15f);
       trig.set_leg_to(2, coord2);
     }
   }
 
   if (!leg3_motion_done) {
     if (coord3.x > -1.45f) {
-      coord3.x = smov::Functions::lerp(coord3.x, -1.5f, 0.15f);
+      coord3.x = smov::Functions::linear_progression(coord3.x, -1.5f, 0.15f);
       coord3.y = curved(coord3.x, 3.0f);
       trig.set_leg_to(3, coord3);
     } else {
@@ -109,7 +109,7 @@ void ForwardMotion::on_loop() {
     }
   } else {
     if (coord3.x < 3.45f) {
-      coord3.x = smov::Functions::lerp(coord3.x, 3.5f, 0.15f);
+      coord3.x = smov::Functions::linear_progression(coord3.x, 3.5f, 0.15f);
       trig.set_leg_to(3, coord3);
     }
   }
