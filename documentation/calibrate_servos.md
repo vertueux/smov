@@ -123,7 +123,7 @@ To modify the last two servo columns in your `my_config.yaml` file, you need to 
 ![SMOV Angles Side View](../assets/images/smov_angles_side_view.png)
 ![SMOV Angles Side View](../assets/images/smov_angles_back_view.png)
 
-The maximum angle is simply the angle you have when you put 1 or -1 on your servo with the `/servos_proportional` topic, using the same angle measurement base (for example, with the upper leg length, you'd probably prefer to use the angle when you plug -1, whereas all the others, you will plug 1).
+The maximum angle is simply the angle you have when you put 1 =on your servo with the `/servos_proportional` topic, using the same angle measurement base.
 
 ### Measures
 
