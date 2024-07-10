@@ -1,9 +1,9 @@
 #include "walking_gait.h"
 
-float ForwardMotion::curved(float x) {
+float ForwardMotion::curved(float x, float gap) {
   // Gap should always be equal to 0 if servos have been centered perfectly
   // (You may want to add a gap if your servos have not been centered correctly).
-  return -sqrt(25.0f - pow((2 * x - 2.0f), 2)) + 23.0f;
+  return -sqrt(25.0f - pow((2 * x - 2.0f), 2)) + 23.0f + gap;
 }
 
 void ForwardMotion::stabilize_legs() {
@@ -53,7 +53,7 @@ void ForwardMotion::on_loop() {
   if (!leg1_motion_done) {
     if (coord1.x > -1.45f) {
       coord1.x = smov::Functions::lerp(coord1.x, -1.5f, 0.15f);
-      coord1.y = curved(coord1.x);
+      coord1.y = curved(coord1.x, 0.0f);
       trig.set_leg_to(1, coord1);
     } else {
       leg1_motion_done = true;
@@ -69,7 +69,7 @@ void ForwardMotion::on_loop() {
   if (!leg4_motion_done) {
     if (coord4.x > -1.45f) {
       coord4.x = smov::Functions::lerp(coord4.x, -1.5f, 0.15f);
-      coord4.y = curved(coord4.x);
+      coord4.y = curved(coord4.x, 3.0f);
       trig.set_leg_to(4, coord4);
     } else {
       leg4_motion_done = true;
@@ -85,7 +85,7 @@ void ForwardMotion::on_loop() {
   if (!leg2_motion_done) {
     if (coord2.x > -1.45f) {
       coord2.x = smov::Functions::lerp(coord2.x, -1.5f, 0.15f);
-      coord2.y = curved(coord2.x);
+      coord2.y = curved(coord2.x, 0.0f);
       trig.set_leg_to(2, coord2);
     } else {
       leg2_motion_done = true;
@@ -101,7 +101,7 @@ void ForwardMotion::on_loop() {
   if (!leg3_motion_done) {
     if (coord3.x > -1.45f) {
       coord3.x = smov::Functions::lerp(coord3.x, -1.5f, 0.15f);
-      coord3.y = curved(coord3.x);
+      coord3.y = curved(coord3.x, 3.0f);
       trig.set_leg_to(3, coord3);
     } else {
       leg3_motion_done = true;
