@@ -29,7 +29,7 @@ float Functions::lerp(float a, float b, float t) {
 }
 
 float Functions::linear_progression(float a, float b, float t) {
-  if (!(a > (b - t) && a < (b + t))) {
+  if (!approx(a, b, t)) {
     if (a > b) {
       a = a - t;
     } else {
@@ -39,4 +39,10 @@ float Functions::linear_progression(float a, float b, float t) {
   return a;
 }
 
+bool Functions::approx(float a, float b, float gap) {
+  if (a < (b + gap) && a > (b - gap)) 
+    return true;
+  else 
+    return false;
+}
 }

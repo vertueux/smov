@@ -23,6 +23,7 @@ struct Functions {
  public:
   static float lerp(float a, float b, float t);
   static float linear_progression(float a, float b, float t);
+  static bool approx(float a, float b, float gap);
 };
 
 } // namespace smov
