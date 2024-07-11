@@ -33,7 +33,8 @@ void ForwardMotion::output_coordinates() {
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "\033[2J\033[;H");
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "REMINDER: (Press once) Up arrow key to move forward");
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "                       Down arrow key to stop moving");
-  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "                       Right arrow key to turn");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "                       Right arrow key to turn right");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "                       Left arrow key to turn left");
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 1: (%f, %f, %f)", coord1.x, coord1.y, coord1.z);
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 2: (%f, %f, %f)", coord2.x, coord2.y, coord2.z);
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 3: (%f, %f, %f)", coord3.x, coord3.y, coord3.z);
@@ -42,8 +43,10 @@ void ForwardMotion::output_coordinates() {
     RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        STANDING");
   else if (mode == WALKING) 
     RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        WALKING");
+  else if (mode == TURNING_RIGHT)
+    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        TURNING_RIGHT");
   else 
-    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        TURNING");
+    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        TURNING_LEFT");
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Motion done leg 1: %d", leg1_motion_done);
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Motion done leg 2: %d", leg2_motion_done);
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Motion done leg 3: %d", leg3_motion_done);
@@ -116,7 +119,7 @@ void ForwardMotion::walk() {
   }
 }
 
-void ForwardMotion::turn_right() {
+void ForwardMotion::turn() {
   if (!leg1_motion_done) {
     if (coord1.z < 9.95f) {
       coord1.z = smov::Functions::lerp(coord1.z, 10.0f, 0.15f);
@@ -213,7 +216,11 @@ void ForwardMotion::on_loop() {
       break;
     case 67: // 67: Key right.
       request_to_stop_walk = false;
-      if (mode == STANDING) mode = TURNING;
+      if (mode == STANDING) mode = TURNING_RIGHT;
+      break;
+    case 68:
+      request_to_stop_walk = false;
+      if (mode == STANDING) mode = TURNING_LEFT;
       break;
   }
 
@@ -236,14 +243,24 @@ void ForwardMotion::on_loop() {
     walk();
   }
 
-  if (mode == TURNING) {
+  if (mode == TURNING_RIGHT) {
     if (done_once == false) {
       // Some code that executes only once.
       leg1_motion_done = false;
       leg4_motion_done = false;
       done_once = true;
     }
-    turn_right();
+    turn();
+  }
+
+  if (mode == TURNING_LEFT) {
+    if (done_once == false) {
+      // Some code that executes only once.
+      leg2_motion_done = false;
+      leg3_motion_done = false;
+      done_once = true;
+    }
+    turn();
   }
 
     if (smov::Functions::approx(coord1.z, 5.0f, 0.06f) && smov::Functions::approx(coord2.z, 5.0f, 0.06f) 

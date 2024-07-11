@@ -15,7 +15,8 @@
 enum Mode {
   STANDING = 0,
   WALKING = 1,
-  TURNING = 2
+  TURNING_RIGHT = 2,
+  TURNING_LEFT = 3
 };
 
 class ForwardMotion {
@@ -29,7 +30,7 @@ class ForwardMotion {
 
   // Used for modes.
   void walk();
-  void turn_right();
+  void turn();
 
   float back_leg_gap = 3.0f;
   Mode mode = STANDING;
