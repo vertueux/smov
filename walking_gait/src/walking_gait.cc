@@ -1,8 +1,6 @@
 #include "walking_gait.h"
 
 float ForwardMotion::curved(float x, float gap) {
-  // Gap should always be equal to 0 if servos have been centered perfectly
-  // (You may want to add a gap if your servos have not been centered correctly).
   return -sqrt(25.0f - pow((2 * x - 2.0f), 2)) + 23.0f + gap;
 }
 
@@ -16,11 +14,11 @@ void ForwardMotion::stabilize_legs() {
   coord2.z = 5;
 
   coord3.x = 3.5f;
-  coord3.y = 23;
+  coord3.y = 23 + back_leg_gap;
   coord3.z = 5;
 
   coord4.x = 3.5f;
-  coord4.y = 23;
+  coord4.y = 23 + back_leg_gap;
   coord4.z = 5;
 
   trig.set_leg_to(1, coord1);
@@ -69,7 +67,7 @@ void ForwardMotion::walk() {
   if (!leg4_motion_done) {
     if (coord4.x > -1.45f) {
       coord4.x = smov::Functions::lerp(coord4.x, -1.5f, 0.15f);
-      coord4.y = curved(coord4.x, 3.0f);
+      coord4.y = curved(coord4.x, back_leg_gap);
       trig.set_leg_to(4, coord4);
     } else {
       leg4_motion_done = true;
@@ -101,7 +99,7 @@ void ForwardMotion::walk() {
   if (!leg3_motion_done) {
     if (coord3.x > -1.45f) {
       coord3.x = smov::Functions::lerp(coord3.x, -1.5f, 0.15f);
-      coord3.y = curved(coord3.x, 3.0f);
+      coord3.y = curved(coord3.x, back_leg_gap);
       trig.set_leg_to(3, coord3);
     } else {
       leg3_motion_done = true;
@@ -113,6 +111,10 @@ void ForwardMotion::walk() {
       trig.set_leg_to(3, coord3);
     }
   }
+}
+
+void ForwardMotion::turn_right() {
+
 }
 
 void ForwardMotion::on_start() {
@@ -133,8 +135,10 @@ void ForwardMotion::on_loop() {
   int c = getchar();
   switch (c) {
     case 65: // 65: Key up.
-      mode = WALKING;
-      request_to_stop_walk = false;
+      if (mode == STANDING) {
+        mode = WALKING;
+        request_to_stop_walk = false;
+      }
       break;
     case 66: // 66: Key down. 
       if (has_finished_walk) 
@@ -143,11 +147,20 @@ void ForwardMotion::on_loop() {
         request_to_stop_walk = true;
       break;
     case 67: // 67: Key right.
+      request_to_stop_walk = false;
       if (mode == STANDING) mode = TURNING;
       break;
   }
 
   output_coordinates();
+
+  if (smov::Functions::approx(coord1.x, 3.5f, 0.06f) && smov::Functions::approx(coord2.x, 3.5f, 0.06f) 
+    && smov::Functions::approx(coord3.x, 3.5f, 0.06f) && smov::Functions::approx(coord4.x, 3.5f, 0.06f) && request_to_stop_walk) {
+    has_finished_walk = true;
+    mode = STANDING;
+    if (mode == STANDING) done_once = false;
+  } else 
+    has_finished_walk = false;
 
   if (mode == WALKING) {
     if (done_once == false) {
@@ -159,13 +172,9 @@ void ForwardMotion::on_loop() {
     walk();
   }
 
-  if (smov::Functions::approx(coord1.x, 3.5f, 0.06f) && smov::Functions::approx(coord2.x, 3.5f, 0.06f) 
-    && smov::Functions::approx(coord3.x, 3.5f, 0.06f) && smov::Functions::approx(coord4.x, 3.5f, 0.06f) && request_to_stop_walk) {
-    has_finished_walk = true;
-    mode = STANDING;
-    if (mode != WALKING) done_once = false;
-  } else 
-    has_finished_walk = false;
+  if (mode == TURNING) {
+    turn_right();
+  }
 }
 
 void ForwardMotion::on_quit() {

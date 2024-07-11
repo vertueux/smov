@@ -22,14 +22,16 @@ class ForwardMotion {
  public:
   STATE_CLASS(ForwardMotion)
 
-  // Mathematical function. f(x) = -sqrt(25 - ((x / 2) - 2)^2) + 23 + gap.
+  // Mathematical function. f(x) = -sqrt(25 - ((2x) - 2)^2) + 23 + gap.
   float curved(float x, float gap);
   void stabilize_legs();
   void output_coordinates();
 
   // Used for modes.
   void walk();
+  void turn_right();
 
+  float back_leg_gap = 3.0f;
   Mode mode = STANDING;
   smov::TrigonometryState trig = smov::TrigonometryState(&front_servos, &back_servos, &front_state_publisher, &back_state_publisher, &upper_leg_length, &lower_leg_length, &hip_body_distance);
   smov::Vector3 coord1, coord2, coord3, coord4;
