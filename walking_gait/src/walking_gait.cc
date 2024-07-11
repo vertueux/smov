@@ -1,7 +1,7 @@
 #include "walking_gait.h"
 
-float ForwardMotion::curved(float x, float gap) {
-  return -sqrt(25.0f - pow((2 * x - 2.0f), 2)) + 23.0f + gap;
+float ForwardMotion::curved(float x, float dist_from_origin, float gap) {
+  return -sqrt(25.0f - pow((2 * x - dist_from_origin), 2)) + 23.0f + gap;
 }
 
 void ForwardMotion::stabilize_legs() {
@@ -26,32 +26,35 @@ void ForwardMotion::stabilize_legs() {
   trig.set_leg_to(3, coord3);
   trig.set_leg_to(4, coord4);
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Set default position to (3.5, 23-24, 5)");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Set default position to (3.5, 23-24, 5)");
 }
 
 void ForwardMotion::output_coordinates() {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[2J\033[;H");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates leg 1: (%f, %f, %f)", coord1.x, coord1.y, coord1.z);
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates leg 2: (%f, %f, %f)", coord2.x, coord2.y, coord2.z);
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates leg 3: (%f, %f, %f)", coord3.x, coord3.y, coord3.z);
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Coordinates leg 4: (%f, %f, %f)", coord4.x, coord4.y, coord4.z);
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "\033[2J\033[;H");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "REMINDER: (Press once) Up arrow key to move forward");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "                       Down arrow key to stop moving");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "                       Right arrow key to turn");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 1: (%f, %f, %f)", coord1.x, coord1.y, coord1.z);
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 2: (%f, %f, %f)", coord2.x, coord2.y, coord2.z);
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 3: (%f, %f, %f)", coord3.x, coord3.y, coord3.z);
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 4: (%f, %f, %f)", coord4.x, coord4.y, coord4.z);
   if (mode == STANDING) 
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Robot Mode:        STANDING");
+    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        STANDING");
   else if (mode == WALKING) 
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Robot Mode:        WALKING");
+    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        WALKING");
   else 
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Robot Mode:        TURNING");
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Motion done leg 1: %d", leg1_motion_done);
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Motion done leg 2: %d", leg2_motion_done);
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Motion done leg 3: %d", leg3_motion_done);
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Motion done leg 4: %d", leg4_motion_done);
+    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        TURNING");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Motion done leg 1: %d", leg1_motion_done);
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Motion done leg 2: %d", leg2_motion_done);
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Motion done leg 3: %d", leg3_motion_done);
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Motion done leg 4: %d", leg4_motion_done);
 }
 
 void ForwardMotion::walk() {
   if (!leg1_motion_done) {
     if (coord1.x > -1.45f) {
       coord1.x = smov::Functions::lerp(coord1.x, -1.5f, 0.15f);
-      coord1.y = curved(coord1.x, 0.0f);
+      coord1.y = curved(coord1.x, 2.0f, 0.0f);
       trig.set_leg_to(1, coord1);
     } else {
       leg1_motion_done = true;
@@ -67,7 +70,7 @@ void ForwardMotion::walk() {
   if (!leg4_motion_done) {
     if (coord4.x > -1.45f) {
       coord4.x = smov::Functions::lerp(coord4.x, -1.5f, 0.15f);
-      coord4.y = curved(coord4.x, back_leg_gap);
+      coord4.y = curved(coord4.x, 2.0f, back_leg_gap);
       trig.set_leg_to(4, coord4);
     } else {
       leg4_motion_done = true;
@@ -83,7 +86,7 @@ void ForwardMotion::walk() {
   if (!leg2_motion_done) {
     if (coord2.x > -1.45f) {
       coord2.x = smov::Functions::lerp(coord2.x, -1.5f, 0.15f);
-      coord2.y = curved(coord2.x, 0.0f);
+      coord2.y = curved(coord2.x, 2.0f, 0.0f);
       trig.set_leg_to(2, coord2);
     } else {
       leg2_motion_done = true;
@@ -99,7 +102,7 @@ void ForwardMotion::walk() {
   if (!leg3_motion_done) {
     if (coord3.x > -1.45f) {
       coord3.x = smov::Functions::lerp(coord3.x, -1.5f, 0.15f);
-      coord3.y = curved(coord3.x, back_leg_gap);
+      coord3.y = curved(coord3.x, 2.0f, back_leg_gap);
       trig.set_leg_to(3, coord3);
     } else {
       leg3_motion_done = true;
@@ -114,7 +117,69 @@ void ForwardMotion::walk() {
 }
 
 void ForwardMotion::turn_right() {
+  if (!leg1_motion_done) {
+    if (coord1.z < 9.95f) {
+      coord1.z = smov::Functions::lerp(coord1.z, 10.0f, 0.15f);
+      coord1.y = curved(coord1.z, 15.0f, 0.0f);
+      trig.set_leg_to(1, coord1);
+    } else {
+      leg1_motion_done = true;
+      if (!request_to_stop_walk) leg2_motion_done = false;
+    }
+  } else {
+    if (coord1.z > 4.95f) {
+      coord1.z = smov::Functions::lerp(coord1.z, 5.0f, 0.15f);
+      trig.set_leg_to(1, coord1);
+    }
+  }
 
+  if (!leg4_motion_done) {
+    if (coord4.z < 9.95f) {
+      coord4.z = smov::Functions::lerp(coord4.z, 10.0f, 0.15f);
+      coord4.y = curved(coord4.z, 15.0f, back_leg_gap);
+      trig.set_leg_to(4, coord4);
+    } else {
+      leg4_motion_done = true;
+      if (!request_to_stop_walk) leg3_motion_done = false;
+    }
+  } else {
+    if (coord4.z > 4.95f) {
+      coord4.z = smov::Functions::lerp(coord4.z, 5.0f, 0.15f);
+      trig.set_leg_to(4, coord4);
+    }
+  }
+
+  if (!leg2_motion_done) {
+    if (coord2.z < 9.95f) {
+      coord2.z = smov::Functions::lerp(coord2.z, 10.0f, 0.15f);
+      coord2.y = curved(coord2.z, 15.0f, 0.0f);
+      trig.set_leg_to(2, coord2);
+    } else {
+      leg2_motion_done = true;
+      if (!request_to_stop_walk) leg1_motion_done = false;
+    }
+  } else {
+    if (coord2.z > 4.95f) {
+      coord2.z = smov::Functions::lerp(coord2.z, 5.0f, 0.15f);
+      trig.set_leg_to(2, coord2);
+    }
+  }
+
+  if (!leg3_motion_done) {
+    if (coord3.z < 9.95f) {
+      coord3.z = smov::Functions::lerp(coord3.z, 10.0f, 0.15f);
+      coord3.y = curved(coord3.z, 15.0f, back_leg_gap);
+      trig.set_leg_to(3, coord3);
+    } else {
+      leg3_motion_done = true;
+      if (!request_to_stop_walk) leg4_motion_done = false;
+    }
+  } else {
+    if (coord3.z > 4.95f) {
+      coord3.z = smov::Functions::lerp(coord3.z, 5.0f, 0.15f);
+      trig.set_leg_to(3, coord3);
+    }
+  }
 }
 
 void ForwardMotion::on_start() {
@@ -141,7 +206,7 @@ void ForwardMotion::on_loop() {
       }
       break;
     case 66: // 66: Key down. 
-      if (has_finished_walk) 
+      if (has_finished_walk && has_finished_turn) 
         mode = STANDING;
       else 
         request_to_stop_walk = true;
@@ -157,7 +222,6 @@ void ForwardMotion::on_loop() {
   if (smov::Functions::approx(coord1.x, 3.5f, 0.06f) && smov::Functions::approx(coord2.x, 3.5f, 0.06f) 
     && smov::Functions::approx(coord3.x, 3.5f, 0.06f) && smov::Functions::approx(coord4.x, 3.5f, 0.06f) && request_to_stop_walk) {
     has_finished_walk = true;
-    mode = STANDING;
     if (mode == STANDING) done_once = false;
   } else 
     has_finished_walk = false;
@@ -173,8 +237,29 @@ void ForwardMotion::on_loop() {
   }
 
   if (mode == TURNING) {
+    if (done_once == false) {
+      // Some code that executes only once.
+      leg1_motion_done = false;
+      leg4_motion_done = false;
+      done_once = true;
+    }
     turn_right();
   }
+
+    if (smov::Functions::approx(coord1.z, 5.0f, 0.06f) && smov::Functions::approx(coord2.z, 5.0f, 0.06f) 
+      && smov::Functions::approx(coord3.z, 5.0f, 0.06f) && smov::Functions::approx(coord4.z, 5.0f, 0.06f) && request_to_stop_walk) {
+      has_finished_turn = true;
+      if (mode == STANDING) done_once = false;
+    } else 
+      has_finished_turn = false;
+
+    if (smov::Functions::approx(coord1.z, 5.0f, 0.06f) && smov::Functions::approx(coord2.z, 5.0f, 0.06f) && 
+      smov::Functions::approx(coord3.z, 5.0f, 0.06f) && smov::Functions::approx(coord4.z, 5.0f, 0.06f) && 
+      smov::Functions::approx(coord1.x, 3.5f, 0.06f) && smov::Functions::approx(coord2.x, 3.5f, 0.06f) && 
+      smov::Functions::approx(coord3.x, 3.5f, 0.06f) && smov::Functions::approx(coord4.x, 3.5f, 0.06f) && 
+      request_to_stop_walk) {
+      mode = STANDING;
+    }
 }
 
 void ForwardMotion::on_quit() {
