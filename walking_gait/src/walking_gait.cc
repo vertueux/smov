@@ -199,7 +199,7 @@ void ForwardMotion::wake_up() {
     front_servos.value[i] = 90.0f;
     front_servos.value[i + 2] = 55.0f;
     front_servos.value[i + 4] = 45.0f;
-    back_servos.value[i] = 130.0f;
+    back_servos.value[i] = 120.0f;
     back_servos.value[i + 2] = 150.0f;
     back_servos.value[i + 4] = 45.0f;
   }
@@ -226,7 +226,7 @@ void ForwardMotion::wake_up() {
   // Executing the last sequence.
   for (int i = 0; i < 2; i++) {
     front_servos.value[i + 2] = 45.0f;
-    front_servos.value[i + 4] = 105.0f;
+    front_servos.value[i + 4] = 112.0f;
   }
   for (int i = 0; i < 2; i++) {
     back_servos.value[i + 2] = 45.0f;
@@ -240,8 +240,8 @@ void ForwardMotion::wake_up() {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "The robot may have woken up!");
 
   smov::delay(2000);
-
   mode = STANDING;
+  stabilize_legs();
 }
 
 void ForwardMotion::on_start() {
@@ -254,8 +254,6 @@ void ForwardMotion::on_start() {
   new_chars.c_lflag &= ~ICANON;
   new_chars.c_lflag &= 0 ? ECHO : ~ECHO; // echo = 0.
   tcsetattr(0, TCSANOW, &new_chars);
-
-  stabilize_legs();
 }
 
 void ForwardMotion::on_loop() {
