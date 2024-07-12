@@ -4,13 +4,13 @@ ROS2 packages for a 4 legged robot dog.
 
 https://github.com/user-attachments/assets/2a5840eb-2274-431f-872b-dec887a2a64b
 
+> This video shows a use of the `walking_gait` package, which lets you control the robot using a keyboard (to stand up, move forward, stop and possibly turn).
+
+* Click [here](assets/videos) to see more videos of the robot in action.
+
 SMOV can be seen as a starting point for entering the Spot Micro environment using [ROS2](https://www.ros.org/). This is a sort of layer that allows developers to build on top of it, as most packages only deal with controlling the board, LCD and servos, leaving a small SDK to allow the user to do what they want with their robot (motion, etc...).
 
 Join the [Discord server](https://discord.com/invite/4m2SgCmWMr) to stay tuned.
-
-https://github.com/vertueux/smov/assets/81981323/9e9184a8-8cf1-4641-b4cf-b3974deffc12
-
-https://github.com/vertueux/smov/assets/81981323/371bef62-9ba6-4427-93e0-36eb1fe8c588
 
 ## Features
 
