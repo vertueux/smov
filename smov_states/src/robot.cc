@@ -2,6 +2,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include "smov/mathematics.h"
+
 #include "robot.h"
 
 namespace smov {
@@ -23,6 +25,7 @@ int RobotData::back_board_i2c_bus = 2;
 double RobotData::upper_leg_length = 14.0;
 double RobotData::lower_leg_length = 14.0;
 double RobotData::hip_body_distance = 4.0;
+bool RobotData::reset_vals_after_state_pkg_ended = true;
 
 // Public clients & publisher used in the signit_handler() static function.
 rclcpp::Client<std_srvs::srv::Empty>::SharedPtr front_stop_servos_client;
@@ -133,6 +136,71 @@ void RobotNodeHandle::end_state_callback(smov_msgs::msg::EndState::SharedPtr msg
     RCLCPP_INFO(this->get_logger(), "===========================================");
     robot->state = "None";
   }
+
+  if (robot->reset_vals_after_state_pkg_ended) {
+    RCLCPP_INFO(this->get_logger(), "\033[2J\033[;H");
+    RCLCPP_INFO(this->get_logger(), "State (name=%s) has finished. Resetting the values [...]", msg->state_name.c_str());
+    reset_servos_to_initial_values();
+  }
+}
+
+void RobotNodeHandle::reset_servos_to_initial_values() {
+  // Not making a beautiful for int loop because I'm lazy to learn how to make a a loop inside a while condition.
+  if (!robot->use_single_board) {
+    while (!(smov::Functions::approx(robot->front_prop_array.servos[0].value, robot->front_servos_data[0][4], 0.06f) 
+      && smov::Functions::approx(robot->front_prop_array.servos[1].value, robot->front_servos_data[1][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[2].value, robot->front_servos_data[2][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[3].value, robot->front_servos_data[3][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[4].value, robot->front_servos_data[4][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[5].value, robot->front_servos_data[5][4], 0.06f)
+      && smov::Functions::approx(robot->back_prop_array.servos[0].value, robot->back_servos_data[0][4], 0.06f) 
+      && smov::Functions::approx(robot->back_prop_array.servos[1].value, robot->back_servos_data[1][4], 0.06f)
+      && smov::Functions::approx(robot->back_prop_array.servos[2].value, robot->back_servos_data[2][4], 0.06f)
+      && smov::Functions::approx(robot->back_prop_array.servos[3].value, robot->back_servos_data[3][4], 0.06f)
+      && smov::Functions::approx(robot->back_prop_array.servos[4].value, robot->back_servos_data[4][4], 0.06f)
+      && smov::Functions::approx(robot->back_prop_array.servos[5].value, robot->back_servos_data[5][4], 0.06f))) {
+
+      for (int i = 0; i < 6; i++) {
+        robot->front_prop_array.servos[i].value = smov::Functions::lerp(robot->front_prop_array.servos[i].value, robot->front_servos_data[i][4], 0.001f);
+        robot->back_prop_array.servos[i].value = smov::Functions::lerp(robot->back_prop_array.servos[i].value, robot->back_servos_data[i][4], 0.001f);
+        front_prop_pub->publish(robot->front_prop_array);
+        back_prop_pub->publish(robot->back_prop_array);
+      }
+    }
+    for (int i = 0; i < 6; i++) {
+      robot->front_prop_array.servos[i].value = robot->front_servos_data[i][4];
+      robot->back_prop_array.servos[i].value = robot->back_servos_data[i][4];
+      front_prop_pub->publish(robot->front_prop_array);
+      back_prop_pub->publish(robot->back_prop_array);
+    }
+  } else {
+    while (!(smov::Functions::approx(robot->front_prop_array.servos[0].value, robot->front_servos_data[0][4], 0.06f) 
+      && smov::Functions::approx(robot->front_prop_array.servos[1].value, robot->front_servos_data[1][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[2].value, robot->front_servos_data[2][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[3].value, robot->front_servos_data[3][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[4].value, robot->front_servos_data[4][4], 0.06f)
+      && smov::Functions::approx(robot->front_prop_array.servos[5].value, robot->front_servos_data[5][4], 0.06f)
+      && smov::Functions::approx(robot->single_back_array.servos[0].value, robot->back_servos_data[0][4], 0.06f) 
+      && smov::Functions::approx(robot->single_back_array.servos[1].value, robot->back_servos_data[1][4], 0.06f)
+      && smov::Functions::approx(robot->single_back_array.servos[2].value, robot->back_servos_data[2][4], 0.06f)
+      && smov::Functions::approx(robot->single_back_array.servos[3].value, robot->back_servos_data[3][4], 0.06f)
+      && smov::Functions::approx(robot->single_back_array.servos[4].value, robot->back_servos_data[4][4], 0.06f)
+      && smov::Functions::approx(robot->single_back_array.servos[5].value, robot->back_servos_data[5][4], 0.06f))) {
+
+      for (int i = 0; i < 6; i++) {
+        robot->front_prop_array.servos[i].value = smov::Functions::lerp(robot->front_prop_array.servos[i].value, robot->front_servos_data[i][4], 0.001f);
+        robot->single_back_array.servos[i].value = smov::Functions::lerp(robot->single_back_array.servos[i].value, robot->back_servos_data[i][4], 0.001f);
+        front_prop_pub->publish(robot->front_prop_array);
+        front_prop_pub->publish(robot->single_back_array);
+      }
+    }
+    for (int i = 0; i < 6; i++) {
+      robot->front_prop_array.servos[i].value = robot->front_servos_data[i][4];
+      robot->single_back_array.servos[i].value = robot->back_servos_data[i][4];
+      front_prop_pub->publish(robot->front_prop_array);
+      front_prop_pub->publish(robot->single_back_array);
+    }
+  }
 }
 
 void RobotNodeHandle::declare_parameters() {
@@ -159,6 +227,7 @@ void RobotNodeHandle::declare_parameters() {
   this->declare_parameter("upper_leg_length", robot->upper_leg_length);
   this->declare_parameter("lower_leg_length", robot->lower_leg_length);
   this->declare_parameter("hip_body_distance", robot->hip_body_distance);
+  this->declare_parameter("reset_vals_after_state_pkg_ended", robot->reset_vals_after_state_pkg_ended);
 
   // Getting the new parameters from the smov_config package.
   robot->use_single_board = parameters[0].as_bool();
@@ -174,6 +243,7 @@ void RobotNodeHandle::declare_parameters() {
   robot->upper_leg_length = this->get_parameter("upper_leg_length").as_double();
   robot->lower_leg_length = this->get_parameter("lower_leg_length").as_double();
   robot->hip_body_distance = this->get_parameter("hip_body_distance").as_double();
+  robot->reset_vals_after_state_pkg_ended = this->get_parameter("reset_vals_after_state_pkg_ended").as_bool();
 }
 
 void RobotNodeHandle::set_up_servos() {

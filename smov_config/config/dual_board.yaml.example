@@ -32,3 +32,4 @@ smov_states:
     upper_leg_length: 14.0
     lower_leg_length: 14.0
     hip_body_distance: 4.0
+    reset_vals_after_state_pkg_ended: true

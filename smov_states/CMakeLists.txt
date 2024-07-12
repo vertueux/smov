@@ -11,6 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(smov_msgs REQUIRED)
+find_package(smov_lib REQUIRED)
 
 include_directories(include)
 
@@ -20,6 +21,7 @@ set(dependencies
   std_msgs
   i2c_pwm_board_msgs
   smov_msgs
+  smov_lib
 )
 
 add_library(states_lib SHARED src/robot.cc src/robot_main.cc)

@@ -57,6 +57,7 @@ smov_states:
     upper_leg_length: 14.0
     lower_leg_length: 14.0
     hip_body_distance: 4.0
+    reset_vals_after_state_pkg_ended: true
 
 ```
 
@@ -136,6 +137,7 @@ smov_states:
     upper_leg_length: 14.0
     lower_leg_length: 14.0
     hip_body_distance: 4.0
+    reset_vals_after_state_pkg_ended: true
 ```
 
 They are expressed in centimetres, as shown in the following figures:
@@ -143,6 +145,8 @@ They are expressed in centimetres, as shown in the following figures:
 ![SMOV Length View](../assets/images/smov_length_side_view.png)
 
 ![SMOV Length View](../assets/images/smov_length_back_view.png)
+
+`reset_vals_after_state_pkg_ended` Allows you to decide whether to reset servo values to their default values on start when a State package has finished.
 
 That's it, your configuration file should be complete.
 

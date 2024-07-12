@@ -32,6 +32,7 @@ struct RobotData {
   static double upper_leg_length;
   static double lower_leg_length;
   static double hip_body_distance;
+  static bool reset_vals_after_state_pkg_ended;
 
   // Arrays to publish in the proportional publisher.
   i2c_pwm_board_msgs::msg::ServoArray front_prop_array;
@@ -61,6 +62,7 @@ class RobotNodeHandle : public rclcpp::Node {
   void declare_parameters();
   void set_up_servos();
   void set_up_topics();
+  void reset_servos_to_initial_values();
   void output_values();
   void front_topic_callback(smov_msgs::msg::StatesServos::SharedPtr msg);
   void back_topic_callback(smov_msgs::msg::StatesServos::SharedPtr msg);
