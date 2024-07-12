@@ -39,7 +39,11 @@ void ForwardMotion::output_coordinates() {
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 2: (%f, %f, %f)", coord2.x, coord2.y, coord2.z);
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 3: (%f, %f, %f)", coord3.x, coord3.y, coord3.z);
   RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Coordinates leg 4: (%f, %f, %f)", coord4.x, coord4.y, coord4.z);
-  if (mode == STANDING) 
+  if (mode == SITTING_DOWN)
+    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        SITTING_DOWN");
+  else if (mode == WAKING_UP) 
+    RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        WAKING_UP");
+  else if (mode == STANDING) 
     RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        STANDING");
   else if (mode == WALKING) 
     RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "Robot Mode:        WALKING");
@@ -185,6 +189,61 @@ void ForwardMotion::turn() {
   }
 }
 
+void ForwardMotion::wake_up() {
+  // We add a tiny cooldown for safety & to make sure
+  // it does the command succesfully.
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "\033[2J\033[;H");
+  RCLCPP_INFO(rclcpp::get_logger("walking_gait"), "[WAKING UP]");
+  smov::delay(800);
+  for (int i = 0; i < 2; i++) {
+    front_servos.value[i] = 90.0f;
+    front_servos.value[i + 2] = 55.0f;
+    front_servos.value[i + 4] = 45.0f;
+    back_servos.value[i] = 130.0f;
+    back_servos.value[i + 2] = 150.0f;
+    back_servos.value[i + 4] = 45.0f;
+  }
+  
+  // We publish the values here as the main node is being locked.
+  front_state_publisher->publish(front_servos);
+  back_state_publisher->publish(back_servos);
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executed first sequence to wake up.");
+
+  // To mark a transition.
+  smov::delay(800);
+
+  // Doing the separate waking up phase to the back servos.
+  for (int i = 0; i < 2; i++) 
+    back_servos.value[i] = 90.0f;
+  back_state_publisher->publish(back_servos);
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Executed second sequence to wake up.");
+
+  // One more transition.
+  smov::delay(800);
+
+  // Executing the last sequence.
+  for (int i = 0; i < 2; i++) {
+    front_servos.value[i + 2] = 45.0f;
+    front_servos.value[i + 4] = 105.0f;
+  }
+  for (int i = 0; i < 2; i++) {
+    back_servos.value[i + 2] = 45.0f;
+    back_servos.value[i + 4] = 115.0f;
+  }
+  
+  // We publish the values here as the main node is being locked.
+  front_state_publisher->publish(front_servos);
+  back_state_publisher->publish(back_servos);
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "The robot may have woken up!");
+
+  smov::delay(2000);
+
+  mode = STANDING;
+}
+
 void ForwardMotion::on_start() {
   // Getting the default config.
   tcgetattr(0, &old_chars);
@@ -203,25 +262,36 @@ void ForwardMotion::on_loop() {
   int c = getchar();
   switch (c) {
     case 65: // 65: Key up.
-      if (mode == STANDING) {
+      if (mode == STANDING && mode != SITTING_DOWN) {
         mode = WALKING;
         request_to_stop_walk = false;
       }
       break;
     case 66: // 66: Key down. 
-      if (has_finished_walk && has_finished_turn) 
-        mode = STANDING;
-      else 
-        request_to_stop_walk = true;
+      if (mode != SITTING_DOWN) {
+        if (has_finished_walk && has_finished_turn) 
+          mode = STANDING;
+        else 
+          request_to_stop_walk = true;
+        }
       break;
     case 67: // 67: Key right.
-      request_to_stop_walk = false;
-      if (mode == STANDING) mode = TURNING_RIGHT;
+      if (mode != SITTING_DOWN) {
+        request_to_stop_walk = false;
+        if (mode == STANDING) mode = TURNING_RIGHT;
+      }
       break;
     case 68:
-      request_to_stop_walk = false;
-      if (mode == STANDING) mode = TURNING_LEFT;
+      if (mode != SITTING_DOWN) {
+        request_to_stop_walk = false;
+        if (mode == STANDING) mode = TURNING_LEFT;
+      }
       break;
+    case ' ':
+      if (mode == SITTING_DOWN) {
+        mode = WAKING_UP;
+        wake_up();
+      }
   }
 
   output_coordinates();
